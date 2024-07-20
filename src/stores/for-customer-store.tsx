@@ -3,19 +3,17 @@ import { create } from "zustand";
 export type shopType = {
   shopName: string;
     id: string;
-    packageDetails: {
-      drinksAllowance: number;
-      drinksIncluded: string[];
-      price: number;
-    },
-    giftPackage: {
-      drinksAllowance: number;
-      drinksIncluded: string[];
-      price: number;
-    },
+    packageDetails: packageType;
+    giftPackage: packageType;
     featureSRC: string;
     logoSRC:string;
     postcode: string;
+}
+
+export type packageType = {
+  drinksAllowance: number;
+  drinksIncluded: string[];
+  price: number;
 }
 
 interface forCustomersStoreState {
