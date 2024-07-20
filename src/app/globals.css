@@ -1,0 +1,47 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+:root {
+  
+  --backgroundColour: #E1D6CC;
+  --highlight:  #e1d6cc2e;
+  --mainBrown: #9A5737; 
+  --darkText: #4D2512;
+  --green: #BCBF8C;
+  --green20: rgb(188, 191, 140, 0.2);
+  --transChocBrown: rgba(77, 37, 18, 0.102);
+  --darkBrown: #2f211a;
+  --darkBrown10: rgba(47, 33, 26, 0.10);
+  --darkBrown15: rgba(47, 33, 26, 0.15);
+  --darkBrown20: rgba(46, 32, 25, 0.2);
+  --darkBrown30: rgba(47, 33, 26, 0.302);
+  --darkBrown50: rgba(47, 33, 26, 0.5);
+  --darkBrown70: rgba(47, 33, 26, 0.7);
+  --darkBrown90: rgba(47, 33, 26, 0.75);
+}
+
+/* @media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+} */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  
+  background-color: var(--backgroundColour);
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
