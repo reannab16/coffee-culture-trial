@@ -15,13 +15,12 @@ import {
 import { primary } from "@/themes/customs/palette";
 import useWindowDimensions from "@/utils/window";
 import { usePathname, useRouter } from "next/navigation";
-import { LongLogo } from "./icons";
+import { LongLogo, SmolLogo } from "./icons";
 import { useNavContext } from "@/contexts/nav";
-import IconButton from '@mui/material/IconButton';
-import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
+import IconButton from "@mui/material/IconButton";
+import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import { useForCustomersStore } from "@/stores/for-customer-store";
 import { divide } from "lodash";
-
 
 export default function NavBar() {
   const { canSee } = useNavContext();
@@ -31,16 +30,16 @@ export default function NavBar() {
   const router = useRouter();
   const [open, setOpen] = React.useState(false);
   const pathname = usePathname();
-  const {shop} = useForCustomersStore();
+  const { shop } = useForCustomersStore();
 
   const isStorePage = () => {
     for (const link of navLinks) {
       if (link.path == pathname) {
-        return false
+        return false;
       }
     }
-    return true
-  }
+    return true;
+  };
 
   const [isitStorePage, setIsitStorePage] = useState(isStorePage());
 
@@ -60,11 +59,10 @@ export default function NavBar() {
 
   // console.log(pathname);
 
-  
-
-  useEffect(()=>{
+  useEffect(() => {
     setIsitStorePage(isStorePage());
-  },[pathname])
+    console.log(shop);
+  }, [pathname, shop]);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -76,11 +74,24 @@ export default function NavBar() {
   };
 
   const DrawerList = (
-    <Box sx={{ width: 250, backgroundColor: primary.background, colour: primary.main, height: "100%" }} role="presentation" onClick={toggleDrawer(false)}>
+    <Box
+      sx={{
+        width: 250,
+        backgroundColor: primary.background,
+        colour: primary.main,
+        height: "100%",
+      }}
+      role="presentation"
+      onClick={toggleDrawer(false)}
+    >
       <List>
         {navLinks.map((navLink) => (
           <ListItem key={navLink.title} disablePadding>
-            <ListItemButton onClick={()=>{router.push(navLink.path)}} >
+            <ListItemButton
+              onClick={() => {
+                router.push(navLink.path);
+              }}
+            >
               <ListItemText primary={navLink.title} />
             </ListItemButton>
           </ListItem>
@@ -103,8 +114,22 @@ export default function NavBar() {
           elevation={0}
         >
           <div className="container flex items-center justify-between relative">
-            {isitStorePage ?  <div>hahaha</div>: <LongLogo className="h-6 w-auto" />}
-            
+            {isitStorePage ? (
+              <div className="flex items-center justify-start gap-x-2">
+                {shop && (
+                  <div className="flex items-center justify-start gap-x-2">
+                    <img src={shop.logoSRC} alt="" className="w-7 h-7" />
+                    <div className="flex flex-col items-start justify-center text-[var(--darkBrown)]">
+                      <div className="text-lg -mb-[5px] font-medium">{shop.shopName}</div>
+                      <div className="text-[10px] flex items-end justify-center italic"><span className="pr-[1px]">x c</span><SmolLogo className="mb-[3px]"/><span>ffee culture</span></div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <LongLogo className="h-6 w-auto" />
+            )}
+
             <div className="md:flex items-center justify-center gap-x-1  hidden">
               {navLinks.map((link) => {
                 return (
@@ -146,13 +171,13 @@ export default function NavBar() {
               Sign Up
             </Button> */}
             <div className="block md:hidden">
-            <IconButton onClick={toggleDrawer(true)}><MenuRoundedIcon sx={{color: primary.main}}/></IconButton>
-            <Drawer open={open} onClose={toggleDrawer(false)} anchor="right" >
-              {DrawerList}
-            </Drawer>
-
+              <IconButton onClick={toggleDrawer(true)}>
+                <MenuRoundedIcon sx={{ color: primary.main }} />
+              </IconButton>
+              <Drawer open={open} onClose={toggleDrawer(false)} anchor="right">
+                {DrawerList}
+              </Drawer>
             </div>
-            
           </div>
         </AppBar>
       </Slide>

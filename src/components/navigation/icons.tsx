@@ -77,4 +77,51 @@ function Google({ className }: { className?: string }) {
   );
 }
 
-export { LongLogo, Google };
+function SmolLogo({ className }: { className?: string }) {
+  return (
+    <svg
+      width="8"
+      height="8"
+      viewBox="0 0 8 8"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+    >
+      <g clip-path="url(#clip0_1784_23607)">
+        <path
+          d="M4.59028 2.61417C3.98127 2.00517 3.13494 1.86411 2.69994 2.29911M2.69994 2.29911C2.26493 2.73412 2.40599 3.58045 3.01499 4.18945M2.69994 2.29911C2.75244 2.56166 3.03081 3.13395 3.72393 3.32298"
+          stroke="#2F211A"
+          stroke-width="0.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M3.77838 5.64532C4.22546 6.09241 5.09531 5.94744 5.72122 5.32152C6.34714 4.6956 6.49212 3.82576 6.04503 3.37867M3.77838 5.64532C3.33129 5.19824 3.47627 4.3284 4.10219 3.70248C4.72811 3.07656 5.59795 2.93159 6.04503 3.37867M3.77838 5.64532C4.10219 5.53739 4.71517 5.44879 4.99272 4.43111C5.18701 3.71874 5.77519 3.43264 6.04503 3.37867"
+          stroke="#2F211A"
+          stroke-width="0.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </g>
+      <circle
+        cx="4.31478"
+        cy="3.99721"
+        r="3.32143"
+        stroke="#2F211A"
+        stroke-width="0.5"
+      />
+      <defs>
+        <clipPath id="clip0_1784_23607">
+          <rect
+            width="5.14286"
+            height="5.14286"
+            fill="white"
+            transform="translate(1.80456 1.4043)"
+          />
+        </clipPath>
+      </defs>
+    </svg>
+  );
+}
+
+export { LongLogo, Google, SmolLogo };
