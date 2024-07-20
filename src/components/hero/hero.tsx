@@ -4,6 +4,7 @@ import Button from "@mui/material/Button";
 import { primary, secondary } from "@/themes/customs/palette";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { Suspense, useCallback } from "react";
+import LoadingTopbar from "../progressBar/loadingTopBar";
 
 export default function Hero({}) {
   const router = useRouter();
@@ -21,7 +22,7 @@ export default function Hero({}) {
   );
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    // <Suspense fallback={<LoadingTopbar />}>
       <div className="flex md:flex-row flex-col min-h-[calc(100vh-60px)] items-center md:justify-start justify-center container md:pt-0 pt-40">
         <div className="flex flex-col md:items-start justify-center md:gap-y-2 gap-y-3 lg:px-32 md:px-20 px-5 -mt-5 items-center md:text-start text-center ">
           <div className="uppercase md:text-md text-sm text-[var(--darkBrown)] opacity-50">
@@ -76,6 +77,6 @@ export default function Hero({}) {
         />
         {/* <div className="md:hidden block w-screen h-[90vh] mt-20 border-red-500 border-2 border-solid bg-top bg-no-repeat bg-contain bg-[url('https://raw.githubusercontent.com/Coffee-Culture-UK/coffee-culture-frontend/main/public/small-hero.png')]"></div> */}
       </div>
-    </Suspense>
+    // </Suspense>
   );
 }
