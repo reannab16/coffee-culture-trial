@@ -1,16 +1,20 @@
 "use client";
-import React, { Suspense, useCallback } from "react";
+import React, { Suspense, useCallback, useEffect } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import LoadingTopbar from "../progressBar/loadingTopBar";
 import Image from "next/image";
 import Button from "@mui/material/Button";
 import { primary } from "@/themes/customs/palette";
 import { Divider } from "@mui/material";
+import { shopType } from "@/stores/for-customer-store";
+// import { useCartStore } from "@/stores/cart-store";
+// import {shopType, useForCustomersStore} from "@/stores/for-customer-store";
 
 export default function PartnerCafes() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
+  
 
   const createQueryString = useCallback(
     (name: string, value: string) => {
@@ -86,7 +90,7 @@ export default function PartnerCafes() {
                       disableElevation
                       onClick={() => {
                         router.push(
-                          pathname + "?" + createQueryString("shop", partnerCafe.shopName)
+                          partnerCafe.shopName.replaceAll(" ", "-") + "-" + partnerCafe.id
                         );
                       }}
                     >
@@ -111,7 +115,7 @@ export default function PartnerCafes() {
   );
 }
 
-const partnerCafes = [
+export const partnerCafes: shopType[] = [
   {
     shopName: "Culture Café",
     id: "669952b8aea37e04c4f36b8c",

@@ -14,11 +14,14 @@ import {
 } from "@mui/material";
 import { primary } from "@/themes/customs/palette";
 import useWindowDimensions from "@/utils/window";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { LongLogo } from "./icons";
 import { useNavContext } from "@/contexts/nav";
 import IconButton from '@mui/material/IconButton';
 import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
+import { useForCustomersStore } from "@/stores/for-customer-store";
+import { divide } from "lodash";
+
 
 export default function NavBar() {
   const { canSee } = useNavContext();
@@ -27,6 +30,19 @@ export default function NavBar() {
   const [visible, setVisible] = useState(false);
   const router = useRouter();
   const [open, setOpen] = React.useState(false);
+  const pathname = usePathname();
+  const {shop} = useForCustomersStore();
+
+  const isStorePage = () => {
+    for (const link of navLinks) {
+      if (link.path == pathname) {
+        return false
+      }
+    }
+    return true
+  }
+
+  const [isitStorePage, setIsitStorePage] = useState(isStorePage());
 
   const handleScroll = () => {
     if (window.scrollY > 56) {
@@ -41,6 +57,14 @@ export default function NavBar() {
       setPrevScrollPos(currentScrollPos);
     }
   };
+
+  // console.log(pathname);
+
+  
+
+  useEffect(()=>{
+    setIsitStorePage(isStorePage());
+  },[pathname])
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -79,7 +103,8 @@ export default function NavBar() {
           elevation={0}
         >
           <div className="container flex items-center justify-between relative">
-            <LongLogo className="h-6 w-auto" />
+            {isitStorePage ?  <div>hahaha</div>: <LongLogo className="h-6 w-auto" />}
+            
             <div className="md:flex items-center justify-center gap-x-1  hidden">
               {navLinks.map((link) => {
                 return (
@@ -142,7 +167,7 @@ const navLinks = [
   },
   {
     title: "Partner Cafés",
-    path: "/",
+    path: "/partner-cafes",
   },
   {
     title: "Our Story",
