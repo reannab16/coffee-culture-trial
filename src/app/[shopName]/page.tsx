@@ -16,7 +16,7 @@ export default function ShopPage({ params }: { params: { shopName: string } }) {
 
   return (
     <div className="flex flex-col min-h-[calc(100vh-60px)] items-center justify-start container pt-[72px] px-8">
-      {foundShop.id}
+      {/* {foundShop.id} */}
     </div>
   );
 }
