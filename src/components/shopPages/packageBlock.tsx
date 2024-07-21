@@ -12,7 +12,7 @@ export default function PackageBlock({
   return (
     <div className="border-solid border-2 border-[var(--green)] flex flex-col items-center justify-center bg-[var(--backgroundColour)] rounded-xl">
       <div className="bg-[var(--green20)] flex items-stretch justify-center h-auto">
-        <div className="flex-col items-center justify-center text-center border-r-2 border-r-solid border-r-[var(--green)] p-5 ">
+        <div className="flex flex-col items-center justify-center text-center border-r-2 border-r-solid border-r-[var(--green)] p-5">
           <div className="text-3xl font-medium -mb-[3px] ">
             £{packageDetails.price}
           </div>
@@ -29,15 +29,23 @@ export default function PackageBlock({
           )}
         </div>
         <div className="px-3 py-5 ">
-          <ul>
-            <li>yo</li>
+          <ul className="text-xs flex flex-col gap-y-2">
+            <li>{packageDetails.drinksIncluded && `Valid drinks: ${packageDetails.drinksIncluded.join()}`}</li>
+            <li>
+              {isGift
+                ? "Send a personal note to your fellow coffee lover"
+                : "Receive QR code via email, scan at checkout to claim drink"}
+            </li>
+            <li>{isGift
+                ? "Valid for one year from date of purchase"
+                : "Valid until all drinks claimed"}</li>
           </ul>
         </div>
         <div
           className="py-3 bg-[var(--green50)] px-3 text-center z-10 text-xs font-light italic"
           style={{ writingMode: "vertical-lr" }}
         >
-          {isGift ? "gift card": "save 20%"}
+          {isGift ? "gift card" : "save 20%"}
         </div>
       </div>
       <Button
