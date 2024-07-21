@@ -10,7 +10,7 @@ export default function PackageBlock({
   packageDetails: packageType;
 }) {
   return (
-    <div className="border-solid border-2 border-[var(--green)] flex flex-col items-center justify-center bg-[var(--backgroundColour)] rounded-xl">
+    <div className="border-solid border-2 border-[var(--green)] flex flex-col items-center justify-center bg-[var(--backgroundColour)] rounded-xl max-w-96">
       <div className="bg-[var(--green20)] flex items-stretch justify-center h-auto">
         <div className="flex flex-col items-center justify-center text-center border-r-2 border-r-solid border-r-[var(--green)] p-5">
           <div className="text-3xl font-medium -mb-[3px] ">

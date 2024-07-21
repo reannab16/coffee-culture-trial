@@ -14,7 +14,6 @@ export default function PartnerCafes() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
-  
 
   const createQueryString = useCallback(
     (name: string, value: string) => {
@@ -80,8 +79,7 @@ export default function PartnerCafes() {
                         fontSize: "10px",
                         paddingX: "12px",
                         opacity: 100,
-                        backgroundColor: primary.green ,
-                        
+                        backgroundColor: primary.green,
 
                         "&:hover": {
                           backgroundColor: "#AFAF81",
@@ -90,7 +88,9 @@ export default function PartnerCafes() {
                       disableElevation
                       onClick={() => {
                         router.push(
-                          partnerCafe.shopName.replaceAll(" ", "-") + "-" + partnerCafe.id
+                          partnerCafe.shopName.replaceAll(" ", "-") +
+                            "-" +
+                            partnerCafe.id
                         );
                       }}
                     >
@@ -99,10 +99,12 @@ export default function PartnerCafes() {
                         " for " +
                         partnerCafe.packageDetails.drinksAllowance +
                         " drinks"}
-                        <Divider orientation="vertical" flexItem sx={{color: primary.main, marginX: '4px', opacity: 1}} />
-                        {"£" +
-                        partnerCafe.giftPackage.price +
-                        " gift card" }
+                      <Divider
+                        orientation="vertical"
+                        flexItem
+                        sx={{ color: primary.main, marginX: "4px", opacity: 1 }}
+                      />
+                      {"£" + partnerCafe.giftPackage.price + " gift card"}
                     </Button>
                   </div>
                 </div>
@@ -134,9 +136,13 @@ export const partnerCafes: shopType[] = [
     logoSRC:
       "https://raw.githubusercontent.com/Coffee-Culture-UK/coffee-culture-trial-frontend/main/public/cultureCaf%C3%A9Logo.png",
     postcode: "NW87JD",
+    address: "Beverly House, 133 Park Road",
+    phone: "01234567890",
+    about:
+      "Family run business, located just off of Baker Street. We don’t really sell coffee though, very sorry!",
   },
   {
-    shopName: "Culture Café",
+    shopName: "Culture Café 2",
     id: "66997ed67e113cc445bcb12c",
     packageDetails: {
       drinksAllowance: 5,
@@ -153,5 +159,7 @@ export const partnerCafes: shopType[] = [
     logoSRC:
       "https://raw.githubusercontent.com/Coffee-Culture-UK/coffee-culture-trial-frontend/main/public/cultureCaf%C3%A9Logo.png",
     postcode: "NW87JD",
+    address: "Beverly House, 133 Park Road",
+    phone: "01234567890",
   },
 ];

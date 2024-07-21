@@ -7,7 +7,10 @@ export type shopType = {
     giftPackage: packageType;
     featureSRC: string;
     logoSRC:string;
-    postcode: string;
+    postcode?: string;
+    address?: string;
+    phone?: string;
+    about?:string;
 }
 
 export type packageType = {
