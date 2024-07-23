@@ -1,6 +1,8 @@
+"use client";
 import { packageType } from "@/stores/for-customer-store";
-import React from "react";
+import React, { useCallback } from "react";
 import { Button } from "@mui/material";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 export default function PackageBlock({
   isGift,
@@ -9,6 +11,20 @@ export default function PackageBlock({
   isGift: boolean;
   packageDetails: packageType;
 }) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams.toString());
+      params.set(name, value);
+
+      return params.toString();
+    },
+    [searchParams]
+  );
+
   return (
     <div className="border-solid border-2 border-[var(--green)] flex flex-col items-center justify-center bg-[var(--backgroundColour)] rounded-xl max-w-96">
       <div className="bg-[var(--green20)] flex items-stretch justify-center h-auto">
@@ -30,15 +46,20 @@ export default function PackageBlock({
         </div>
         <div className="px-3 py-5 ">
           <ul className="text-xs flex flex-col gap-y-2">
-            <li>{packageDetails.drinksIncluded && `Valid drinks: ${packageDetails.drinksIncluded.join()}`}</li>
+            <li>
+              {packageDetails.drinksIncluded &&
+                `Valid drinks: ${packageDetails.drinksIncluded.join()}`}
+            </li>
             <li>
               {isGift
                 ? "Send a personal note to your fellow coffee lover"
                 : "Receive QR code via email, scan at checkout to claim drink"}
             </li>
-            <li>{isGift
+            <li>
+              {isGift
                 ? "Valid for one year from date of purchase"
-                : "Valid until all drinks claimed"}</li>
+                : "Valid until all drinks claimed"}
+            </li>
           </ul>
         </div>
         <div
@@ -64,9 +85,9 @@ export default function PackageBlock({
           },
         }}
         disableElevation
-        // onClick={() => {
-        //   router.push("/partner-cafes");
-        // }}
+        onClick={() => {
+          router.push(pathname + "/add-to-cart" + "?" + createQueryString("selected",`${isGift ? "gift" : "bundle"}`));
+        }}
       >
         purchase
       </Button>
