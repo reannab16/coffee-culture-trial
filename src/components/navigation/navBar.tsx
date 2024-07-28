@@ -21,6 +21,7 @@ import IconButton from "@mui/material/IconButton";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import { useForCustomersStore } from "@/stores/for-customer-store";
 import { divide } from "lodash";
+import KeyRoundedIcon from '@mui/icons-material/KeyRounded';
 
 export default function NavBar() {
   const { canSee } = useNavContext();
@@ -32,12 +33,17 @@ export default function NavBar() {
   const pathname = usePathname();
   const { shop } = useForCustomersStore();
 
+
   const isStorePage = () => {
+    if (pathname == "/store-login") {
+      return false;
+    }
     for (const link of navLinks) {
       if (link.path == pathname) {
         return false;
       }
     }
+    
     return true;
   };
 
@@ -96,6 +102,17 @@ export default function NavBar() {
             </ListItemButton>
           </ListItem>
         ))}
+        <ListItem disablePadding>
+            <ListItemButton
+              onClick={() => {
+                router.push("/store-login");
+              }}
+            >
+              
+              <ListItemText primary={"Store login"}/>
+              <ListItemIcon className="-mr-6 text-[var(--mainBrown)]"><KeyRoundedIcon/></ListItemIcon>
+            </ListItemButton>
+          </ListItem>
       </List>
     </Box>
   );
@@ -152,6 +169,23 @@ export default function NavBar() {
                   </Button>
                 );
               })}
+              <Button
+                    // className={`${inter.className} `}
+                    color="primary"
+                    sx={{
+                      fontSize: "12px",
+                      fontWeight: "300",
+                      borderRadius: "9999px",
+                      paddingX: "16px",
+                      ":hover": {},
+                    }}
+                    onClick={() => {
+                      // router.push(link.path);
+                    }}
+                  >
+                    Store login
+                  </Button>
+              
             </div>
             {/* <Button
               variant="contained"
