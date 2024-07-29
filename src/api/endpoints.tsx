@@ -29,6 +29,7 @@ class Endpoints {
     try {
       const response = await base.post(`/trial/shop/login`, payload);
       if (response.status >= 200 && response.status < 300) {
+        console.log(response.data);
         return response.data;
       } else {
         
@@ -44,6 +45,41 @@ class Endpoints {
       }
     }
   };
+
+  static decrementPrepaid = async ({
+    email,
+    password,
+  }: {
+    email: string;
+    password: string;
+  }) => {
+    const payload = {
+      email,
+      password,
+    };
+    console.log(payload);
+    try {
+      const response = await base.post(`/trial/shop/login`, payload);
+      if (response.status >= 200 && response.status < 300) {
+        console.log(response.data);
+        return response.data;
+      } else {
+        
+        throw response.data.messsage || "Login failed";
+      }
+    } catch (error: any) {
+      if (error.response) {
+        console.error("Error logging in user:", error);
+        throw error.response.data || "Login failed";
+       
+      } else {
+        throw error.response.data;
+      }
+    }
+  };
+
+
+
 }
 
 export default Endpoints

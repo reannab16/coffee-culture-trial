@@ -1,5 +1,6 @@
 "use client";
 import Endpoints from "@/api/endpoints";
+import { useAuthStore } from "@/stores/auth-store";
 import { Google } from "@mui/icons-material";
 import { Button, TextField } from "@mui/material";
 import Link from "next/link";
@@ -7,6 +8,7 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { useMutation } from "react-query";
+import Cookies from 'js-cookie';
 
 export default function StoreLogin() {
   const router = useRouter();
@@ -15,12 +17,17 @@ export default function StoreLogin() {
     password: "",
   });
   const [errorState, setErrorState] = useState<{ [key: string]: string | undefined }>({});
+  const {session, updateSession} = useAuthStore();
 
   const loginShopMutation = useMutation({
     mutationFn: async (values: { email: string; password: string }) => {
       return Endpoints.loginShopUser(values);
     },
-    onSuccess: () => {
+    onSuccess: (response: any) => {
+      console.log(response.data);
+      updateSession({jwt: response.data.token, email: response.data.email, shopId: response.data.shopId, signedIn: true });
+      Cookies.set('token', response.data.token, { expires: 7 });
+      console.log(session);
       router.push("/shop-home");
     },
     onError: (error: any) => {

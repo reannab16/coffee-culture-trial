@@ -1,7 +1,11 @@
+"use client"
+import { useAuthStore } from "@/stores/auth-store";
 import React from "react";
 
 export default function ShopHome() {
+    const {session} = useAuthStore();
+
     return(
-        <div>shop home</div>
+        <div className="pt-[72px]">{session?.shopId}</div>
     )
 }
