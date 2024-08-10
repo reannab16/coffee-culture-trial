@@ -22,6 +22,7 @@ import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import { useForCustomersStore } from "@/stores/for-customer-store";
 import { divide } from "lodash";
 import KeyRoundedIcon from '@mui/icons-material/KeyRounded';
+import { useAuthStore } from "@/stores/auth-store";
 
 export default function NavBar() {
   const { canSee } = useNavContext();
@@ -32,6 +33,7 @@ export default function NavBar() {
   const [open, setOpen] = React.useState(false);
   const pathname = usePathname();
   const { shop } = useForCustomersStore();
+  const {session, updateSession} = useAuthStore();
 
 
   const isStorePage = () => {
@@ -105,11 +107,17 @@ export default function NavBar() {
         <ListItem disablePadding>
             <ListItemButton
               onClick={() => {
-                router.push("/store-login");
+                if (session) {
+                  updateSession(null);
+                  router.push("/")
+                } else {
+                  router.push("/store-login");
+                }
+                
               }}
             >
               
-              <ListItemText primary={"Store login"}/>
+              <ListItemText primary={session ? "Log out": "Store login"}/>
               <ListItemIcon className="-mr-6 text-[var(--mainBrown)]"><KeyRoundedIcon/></ListItemIcon>
             </ListItemButton>
           </ListItem>
@@ -180,7 +188,7 @@ export default function NavBar() {
                       ":hover": {},
                     }}
                     onClick={() => {
-                      // router.push(link.path);
+                      router.push("/store-login");
                     }}
                   >
                     Store login
@@ -221,6 +229,10 @@ export default function NavBar() {
 
 const navLinks = [
   {
+    title: "Home",
+    path: "/",
+  },
+  {
     title: "For Shops",
     path: "/",
   },
@@ -241,3 +253,23 @@ const navLinks = [
     path: "/",
   },
 ];
+
+const shopHomeLinks = [
+  {
+    title: "Home",
+    path: "/shop-home"
+  },
+  {
+    title: "Scanner",
+    path: "/shop-home/scanner"
+  },
+  {
+    title: "Analytics",
+    path: "/shop-home/analytics"
+  },
+  {
+    title: "Help & Settings",
+    path: "/shop-home/help"
+  },
+  
+]

@@ -10,10 +10,10 @@ export type sessionType = {
 
 interface authStoreState {
     session: sessionType | null;
-    updateSession: (newSession: sessionType) => void;
+    updateSession: (newSession: sessionType | null) => void;
 }
 
 export const useAuthStore = create<authStoreState>((set)=>({
     session: null,
-    updateSession: (newSession) => set({session: newSession})
+    updateSession: (newSession : sessionType | null) => set({session: newSession})
 }))

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const base = axios.create({
+export const base = axios.create({
   baseURL: "http://127.0.0.1:5000/api/v1",
 });
 
@@ -77,6 +77,15 @@ class Endpoints {
       }
     }
   };
+
+  static getShop = async (shopId: string) => {
+    try {
+      const response = await base.get(`trial/shop/${shopId}`)
+      return response.data;
+    } catch (error: any) {
+      throw error.response.data || "shop not found"
+    }
+  }
 
 
 

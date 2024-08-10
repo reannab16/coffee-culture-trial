@@ -18,19 +18,25 @@ export default function Add({
 }) {
   const [packageDetails, setPackageDetails] = useState({
     email: "",
-    shopId: shop?.id,
+    contactNumber: "",
+    shopId: shop?._id,
+    type: "prepaidCard",
   });
   const [giftCardDetails, setGiftCardDetails] = useState({
-    shopId: shop?.id,
+    shopId: shop?._id,
     senderDetails: {
       email: "",
-      firstName: "",
+      contactNumber: "",
+      name: "",
     },
     // receiverEmail: "",
-    receiverFirstName: "",
+    receiverName: "",
     senderMessage: "",
+    type: "giftCard",
   });
   const isGift = selected == "gift";
+
+  console.log(shop);
 
   const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!)
 
@@ -47,18 +53,20 @@ export default function Add({
       registerBundleMutation.mutate({
         email: packageDetails.email,
         shopId: packageDetails.shopId!,
+        contactNumber: packageDetails.contactNumber,
+        type: packageDetails.type,
       });
     }
   };
 
   const registerBundleMutation = useMutation({
-    mutationFn: async (values: { email: string; shopId: string }) => {
+    mutationFn: async (values: { email: string; shopId: string, contactNumber: string, type: string, }) => {
       // return Endpoints.registerShopUser(values);
       try {
-        const payload = { values };
+        console.log(values.shopId)
         const response = await axios.post(
-          `http://127.0.0.1:5000/create-checkout-session`,
-          { payload }
+          `http://127.0.0.1:5000/api/v1/trial/payments/create-checkout-session`,
+           values 
         );
         console.log(response?.status);
         if (response.status >= 200 && response.status < 300) {
@@ -96,11 +104,7 @@ export default function Add({
 
       } else {
         console.error("Stripe failed to load")
-      }
-
-      
-    
-        
+      }   
     },
     onError: (error: any) => {
     //   toast.error("Failed to register user");
@@ -123,13 +127,13 @@ export default function Add({
       <div className="px-7 py-8 flex justify-between items-center border-2 border-solid border-[var(--green)] bg-[var(--green20)] rounded-[10px] w-full">
         <div className="flex flex-col justify-center items-center">
           <div className="text-2xl font-medium -mb-[3px]">
-            £{!isGift ? shop?.packageDetails.price : shop?.giftPackage.price}
+            £{!isGift ? shop?.prepaidCardPackage.price : shop?.giftCardPackage.price}
           </div>
           {isGift && <div className="text-xs font-medium">Gift a friend</div>}
           <div className="text-xs">
             {!isGift
-              ? `for ${shop?.packageDetails.drinksAllowance}`
-              : shop?.giftPackage.drinksAllowance}{" "}
+              ? `for ${shop?.prepaidCardPackage.drinksAllowance}`
+              : shop?.giftCardPackage.drinksAllowance}{" "}
             drinks
           </div>
         </div>
@@ -160,6 +164,38 @@ export default function Add({
                 },
               })
             : setPackageDetails({ ...packageDetails, email: e.target.value });
+        }}
+        sx={{
+          fontSize: "12px",
+          fontFamily: "Inter",
+        }}
+        fullWidth
+        inputProps={{
+          style: { fontSize: 12 },
+        }}
+        InputLabelProps={{
+          style: { fontSize: 12, display: "flex", alignItems: "center" },
+        }}
+        color="primary"
+      />
+      <TextField
+        id="outlined-required"
+        label="Phone Number"
+        variant="outlined"
+        value={
+          isGift ? giftCardDetails.senderDetails.contactNumber : packageDetails.contactNumber
+        }
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+          //   setUser({ ...user, email: e.target.value });
+          isGift
+            ? setGiftCardDetails({
+                ...giftCardDetails,
+                senderDetails: {
+                  ...giftCardDetails.senderDetails,
+                  contactNumber: e.target.value,
+                },
+              })
+            : setPackageDetails({ ...packageDetails, contactNumber: e.target.value });
         }}
         sx={{
           fontSize: "12px",

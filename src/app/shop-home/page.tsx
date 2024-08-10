@@ -1,11 +1,25 @@
-"use client"
+"use client";
+import Endpoints from "@/api/endpoints";
 import { useAuthStore } from "@/stores/auth-store";
-import React from "react";
+import { useForCustomersStore } from "@/stores/for-customer-store";
+import React, { useEffect, useState } from "react";
 
 export default function ShopHome() {
-    const {session} = useAuthStore();
+  const { session } = useAuthStore();
+  const {shop, updateShopSelected} = useForCustomersStore();
+  
 
-    return(
-        <div className="pt-[72px]">{session?.shopId}</div>
-    )
+  useEffect(() => {
+    if (session) {
+        const shopp = Endpoints.getShop(session.shopId);
+        
+        
+    }
+  }, [session]);
+
+  return <div className="pt-[72px]">{session?.shopId}</div>;
 }
+
+
+
+

@@ -1,22 +1,32 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
+import {cookieStorage} from "@/utils/cookieStorage"
 
 export type shopType = {
   shopName: string;
-    id: string;
-    packageDetails: packageType;
-    giftPackage: packageType;
-    featureSRC: string;
+    _id: string;
+    prepaidCardPackage: prepaidPackageType;
+    giftCardPackage: giftPackageType;
+    featureImage: string;
     logoSRC:string;
+    brandColour: string;
     postcode?: string;
     address?: string;
     phone?: string;
     about?:string;
 }
 
-export type packageType = {
+export type prepaidPackageType = {
   drinksAllowance: number;
-  drinksIncluded: string[];
+  drinksIncluded?: string[];
+  drinksExcluded?: string[];
+  price: number;
+}
+
+export type giftPackageType = {
+  drinksAllowance: number;
+  drinksIncluded?: string[];
+  drinksExcluded?: string[];
   price: number;
 }
 
@@ -25,7 +35,10 @@ interface forCustomersStoreState {
   updateShopSelected: (newShop: shopType) => void;
 }
 
-export const useForCustomersStore = create<forCustomersStoreState>((set)=>({
+export const useForCustomersStore = create<forCustomersStoreState>()(persist((set)=>({
   shop: null,
   updateShopSelected: (newShop) => set({shop: newShop})
+}), {
+  name: "cc-v1-shop",
+  storage: createJSONStorage(()=> cookieStorage),
 }))

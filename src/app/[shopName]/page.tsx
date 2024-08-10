@@ -2,18 +2,42 @@
 import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { partnerCafes } from "@/components/partnerCafes/partnerCafes";
-import { useForCustomersStore } from "@/stores/for-customer-store";
+import { ShopResponse } from "@/components/partnerCafes/partnerCafes";
+import { shopType, useForCustomersStore } from "@/stores/for-customer-store";
 import PackageBlock from "@/components/shopPages/packageBlock";
+import { useQuery } from "react-query";
+import { base } from "@/api/endpoints";
 
 export default function ShopPage({ params }: { params: { shopName: string } }) {
   const decodedShopName = decodeURIComponent(params.shopName);
-  const foundShop = partnerCafes.find((partnerCafe) => {
-    return (
-      partnerCafe.shopName.replaceAll(" ", "-") + "-" + partnerCafe.id ==
-      decodedShopName
-    );
-  });
+  const [foundShop, setFoundShop] = useState<shopType | null>();
+
+  const {
+    data: partnerCafes,
+    error,
+    isLoading,
+  } = useQuery<shopType[], Error>(
+    ["partnerCafes"],
+    async (): Promise<shopType[]> => {
+      const response = await base.get<ShopResponse>("/trial/shop");
+      console.log(response.data);
+      if (partnerCafes) {
+        setFoundShop(
+          partnerCafes.find((partnerCafe) => {
+            return (
+              partnerCafe.shopName.replaceAll(" ", "-") +
+                "-" +
+                partnerCafe._id ==
+              decodedShopName
+            );
+          })
+        );
+      }
+
+      return response.data.data;
+    }
+  );
+
   const { updateShopSelected } = useForCustomersStore();
 
   useEffect(() => {
@@ -28,7 +52,7 @@ export default function ShopPage({ params }: { params: { shopName: string } }) {
         {/* {foundShop.id} */}
         <div className="flex flex-col items-center justify-start">
           <img
-            src={foundShop?.featureSRC}
+            src={foundShop?.featureImage}
             alt=""
             className="w-full h-auto max-w-[600px]"
           />
@@ -36,13 +60,13 @@ export default function ShopPage({ params }: { params: { shopName: string } }) {
             {foundShop && (
               <PackageBlock
                 isGift={false}
-                packageDetails={foundShop?.packageDetails}
+                packageDetails={foundShop?.prepaidCardPackage}
               />
             )}
             {foundShop && (
               <PackageBlock
                 isGift={true}
-                packageDetails={foundShop?.giftPackage}
+                packageDetails={foundShop?.giftCardPackage}
               />
             )}
           </div>
