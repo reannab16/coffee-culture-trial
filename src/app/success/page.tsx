@@ -73,7 +73,7 @@ function SuccessfulPurchaseComponent({ sessionId }: { sessionId: string | null }
     <div className="flex items-center justify-center pt-[72px]">
       {card && (isGiftCardResponse(card) ? (
         <GiftSuccess shop={shop!} card={card} />
-      ): <PrepaidSuccess shop={shop!} card={card}/>)}
+      ): <PrepaidSuccess shop={shop!} card={card} isGift={false}/>)}
     </div>
   );
 }

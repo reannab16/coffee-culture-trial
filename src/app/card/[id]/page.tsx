@@ -1,65 +1,122 @@
 "use client";
-import React, { useState } from "react";
+import { base } from "@/api/endpoints";
+import LoadingTopbar from "@/components/progressBar/loadingTopBar";
+import { shopType, useForCustomersStore } from "@/stores/for-customer-store";
+import { secondary } from "@/themes/customs/palette";
+import { Button } from "@mui/material";
+import { usePathname, useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import { useQuery } from "react-query";
 
-export default function GiftCardPage() {
+export default function GiftCardPage({ params }: { params: { id: string } }) {
+    const decodedGiftId = decodeURIComponent(params.id);
+    const {shop, updateShopSelected} = useForCustomersStore();
+    const router = useRouter();
+    const pathname = usePathname();
+
+    const {
+        data: card,
+        error,
+        isLoading: isCardLoading,
+      } = useQuery<GiftCard, Error>(
+        ["cardSuccess", decodedGiftId],
+        async (): Promise<GiftCard> => {
+          const response = await base.get(`/trial/card/${decodedGiftId}?type=giftCard`);
+          return response.data.data;
+        },
+        {
+          enabled: !!decodedGiftId,
+        }
+      );
+
+      const fetchShopDetails = async (shopId: string): Promise<shopType> => {
+        const response = await base.get(`/trial/shop/${shopId}`);
+        return response.data.data;
+      };
+    
+      const {
+        data: fetchedShop,
+        error: shopError,
+        isLoading: isShopLoading,
+      } = useQuery(
+        ["shopDetails", card?.shopId],
+        () => (card ? fetchShopDetails(card.shopId) : Promise.reject("No shopId")),
+        {
+          enabled: !!card?.shopId,
+        }
+      );
+    
+      useEffect(() => {
+        if (fetchedShop) {
+          updateShopSelected(fetchedShop);
+          console.log(shop)
+        }
+      }, [fetchedShop]);
+
+      
+
+
+
     const [isOpen, setIsOpen] = useState(false);
 
     const handleOpen = () => {
       setIsOpen(!isOpen);
     };
 
+    if (isCardLoading || isShopLoading) {
+        return <LoadingTopbar/>
+    }
+
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen">
-      <div className="relative w-72 h-96 perspective">
-        <div
-          className={`absolute w-full h-full transition-transform duration-700 transform-style-preserve-3d ${
-            isOpen ? "rotate-y-0" : "rotate-y-90"
-          }`}
-        >
-          {/* Front Side */}
-          <div className="absolute w-full h-full bg-white rounded-lg shadow-lg backface-hidden">
-            <div className="p-5">
-              <p>
-                Congratulations <strong>Tanya!</strong>
-              </p>
-              <img
-                src="https://via.placeholder.com/150"
-                alt="Card image"
-                className="w-full h-40 object-cover rounded-lg my-3"
-              />
-              <p>
-                from <strong>Sohail</strong> & culture café
-              </p>
-            </div>
-          </div>
-          {/* Inside of the Card */}
-          <div className="absolute w-full h-full bg-white rounded-lg shadow-lg backface-hidden transform rotate-y-180">
-            <div className="p-5">
-              <p>
-                Congratulations <strong>Tanya!</strong>
-              </p>
-              <p className="my-3">
-                This is my personal message bla bla enjoy the coffees!!
-              </p>
-              <p>
-                from <strong>Sohail</strong> & culture café
-              </p>
-            </div>
-          </div>
-        </div>
-        {/* Back Cover of the Card */}
-        <div
-          className={`absolute w-full h-full bg-white rounded-lg shadow-lg backface-hidden transform ${
-            isOpen ? "rotate-y-180" : "rotate-y-90"
-          }`}
-        ></div>
-      </div>
-      <button
-        onClick={handleOpen}
-        className="mt-5 px-4 py-2 bg-green-500 text-white rounded-lg"
-      >
-        {isOpen ? "Close card" : "Open card"}
-      </button>
+    <div className="flex flex-col items-center justify-center min-h-screen px-10 gap-y-10">
+        <div>card will go here</div>
+        <Button
+                        variant="contained"
+                        // color="secondary"
+                        sx={{
+                          fontWeight: "400",
+                          fontSize: "14px",
+                          paddingX: "20px",
+                          width: "100%",
+                          opacity: 100,
+                          color: secondary.contrastText,
+                          backgroundColor: `#${shop?.lightBrandColour}`,
+                          
+
+                          "&:hover": {
+                            backgroundColor: "#AFAF81",
+                          },
+                        }}
+                        disableElevation
+                        onClick={() => {
+                          router.push(
+                            pathname + `/claim`
+                          );
+                        }}
+                      >Claim your gift card</Button>
+
+      
     </div>
   );
 }
+
+export interface GiftCard  {
+    cardId: string,
+    senderDetails: {
+        email: string,
+        name: string,
+        contactNumber: number
+    },
+    shopId: string,
+    drinksLeft: number,
+    drinksAllowance: number,
+    qrCodeUrl: string,
+    message: string,
+    receiverDetails: {
+        email: string,
+        name: string,
+        contactNumber: string,
+    }
+    drinksIncluded: string,
+    drinksExcluded: string,
+  }

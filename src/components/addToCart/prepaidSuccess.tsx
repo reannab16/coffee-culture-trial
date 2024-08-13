@@ -2,13 +2,18 @@ import { PrepaidCardResponse } from "@/app/success/page";
 import { shopType } from "@/stores/for-customer-store";
 import React from "react";
 import { SmolLogo } from "../navigation/icons";
+import { GiftCard } from "@/app/card/[id]/page";
 
 export default function PrepaidSuccess({
   shop,
   card,
+  giftCard,
+  isGift,
 }: {
   shop: shopType;
-  card: PrepaidCardResponse;
+  card?: PrepaidCardResponse;
+  giftCard?: GiftCard;
+  isGift: boolean;
 }) {
   return (
     <div className="container flex flex-col justify-start items-center px-8 gap-y-5 ">
@@ -23,7 +28,7 @@ export default function PrepaidSuccess({
       </div>
       <div className="px-6 py-6 flex flex-col justify-center items-center border-2 border-solid border-[var(--green)] bg-[var(--green20)] rounded-[10px] w-full text-center text-xs gap-y-5">
         <div className="">
-          <span className="text-base font-semibold pb-4">Thank you! </span>
+          <span className="text-base font-semibold pb-4">{isGift? `Congrats ${giftCard?.receiverDetails.name}!`: `Thank you!`} </span>
           <br />
           <span className="light italic test-sm">here is your QR code:</span>
         </div>
@@ -52,14 +57,14 @@ export default function PrepaidSuccess({
                   <span>ffee culture</span>
                 </div>
               </div>
-              <img src={card.qrCodeUrl} alt="" className="h-14 w-14" />
+              <img src={giftCard ? giftCard.qrCodeUrl : card?.qrCodeUrl} alt="" className="h-14 w-14" />
             </div>
           </div>
           <div
             className={`w-full h-7 rounded-b-lg flex items-center justify-between px-4 text-[10px]`}
             style={{ backgroundColor: `#${shop?.lightBrandColour}` }}
           >
-            <div>{card.drinksAllowance} drinks</div>
+            <div>{isGift? giftCard?.drinksAllowance : card?.drinksAllowance} drinks</div>
             <div className="italic font-light">Enjoy your coffee!</div>
           </div>
         </div>
@@ -71,7 +76,7 @@ export default function PrepaidSuccess({
           <ol className="list-decimal ml-5 text-start">
             <li>
               You can use your card at {shop.shopName} for{" "}
-              {card.drinksAllowance} delicious drinks.{" "}
+              {isGift ? giftCard?.drinksAllowance : card?.drinksAllowance} delicious drinks.{" "}
             </li>
             <li>Simply show the QR code to redeem your coffees.</li>
           </ol>
@@ -88,11 +93,16 @@ export default function PrepaidSuccess({
               alt=""
               className="w-4 h-4 mr-1"
             />
-            <div>
-              {card.drinksIncluded
-                ? `Valid drinks: ${card.drinksIncluded}`
-                : `All drinks, excluding: ${card.drinksExcluded}`}
-            </div>
+            {card && <div>
+              {card?.drinksIncluded
+                ? `Valid drinks: ${card?.drinksIncluded}`
+                : `All drinks, excluding: ${card?.drinksExcluded}`}
+            </div>}
+            {giftCard && <div>
+              {giftCard?.drinksIncluded
+                ? `Valid drinks: ${giftCard?.drinksIncluded}`
+                : `All drinks, excluding: ${giftCard?.drinksExcluded}`}
+            </div>}
           </div>
           <div className="flex">
             {" "}
