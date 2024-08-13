@@ -13,7 +13,7 @@ export default function GiftSuccess({
   return (
     <div className="container flex flex-col justify-start items-center px-8 gap-y-5 ">
       <div className="flex flex-col items-center justify-start mt-5">
-        <img src={shop?.logoSRC} alt="" className="w-7 h-7" />
+        <img src={shop?.logo} alt="" className="w-7 h-7" />
         <div className="-mb-[5px] text-lg font-medium">{shop?.shopName}</div>
         <div className="text-[10px] flex items-end justify-center italic">
           <span className="pr-[1px]">x c</span>
@@ -70,8 +70,9 @@ type shopType = {
   prepaidCardPackage: prepaidPackageType;
   giftCardPackage: giftPackageType;
   featureImage: string;
-  logoSRC: string;
-  brandColour: string;
+  logo: string;
+  lightBrandColour: string;
+  darkBrandColour: string;
   postcode?: string;
   address?: string;
   phone?: string;

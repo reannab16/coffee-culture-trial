@@ -143,7 +143,7 @@ export default function NavBar() {
               <div className="flex items-center justify-start gap-x-2">
                 {shop && (
                   <div className="flex items-center justify-start gap-x-2">
-                    <img src={shop.logoSRC} alt="" className="w-7 h-7" />
+                    <img src={shop.logo} alt="" className="w-7 h-7" />
                     <div className="flex flex-col items-start justify-center text-[var(--darkBrown)]">
                       <div className="text-lg -mb-[5px] font-medium">{shop.shopName}</div>
                       <div className="text-[10px] flex items-end justify-center italic"><span className="pr-[1px]">x c</span><SmolLogo className="mb-[3px]"/><span>ffee culture</span></div>

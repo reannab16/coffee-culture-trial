@@ -76,7 +76,7 @@ export default function PartnerCafes() {
                       </div>
 
                       <img
-                        src={partnerCafe.logoSRC}
+                        src={partnerCafe.logo}
                         alt={partnerCafe.shopName + " logo"}
                         className="w-10 h-10"
                       />
@@ -98,7 +98,7 @@ export default function PartnerCafes() {
                           paddingX: "12px",
                           opacity: 100,
                           color: secondary.contrastText,
-                          backgroundColor: `#${partnerCafe.brandColour}`,
+                          backgroundColor: `#${partnerCafe.lightBrandColour}`,
 
                           "&:hover": {
                             backgroundColor: "#AFAF81",

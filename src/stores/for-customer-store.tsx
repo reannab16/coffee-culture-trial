@@ -8,8 +8,9 @@ export type shopType = {
     prepaidCardPackage: packageType;
     giftCardPackage: packageType;
     featureImage: string;
-    logoSRC:string;
-    brandColour: string;
+    logo: string;
+    lightBrandColour: string;
+    darkBrandColour: string;
     postcode?: string;
     address?: string;
     phone?: string;
