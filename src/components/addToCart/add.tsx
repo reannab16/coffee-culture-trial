@@ -6,8 +6,8 @@ import { useMutation } from "react-query";
 // import toast from "react-hot-toast";
 import axios from "axios";
 import stripe from "stripe";
-import { loadStripe } from '@stripe/stripe-js';
-import { loadEnvConfig } from '@next/env'
+import { loadStripe } from "@stripe/stripe-js";
+import { loadEnvConfig } from "@next/env";
 
 export default function Add({
   shop,
@@ -38,7 +38,7 @@ export default function Add({
 
   console.log(shop);
 
-  const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!)
+  const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!);
 
   const handleSubmit = async () => {
     // e.preventDefault();
@@ -48,6 +48,17 @@ export default function Add({
     // isGift ? console.log(giftCardDetails) : console.log(packageDetails);
     if (isGift) {
       console.log(giftCardDetails);
+      registerBundleMutation.mutate({
+        shopId: giftCardDetails.shopId!,
+        type: giftCardDetails.type,
+        senderDetails: {
+          email: giftCardDetails.senderDetails.email,
+          name: giftCardDetails.senderDetails.name,
+          contactNumber: giftCardDetails.senderDetails.contactNumber,
+        },
+        receiverName: giftCardDetails.receiverName,
+        message: giftCardDetails.senderMessage,
+      });
     } else {
       console.log(packageDetails);
       registerBundleMutation.mutate({
@@ -60,13 +71,25 @@ export default function Add({
   };
 
   const registerBundleMutation = useMutation({
-    mutationFn: async (values: { email: string; shopId: string, contactNumber: string, type: string, }) => {
+    mutationFn: async (values: {
+      email?: string;
+      shopId: string;
+      contactNumber?: string;
+      type: string;
+      senderDetails?: {
+        email: string;
+        name: string;
+        contactNumber: string;
+      };
+      receiverName?: string;
+      message?: string;
+    }) => {
       // return Endpoints.registerShopUser(values);
       try {
-        console.log(values.shopId)
+        console.log(values.shopId);
         const response = await axios.post(
           `http://127.0.0.1:5000/api/v1/trial/payments/create-checkout-session`,
-           values 
+          values
         );
         console.log(response?.status);
         if (response.status >= 200 && response.status < 300) {
@@ -86,6 +109,7 @@ export default function Add({
           );
         } else {
           // return error;
+          console.error("Error registering user:", error);
           throw new Error(error);
         }
       }
@@ -97,17 +121,18 @@ export default function Add({
       // router.push('/register/step-2')
       const stripe = await stripePromise;
       if (stripe) {
-        const { error } = await stripe.redirectToCheckout({ sessionId: session.id });
+        const { error } = await stripe.redirectToCheckout({
+          sessionId: session.id,
+        });
         if (error) {
-            console.error("Stripe redirect error:", error);
+          console.error("Stripe redirect error:", error);
         }
-
       } else {
-        console.error("Stripe failed to load")
-      }   
+        console.error("Stripe failed to load");
+      }
     },
     onError: (error: any) => {
-    //   toast.error("Failed to register user");
+      //   toast.error("Failed to register user");
       console.log("going");
       console.log(error);
     },
@@ -127,7 +152,10 @@ export default function Add({
       <div className="px-7 py-8 flex justify-between items-center border-2 border-solid border-[var(--green)] bg-[var(--green20)] rounded-[10px] w-full">
         <div className="flex flex-col justify-center items-center">
           <div className="text-2xl font-medium -mb-[3px]">
-            £{!isGift ? shop?.prepaidCardPackage.price : shop?.giftCardPackage.price}
+            £
+            {!isGift
+              ? shop?.prepaidCardPackage.price
+              : shop?.giftCardPackage.price}
           </div>
           {isGift && <div className="text-xs font-medium">Gift a friend</div>}
           <div className="text-xs">
@@ -146,9 +174,41 @@ export default function Add({
           added to basket
         </div>
       </div>
+      {isGift && (
+        <TextField
+          id="outlined-required"
+          label="Your Name"
+          variant="outlined"
+          value={
+            giftCardDetails.senderDetails.name
+          }
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            setGiftCardDetails({
+              ...giftCardDetails,
+              senderDetails: {
+                ...giftCardDetails.senderDetails,
+                name: e.target.value,
+              },
+            })
+          }}
+          sx={{
+            fontSize: "12px",
+            fontFamily: "Inter",
+          }}
+          fullWidth
+          inputProps={{
+            style: { fontSize: 12 },
+          }}
+          InputLabelProps={{
+            style: { fontSize: 12, display: "flex", alignItems: "center" },
+          }}
+          color="primary"
+        />
+        
+      )}
       <TextField
         id="outlined-required"
-        label="Email"
+        label={isGift ? "Your Email" : "Email Address"}
         variant="outlined"
         value={
           isGift ? giftCardDetails.senderDetails.email : packageDetails.email
@@ -183,7 +243,9 @@ export default function Add({
         label="Phone Number"
         variant="outlined"
         value={
-          isGift ? giftCardDetails.senderDetails.contactNumber : packageDetails.contactNumber
+          isGift
+            ? giftCardDetails.senderDetails.contactNumber
+            : packageDetails.contactNumber
         }
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
           //   setUser({ ...user, email: e.target.value });
@@ -195,7 +257,10 @@ export default function Add({
                   contactNumber: e.target.value,
                 },
               })
-            : setPackageDetails({ ...packageDetails, contactNumber: e.target.value });
+            : setPackageDetails({
+                ...packageDetails,
+                contactNumber: e.target.value,
+              });
         }}
         sx={{
           fontSize: "12px",
@@ -210,6 +275,64 @@ export default function Add({
         }}
         color="primary"
       />
+      {isGift && (
+        <TextField
+          id="outlined-required"
+          label="Recipient's Name"
+          variant="outlined"
+          value={
+            giftCardDetails.receiverName
+          }
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            setGiftCardDetails({
+              ...giftCardDetails,
+              receiverName: e.target.value,
+            })
+          }}
+          sx={{
+            fontSize: "12px",
+            fontFamily: "Inter",
+          }}
+          fullWidth
+          inputProps={{
+            style: { fontSize: 12 },
+          }}
+          InputLabelProps={{
+            style: { fontSize: 12, display: "flex", alignItems: "center" },
+          }}
+          color="primary"
+        />
+        
+      )}
+      {isGift && (
+        <TextField
+          id="outlined-required"
+          label="Personal Message"
+          variant="outlined"
+          value={
+            giftCardDetails.senderMessage
+          }
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            setGiftCardDetails({
+              ...giftCardDetails,
+              senderMessage: e.target.value,
+            })
+          }}
+          sx={{
+            fontSize: "12px",
+            fontFamily: "Inter",
+          }}
+          fullWidth
+          inputProps={{
+            style: { fontSize: 12 },
+          }}
+          InputLabelProps={{
+            style: { fontSize: 12, display: "flex", alignItems: "center" },
+          }}
+          color="primary"
+        />
+        
+      )}
       <Button
         type="submit"
         onClick={handleSubmit}

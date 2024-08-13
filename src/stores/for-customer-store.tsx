@@ -5,8 +5,8 @@ import {cookieStorage} from "@/utils/cookieStorage"
 export type shopType = {
   shopName: string;
     _id: string;
-    prepaidCardPackage: prepaidPackageType;
-    giftCardPackage: giftPackageType;
+    prepaidCardPackage: packageType;
+    giftCardPackage: packageType;
     featureImage: string;
     logoSRC:string;
     brandColour: string;
@@ -16,14 +16,21 @@ export type shopType = {
     about?:string;
 }
 
-export type prepaidPackageType = {
-  drinksAllowance: number;
-  drinksIncluded?: string[];
-  drinksExcluded?: string[];
-  price: number;
-}
+// export type prepaidPackageType = {
+//   drinksAllowance: number;
+//   drinksIncluded?: string[];
+//   drinksExcluded?: string[];
+//   price: number;
+// }
 
-export type giftPackageType = {
+// export type giftPackageType = {
+//   drinksAllowance: number;
+//   drinksIncluded?: string[];
+//   drinksExcluded?: string[];
+//   price: number;
+// }
+
+export type packageType = {
   drinksAllowance: number;
   drinksIncluded?: string[];
   drinksExcluded?: string[];

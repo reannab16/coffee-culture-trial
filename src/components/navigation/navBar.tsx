@@ -69,7 +69,7 @@ export default function NavBar() {
 
   useEffect(() => {
     setIsitStorePage(isStorePage());
-    console.log(shop);
+    console.log(shop, "navbar");
   }, [pathname, shop]);
 
   useEffect(() => {

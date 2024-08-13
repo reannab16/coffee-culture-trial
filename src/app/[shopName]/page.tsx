@@ -10,7 +10,7 @@ import { base } from "@/api/endpoints";
 
 export default function ShopPage({ params }: { params: { shopName: string } }) {
   const decodedShopName = decodeURIComponent(params.shopName);
-  const [foundShop, setFoundShop] = useState<shopType | null>();
+  // const [foundShop, setFoundShop] = useState<shopType | null>();
 
   const {
     data: partnerCafes,
@@ -20,31 +20,30 @@ export default function ShopPage({ params }: { params: { shopName: string } }) {
     ["partnerCafes"],
     async (): Promise<shopType[]> => {
       const response = await base.get<ShopResponse>("/trial/shop");
-      console.log(response.data);
-      if (partnerCafes) {
-        setFoundShop(
-          partnerCafes.find((partnerCafe) => {
-            return (
-              partnerCafe.shopName.replaceAll(" ", "-") +
-                "-" +
-                partnerCafe._id ==
-              decodedShopName
-            );
-          })
-        );
-      }
-
       return response.data.data;
     }
   );
 
-  const { updateShopSelected } = useForCustomersStore();
+  const { updateShopSelected, shop } = useForCustomersStore();
 
   useEffect(() => {
-    if (foundShop) {
-      updateShopSelected(foundShop);
+    if (partnerCafes) {
+
+      const foundShop = partnerCafes.find((partnerCafe) => {
+        return (
+          partnerCafe.shopName.replaceAll(" ", "-") +
+            "-" +
+            partnerCafe._id ==
+          decodedShopName
+        );
+      })
+      if (foundShop) {
+        console.log("passing heree")
+        updateShopSelected(foundShop);
+      }
     }
-  }, [foundShop]);
+    
+  }, [partnerCafes]);
 
   return (
     <div className="flex items-start justify-center mb-10">
@@ -52,21 +51,21 @@ export default function ShopPage({ params }: { params: { shopName: string } }) {
         {/* {foundShop.id} */}
         <div className="flex flex-col items-center justify-start">
           <img
-            src={foundShop?.featureImage}
+            src={shop?.featureImage}
             alt=""
             className="w-full h-auto max-w-[600px]"
           />
           <div className="z-10 -mt-8 md:-mt-12 w-full px-8 flex flex-col items-center justify-start gap-y-8">
-            {foundShop && (
+            {shop && (
               <PackageBlock
                 isGift={false}
-                packageDetails={foundShop?.prepaidCardPackage}
+                packageDetails={shop?.prepaidCardPackage}
               />
             )}
-            {foundShop && (
+            {shop && (
               <PackageBlock
                 isGift={true}
-                packageDetails={foundShop?.giftCardPackage}
+                packageDetails={shop?.giftCardPackage}
               />
             )}
           </div>
@@ -92,25 +91,25 @@ export default function ShopPage({ params }: { params: { shopName: string } }) {
             <span className="font-semibold">Further info? </span>
             Please contact info@coffee-culture.uk
           </div>
-          {foundShop && (
+          {shop && (
             <div className="flex flex-col gap-y-5 mt-4">
-              <div className="text-lg">About {foundShop.shopName}</div>
-              {foundShop.address && (
+              <div className="text-lg">About {shop.shopName}</div>
+              {shop.address && (
                 <div className="text-xs">
                   <span className="font-semibold">Address: </span>
-                  {foundShop.address + ", " + foundShop.postcode}
+                  {shop.address + ", " + shop.postcode}
                 </div>
               )}
-              {foundShop.phone && (
+              {shop.phone && (
                 <div className="text-xs">
                   <span className="font-semibold">Phone: </span>
-                  {foundShop.phone}
+                  {shop.phone}
                 </div>
               )}
-              {foundShop.about && (
+              {shop.about && (
                 <div className="text-xs">
                   <span className="font-semibold">About our café: </span>
-                  {foundShop.about}
+                  {shop.about}
                 </div>
               )}
             </div>
