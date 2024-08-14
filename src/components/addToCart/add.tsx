@@ -8,6 +8,7 @@ import axios from "axios";
 import stripe from "stripe";
 import { loadStripe } from "@stripe/stripe-js";
 import { loadEnvConfig } from "@next/env";
+import { base } from "@/api/endpoints";
 
 export default function Add({
   shop,
@@ -87,8 +88,8 @@ export default function Add({
       // return Endpoints.registerShopUser(values);
       try {
         console.log(values.shopId);
-        const response = await axios.post(
-          `http://127.0.0.1:5000/api/v1/trial/payments/create-checkout-session`,
+        const response = await base.post(
+          `/trial/payments/create-checkout-session`,
           values
         );
         console.log(response?.status);

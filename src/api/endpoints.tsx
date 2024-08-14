@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const base = axios.create({
-  baseURL: "https://api.coffee-culture.uk",
+  baseURL: "https://api.coffee-culture.uk/api/v1",
 });
 
 class Endpoints {
