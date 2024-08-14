@@ -18,13 +18,17 @@ export default function Scanner() {
   const qrBoxEl = useRef<HTMLDivElement>(null);
   const [qrOn, setQrOn] = useState<boolean>(true);
   const router = useRouter();
-  const [scannedResult, setScannedResult] = useState<string | undefined>("");
+  // const [scannedResult, setScannedResult] = useState<string | undefined>("");
+  const [scannedCard, setScannedCard] = useState({
+    shopId: "",
+    cardId: "",
+    type: "",
+  });
   const [startScan, setStartScan] = useState(false);
   const pathname = usePathname();
-  const searchParams = useSearchParams()
-  const user = searchParams.get('user');
-  const success = searchParams.get('success');
-  
+  const searchParams = useSearchParams();
+  const cardId = searchParams.get("cardId");
+  const success = searchParams.get("success");
 
   function Search() {
     const searchParams = useSearchParams();
@@ -40,11 +44,22 @@ export default function Scanner() {
 
     // Success
     const onScanSuccess = (result: QrScanner.ScanResult) => {
-      setScannedResult(result?.data);
+      // setScannedResult(JSON.parse(result?.data));
+      const scannedResult = JSON.parse(result?.data);
+      setScannedCard({
+        shopId: scannedResult.shopId,
+        cardId: scannedResult.cardId,
+        type: scannedResult.type,
+      });
+      console.log(JSON.parse(result?.data));
       router.push(
         pathname +
           "?" +
-          createQueryString("user", `${result?.data}`)
+          createQueryString("shopId", `${scannedResult.shopId}`) +
+          "&" +
+          createQueryString("cardId", `${scannedResult.cardId}`) +
+          "&" +
+          createQueryString("type", `${scannedResult.type}`)
       );
     };
 
@@ -131,9 +146,8 @@ export default function Scanner() {
 
   return (
     <Suspense>
-    {!user && <Search />}
-    {user && !success && <RedeemDrink cardId={user}/>}
-      
+      {!cardId && <Search />}
+      {cardId && !success && <RedeemDrink cardId={scannedCard.cardId} shopId={scannedCard.shopId} type={scannedCard.type} />}
     </Suspense>
   );
 }

@@ -25,8 +25,8 @@ export default function StoreLogin() {
     },
     onSuccess: (response: any) => {
       console.log(response.data);
-      updateSession({jwt: response.data.token, email: response.data.email, shopId: response.data.shopId, signedIn: true });
-      Cookies.set('token', response.data.token, { expires: 7 });
+      updateSession({jwt: response.data.accessToken, email: response.data.email, shopId: response.data.shopId, signedIn: true });
+      Cookies.set('token', response.data.accessToken, { expires: 7 });
       console.log(session);
       router.push("/shop-home");
     },
