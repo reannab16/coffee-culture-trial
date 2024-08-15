@@ -1,7 +1,8 @@
 import axios from "axios";
 
 export const base = axios.create({
-  baseURL: "https://api.coffee-culture.uk/api/v1",
+  // baseURL: "http://127.0.0.1:5000/api/v1",
+  baseURL: "http://api.coffee-culture.uk/api/v1",
 });
 
 class Endpoints {
