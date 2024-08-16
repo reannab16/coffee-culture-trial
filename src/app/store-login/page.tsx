@@ -19,14 +19,19 @@ export default function StoreLogin() {
   const [errorState, setErrorState] = useState<{ [key: string]: string | undefined }>({});
   const {session, updateSession} = useAuthStore();
 
+  const oneHourFromNow = new Date();
+ oneHourFromNow.setTime(oneHourFromNow.getTime() + 50 * 60 * 1000);
+
   const loginShopMutation = useMutation({
     mutationFn: async (values: { email: string; password: string }) => {
       return Endpoints.loginShopUser(values);
     },
     onSuccess: (response: any) => {
       console.log(response.data);
-      updateSession({jwt: response.data.accessToken, email: response.data.email, shopId: response.data.shopId, signedIn: true });
-      Cookies.set('token', response.data.accessToken, { expires: 7 });
+      updateSession({accessToken: response.data.accessToken, email: response.data.email, shopId: response.data.shopId, signedIn: true });
+      Cookies.set('accessToken', response.data.accessToken, { expires: oneHourFromNow });
+      Cookies.set('refreshToken', response.data.refreshToken, { expires: 7 });
+
       console.log(session);
       router.push("/shop-home");
     },

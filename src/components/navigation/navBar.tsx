@@ -19,10 +19,13 @@ import { LongLogo, SmolLogo } from "./icons";
 import { useNavContext } from "@/contexts/nav";
 import IconButton from "@mui/material/IconButton";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
-import { useForCustomersStore } from "@/stores/for-customer-store";
+import { shopType, useForCustomersStore } from "@/stores/for-customer-store";
 import { divide } from "lodash";
-import KeyRoundedIcon from '@mui/icons-material/KeyRounded';
+import KeyRoundedIcon from "@mui/icons-material/KeyRounded";
 import { useAuthStore } from "@/stores/auth-store";
+import { useQuery } from "react-query";
+import { base } from "@/api/endpoints";
+import LoadingTopbar from "../progressBar/loadingTopBar";
 
 export default function NavBar() {
   const { canSee } = useNavContext();
@@ -33,23 +36,34 @@ export default function NavBar() {
   const [open, setOpen] = React.useState(false);
   const pathname = usePathname();
   const { shop } = useForCustomersStore();
-  const {session, updateSession} = useAuthStore();
+  const { session, updateSession } = useAuthStore();
+  const [isShopHomePage, setIsShopHomePage] = useState(false);
 
-
-  const isStorePage = () => {
+  const isStorePage = (): PageType => {
     if (pathname == "/store-login") {
-      return false;
+      return PageType.Culture;
     }
     for (const link of navLinks) {
       if (link.path == pathname) {
-        return false;
+        return PageType.Store;
       }
     }
-    
-    return true;
+    for (const link of shopHomeLinks) {
+      if (link.path == pathname) {
+        //here
+        return PageType.ShopHome;
+      }
+    }
+    return PageType.Culture;
   };
 
-  const [isitStorePage, setIsitStorePage] = useState(isStorePage());
+  enum PageType {
+    Store = 'store',
+    ShopHome = 'shopHome',
+    Culture = 'culture'
+  }
+
+  const [pageType, setPageType] = useState<PageType>(isStorePage());
 
   const handleScroll = () => {
     if (window.scrollY > 56) {
@@ -68,7 +82,7 @@ export default function NavBar() {
   // console.log(pathname);
 
   useEffect(() => {
-    setIsitStorePage(isStorePage());
+    setPageType(isStorePage());
     console.log(shop, "navbar");
   }, [pathname, shop]);
 
@@ -80,6 +94,24 @@ export default function NavBar() {
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
   };
+
+  const fetchShopDetails = async (shopId: string): Promise<shopType> => {
+    const response = await base.get(`/trial/shop/${shopId}`);
+    return response.data.data;
+  };
+
+  const {
+    data: fetchedShop,
+    error: shopError,
+    isLoading: isShopLoading,
+  } = useQuery(
+    ["shopDetails", session?.shopId],
+    () => (session ? fetchShopDetails(session?.shopId) : Promise.reject("No shopId")),
+    {
+      enabled: pageType == PageType.ShopHome && !!session?.shopId,
+
+    }
+  );
 
   const DrawerList = (
     <Box
@@ -105,25 +137,29 @@ export default function NavBar() {
           </ListItem>
         ))}
         <ListItem disablePadding>
-            <ListItemButton
-              onClick={() => {
-                if (session) {
-                  updateSession(null);
-                  router.push("/")
-                } else {
-                  router.push("/store-login");
-                }
-                
-              }}
-            >
-              
-              <ListItemText primary={session ? "Log out": "Store login"}/>
-              <ListItemIcon className="-mr-6 text-[var(--mainBrown)]"><KeyRoundedIcon/></ListItemIcon>
-            </ListItemButton>
-          </ListItem>
+          <ListItemButton
+            onClick={() => {
+              if (session) {
+                updateSession(null);
+                router.push("/");
+              } else {
+                router.push("/store-login");
+              }
+            }}
+          >
+            <ListItemText primary={session ? "Log out" : "Store login"} />
+            <ListItemIcon className="-mr-6 text-[var(--mainBrown)]">
+              <KeyRoundedIcon />
+            </ListItemIcon>
+          </ListItemButton>
+        </ListItem>
       </List>
     </Box>
   );
+
+  if (isShopLoading) {
+    return <LoadingTopbar/>
+  } else
 
   return (
     <div className={`${canSee ? "block" : "hidden"}`}>
@@ -139,19 +175,45 @@ export default function NavBar() {
           elevation={0}
         >
           <div className="container flex items-center justify-between relative">
-            {isitStorePage ? (
+            {pageType == PageType.Store && (
               <div className="flex items-center justify-start gap-x-2">
                 {shop && (
                   <div className="flex items-center justify-start gap-x-2">
                     <img src={shop.logo} alt="" className="w-7 h-7" />
                     <div className="flex flex-col items-start justify-center text-[var(--darkBrown)]">
-                      <div className="text-lg -mb-[5px] font-medium">{shop.shopName}</div>
-                      <div className="text-[10px] flex items-end justify-center italic"><span className="pr-[1px]">x c</span><SmolLogo className="mb-[3px]"/><span>ffee culture</span></div>
+                      <div className="text-lg -mb-[5px] font-medium">
+                        {shop.shopName}
+                      </div>
+                      <div className="text-[10px] flex items-end justify-center italic">
+                        <span className="pr-[1px]">x c</span>
+                        <SmolLogo className="mb-[3px]" />
+                        <span>ffee culture</span>
+                      </div>
                     </div>
                   </div>
                 )}
               </div>
-            ) : (
+            )}
+            {pageType == PageType.ShopHome && (
+              <div className="flex items-center justify-start gap-x-2">
+                {fetchedShop && (
+                  <div className="flex items-center justify-start gap-x-2">
+                    <img src={fetchedShop?.logo} alt="" className="w-7 h-7" />
+                    <div className="flex flex-col items-start justify-center text-[var(--darkBrown)]">
+                      <div className="text-lg -mb-[5px] font-medium">
+                        {fetchedShop?.shopName}
+                      </div>
+                      <div className="text-[10px] flex items-end justify-center italic">
+                        <span className="pr-[1px]">x c</span>
+                        <SmolLogo className="mb-[3px]" />
+                        <span>ffee culture</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+            {pageType == PageType.Culture && (
               <LongLogo className="h-6 w-auto" />
             )}
 
@@ -178,22 +240,21 @@ export default function NavBar() {
                 );
               })}
               <Button
-                    // className={`${inter.className} `}
-                    color="primary"
-                    sx={{
-                      fontSize: "12px",
-                      fontWeight: "300",
-                      borderRadius: "9999px",
-                      paddingX: "16px",
-                      ":hover": {},
-                    }}
-                    onClick={() => {
-                      router.push("/store-login");
-                    }}
-                  >
-                    Store login
-                  </Button>
-              
+                // className={`${inter.className} `}
+                color="primary"
+                sx={{
+                  fontSize: "12px",
+                  fontWeight: "300",
+                  borderRadius: "9999px",
+                  paddingX: "16px",
+                  ":hover": {},
+                }}
+                onClick={() => {
+                  router.push("/store-login");
+                }}
+              >
+                Store login
+              </Button>
             </div>
             {/* <Button
               variant="contained"
@@ -257,19 +318,18 @@ const navLinks = [
 const shopHomeLinks = [
   {
     title: "Home",
-    path: "/shop-home"
+    path: "/shop-home",
   },
   {
     title: "Scanner",
-    path: "/shop-home/scanner"
+    path: "/shop-home/scanner",
   },
   {
     title: "Analytics",
-    path: "/shop-home/analytics"
+    path: "/shop-home/analytics",
   },
   {
     title: "Help & Settings",
-    path: "/shop-home/help"
+    path: "/shop-home/help",
   },
-  
-]
+];

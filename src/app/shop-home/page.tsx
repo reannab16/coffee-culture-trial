@@ -9,13 +9,13 @@ export default function ShopHome() {
   const {shop, updateShopSelected} = useForCustomersStore();
   
 
-  useEffect(() => {
-    if (session) {
-        const shopp = Endpoints.getShop(session.shopId);
+  // useEffect(() => {
+  //   if (session) {
+  //       const shopp = Endpoints.getShop(session.shopId);
         
         
-    }
-  }, [session]);
+  //   }
+  // }, [session]);
 
   return <div className="pt-[72px]">{session?.shopId}</div>;
 }

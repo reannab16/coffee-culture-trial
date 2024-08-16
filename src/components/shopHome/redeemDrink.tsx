@@ -2,25 +2,29 @@
 import Endpoints, { base } from "@/api/endpoints";
 import { GetPrepaid, GiftCard } from "@/app/card/[id]/page";
 import { Button } from "@mui/material";
-import { useRouter } from "next/navigation";
-import React, { useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import LoadingTopbar from "../progressBar/loadingTopBar";
 import Cookies from "js-cookie";
 
 export default function RedeemDrink({
-  cardId,
-  shopId,
-  type,
+  cardId: initialCardId,
+  shopId: initialShopId,
+  type: initialType,
 }: {
   cardId: string;
   shopId: string;
   type: string;
 }) {
   const router = useRouter();
-  const token = Cookies.get('token');
+  const token = Cookies.get('accessToken');
   const queryClient = useQueryClient();
+  const searchParams = useSearchParams();
+  const [cardId, setCardId] = useState(initialCardId);
+  const [shopId, setShopId] = useState(initialShopId);
+  const [type, setType] = useState(initialType);
 
   // useEffect(()=>{
   //   console.log(cardId, "found card", typeof(cardId), cardId.length > 0);
@@ -28,6 +32,23 @@ export default function RedeemDrink({
   //     router.push("/shop-home/scanner")
   //   }
   // }, [])
+
+  useEffect(()=>{
+    if (!cardId || !shopId || !type) {
+      const queryCardId = searchParams.get('cardId');
+      const queryShopId = searchParams.get('shopId');
+      const queryType = searchParams.get('type');
+
+      if (queryCardId && queryShopId && queryType) {
+        setCardId(queryCardId);
+        setShopId(queryShopId);
+        setType(queryType); } else {
+          router.push("/shop-home/scanner");
+        }
+    }
+  });
+
+  console.log(cardId, shopId, type)
 
   const {
     data: card,
@@ -40,6 +61,9 @@ export default function RedeemDrink({
         `/trial/card/${cardId}?type=${type}`
       );
       return response.data.data;
+    },
+    {
+      enabled: cardId.length > 0 && shopId.length > 0 && type.length > 0,
     }
   );
 
@@ -61,7 +85,7 @@ export default function RedeemDrink({
     onSuccess: (response: any) => {
       queryClient.invalidateQueries(["cardSuccess", cardId]);
       console.log("invalidated", cardId)
-      router.push("/shop-home");
+      router.push("/shop-home/scanner/success" + "?cardId=" + cardId + "&type=" + type);
     },
     onError: (error: any) => {
       toast.error(`Error, ${error.message}`);
@@ -77,12 +101,20 @@ export default function RedeemDrink({
     return(<LoadingTopbar/>)
   }
 
+  function isGiftCard(card: GetCardResponse): card is GiftCard {
+    return (card as GiftCard).receiverDetails !== undefined;
+  }
+  
+  function isPrepaid(card: GetCardResponse): card is GetPrepaid {
+    return (card as GetPrepaid).name !== undefined && (card as GetPrepaid).email !== undefined;
+  }
+
   return (
     <div className="flex items-start justify-center min-h-screen">
       <div className="container flex flex-col justify-start items-center mt-[72px] p-10 max-w-[500px] gap-y-5">
         <div className="border-2 border-[var(--green)] border-solid bg-[var(--green20)] flex items-center justify-start p-4 rounded-lg text-sm w-full">
-          <span className="font-semibold pr-1">Card ID: </span>
-          <span> {cardId}</span>
+          <span className="font-semibold pr-1">Card holder name: </span>
+          <span> {card && isPrepaid(card) ? card?.name! : card?.receiverDetails!.name!}</span>
         </div>
         <div className="border-2 border-[var(--green)] border-solid bg-[var(--green20)] flex items-center justify-start p-4 rounded-lg text-sm w-full">
           <span className="font-semibold pr-1">Drinks remaining: </span>
@@ -114,4 +146,4 @@ export default function RedeemDrink({
   );
 }
 
-type GetCardResponse = GiftCard | GetPrepaid;
+export type GetCardResponse = GiftCard | GetPrepaid;
