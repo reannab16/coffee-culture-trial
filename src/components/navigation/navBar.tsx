@@ -20,12 +20,12 @@ import { useNavContext } from "@/contexts/nav";
 import IconButton from "@mui/material/IconButton";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import { shopType, useForCustomersStore } from "@/stores/for-customer-store";
-import { divide } from "lodash";
 import KeyRoundedIcon from "@mui/icons-material/KeyRounded";
 import { useAuthStore } from "@/stores/auth-store";
 import { useQuery } from "react-query";
 import { base } from "@/api/endpoints";
 import LoadingTopbar from "../progressBar/loadingTopBar";
+import Cookies from "js-cookie";
 
 export default function NavBar() {
   const { canSee } = useNavContext();
@@ -38,6 +38,7 @@ export default function NavBar() {
   const { shop } = useForCustomersStore();
   const { session, updateSession } = useAuthStore();
   const [isShopHomePage, setIsShopHomePage] = useState(false);
+  const access = Cookies.get('accessToken');
 
   const isStorePage = (): PageType => {
     if (pathname == "/store-login") {
@@ -45,16 +46,17 @@ export default function NavBar() {
     }
     for (const link of navLinks) {
       if (link.path == pathname) {
-        return PageType.Store;
+        return PageType.Culture;
       }
     }
     for (const link of shopHomeLinks) {
       if (link.path == pathname) {
         //here
+        console.log("passing through shop home links")
         return PageType.ShopHome;
       }
     }
-    return PageType.Culture;
+    return PageType.Store;
   };
 
   enum PageType {
@@ -83,8 +85,16 @@ export default function NavBar() {
 
   useEffect(() => {
     setPageType(isStorePage());
-    console.log(shop, "navbar");
-  }, [pathname, shop]);
+    // console.log(shop, "navbar");
+  }, [pathname, shop, session]);
+
+  useEffect(() => {
+    console.log("PageType updated to:", pageType);
+  }, [pageType]);
+
+  useEffect(() => {
+    console.log("Session updated:", session);
+  }, [session]);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -138,16 +148,19 @@ export default function NavBar() {
         ))}
         <ListItem disablePadding>
           <ListItemButton
-            onClick={() => {
-              if (session) {
-                updateSession(null);
+            onClick={async () => {
+              console.log("going through here at least")
+              if (Cookies.get('accessToken')) {
                 router.push("/");
+                await Cookies.remove('accessToken');
+                await Cookies.remove('refreshToken');
+                await updateSession(null);
               } else {
                 router.push("/store-login");
               }
             }}
           >
-            <ListItemText primary={session ? "Log out" : "Store login"} />
+            <ListItemText primary={access ? "Log out" : "Store login"} />
             <ListItemIcon className="-mr-6 text-[var(--mainBrown)]">
               <KeyRoundedIcon />
             </ListItemIcon>
@@ -218,7 +231,27 @@ export default function NavBar() {
             )}
 
             <div className="md:flex items-center justify-center gap-x-1  hidden">
-              {navLinks.map((link) => {
+              {pageType !== PageType.ShopHome ? navLinks.map((link) => {
+                return (
+                  <Button
+                    key={link.title}
+                    // className={`${inter.className} `}
+                    color="primary"
+                    sx={{
+                      fontSize: "12px",
+                      fontWeight: "300",
+                      borderRadius: "9999px",
+                      paddingX: "16px",
+                      ":hover": {},
+                    }}
+                    onClick={() => {
+                      router.push(link.path);
+                    }}
+                  >
+                    {link.title}
+                  </Button>
+                );
+              }) : shopHomeLinks.map((link) => {
                 return (
                   <Button
                     key={link.title}

@@ -28,6 +28,7 @@ export default function StoreLogin() {
     },
     onSuccess: (response: any) => {
       console.log(response.data);
+      console.log("login", response);
       updateSession({accessToken: response.data.accessToken, email: response.data.email, shopId: response.data.shopId, signedIn: true });
       Cookies.set('accessToken', response.data.accessToken, { expires: oneHourFromNow });
       Cookies.set('refreshToken', response.data.refreshToken, { expires: 7 });
