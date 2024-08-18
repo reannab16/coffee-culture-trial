@@ -60,7 +60,8 @@ export default function ShopHome() {
                 style={{
                   borderColor: `#${fetchedShop?.lightBrandColour}`,
                   backgroundColor: getTransBackgroundColor(
-                    `#${fetchedShop?.lightBrandColour}`
+                    `#${fetchedShop?.lightBrandColour}`,
+                    0.2
                   ),
                 }}
               >
@@ -108,8 +109,6 @@ export default function ShopHome() {
     );
   }
 }
-
-
 
 const shopHomeLinks = [
   {

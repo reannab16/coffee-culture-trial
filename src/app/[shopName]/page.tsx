@@ -53,19 +53,23 @@ export default function ShopPage({ params }: { params: { shopName: string } }) {
           <img
             src={shop?.featureImage}
             alt=""
-            className="w-full h-auto max-w-[600px]"
+            className="w-full h-[133px] max-w-[600px]"
           />
           <div className="z-10 -mt-8 md:-mt-12 w-full px-8 flex flex-col items-center justify-start gap-y-8">
             {shop && (
               <PackageBlock
                 isGift={false}
                 packageDetails={shop?.prepaidCardPackage}
+                lightBrandColour={shop.lightBrandColour}
+                darkBrandColour={shop.darkBrandColour}
               />
             )}
             {shop && (
               <PackageBlock
                 isGift={true}
                 packageDetails={shop?.giftCardPackage}
+                lightBrandColour={shop.lightBrandColour}
+                darkBrandColour={shop.darkBrandColour}
               />
             )}
           </div>

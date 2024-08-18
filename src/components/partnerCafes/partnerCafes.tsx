@@ -10,7 +10,7 @@ import { shopType } from "@/stores/for-customer-store";
 import { useQuery } from "react-query";
 import axios from "axios";
 import { base } from "@/api/endpoints";
-import { getHoverColor } from "@/utils/colourUtils";
+import { getHoverColor, getTransBackgroundColor } from "@/utils/colourUtils";
 
 // import { useCartStore } from "@/stores/cart-store";
 // import {shopType, useForCustomersStore} from "@/stores/for-customer-store";
@@ -70,7 +70,10 @@ export default function PartnerCafes() {
                       backgroundPosition: "center",
                     }}
                   >
-                    <div className="absolute top-0 bottom-0 text-[var(--backgroundColour)] left-0 right-0 bg-gradient-to-b from-[var(--darkBrown30)] to-[#2f211a] rounded-xl opacity-90 flex flex-col items-between justify-between p-3">
+                    <div className="absolute top-0 bottom-0 text-[var(--backgroundColour)] left-0 right-0 bg-gradient-to-b from-[var(--darkBrown30)] to-[#2f211a] rounded-xl opacity-90 flex flex-col items-between justify-between p-3"
+                    style={{
+                      backgroundImage: `linear-gradient(${getTransBackgroundColor(`#${partnerCafe.darkBrandColour}`, 0.3)},#${partnerCafe.darkBrandColour})`,
+                    }}>
                       <div className="flex items-start justify-between">
                         <div className="flex flex-col pt-4 pl-4">
                           <div className="font-medium text-base">

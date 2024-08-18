@@ -8,7 +8,7 @@ export const getHoverColor = (backgroundColor: string) => {
     return color.clone().toString();
   };
   
-  export const getTransBackgroundColor = (backgroundColor: string) => {
+  export const getTransBackgroundColor = (backgroundColor: string, alpha: number) => {
     const color = tinycolor(backgroundColor);
-    return color.clone().setAlpha(0.2).toString();
+    return color.clone().setAlpha(alpha).toString();
   };

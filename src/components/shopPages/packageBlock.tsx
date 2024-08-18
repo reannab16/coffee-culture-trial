@@ -3,13 +3,18 @@ import { packageType } from "@/stores/for-customer-store";
 import React, { useCallback } from "react";
 import { Button } from "@mui/material";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { getHoverColor, getTransBackgroundColor } from "@/utils/colourUtils";
 
 export default function PackageBlock({
   isGift,
   packageDetails,
+  lightBrandColour,
+  darkBrandColour,
 }: {
   isGift: boolean;
   packageDetails: packageType;
+  lightBrandColour: string;
+  darkBrandColour: string;
 }) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -26,9 +31,25 @@ export default function PackageBlock({
   );
 
   return (
-    <div className="border-solid border-2 border-[var(--green)] flex flex-col items-center justify-center bg-[var(--backgroundColour)] rounded-xl max-w-96">
-      <div className="bg-[var(--green20)] flex items-stretch justify-center h-auto">
-        <div className="flex flex-col items-center justify-center text-center border-r-2 border-r-solid border-r-[var(--green)] p-5">
+    <div
+      className="border-solid border-2 flex flex-col items-center justify-center rounded-xl max-w-96"
+      style={{
+        borderColor: `#${lightBrandColour}`,
+        backgroundColor: getTransBackgroundColor(`#${lightBrandColour}`, 0.2),
+      }}
+    >
+      <div
+        className=" flex items-stretch justify-center h-auto"
+        style={{
+          backgroundColor: getTransBackgroundColor(`#${lightBrandColour}`, 0.2),
+        }}
+      >
+        <div
+          className="flex flex-col items-center justify-center text-center border-r-2 border-r-solid p-5"
+          style={{
+            borderColor: `#${lightBrandColour}`,
+          }}
+        >
           <div className="text-3xl font-medium -mb-[3px] ">
             £{packageDetails.price}
           </div>
@@ -63,8 +84,8 @@ export default function PackageBlock({
           </ul>
         </div>
         <div
-          className="py-3 bg-[var(--green50)] px-3 text-center z-10 text-xs font-light italic"
-          style={{ writingMode: "vertical-lr" }}
+          className="py-3 px-3 text-center z-10 text-xs font-light italic"
+          style={{ writingMode: "vertical-lr", backgroundColor: getTransBackgroundColor(`#${lightBrandColour}`, 0.5) }}
         >
           {isGift ? "gift card" : "save 20%"}
         </div>
@@ -79,14 +100,21 @@ export default function PackageBlock({
           //   paddingX: "24px",
           borderTopLeftRadius: 0,
           borderTopRightRadius: 0,
+          backgroundColor: `#${lightBrandColour}`,
+          typography: "shopButtons",
 
           "&:hover": {
-            backgroundColor: "#AFAF81",
+            backgroundColor: getHoverColor(`#${lightBrandColour}`),
           },
         }}
         disableElevation
         onClick={() => {
-          router.push(pathname + "/add-to-cart" + "?" + createQueryString("selected",`${isGift ? "gift" : "bundle"}`));
+          router.push(
+            pathname +
+              "/add-to-cart" +
+              "?" +
+              createQueryString("selected", `${isGift ? "gift" : "bundle"}`)
+          );
         }}
       >
         purchase

@@ -9,6 +9,7 @@ import stripe from "stripe";
 import { loadStripe } from "@stripe/stripe-js";
 import { loadEnvConfig } from "@next/env";
 import { base } from "@/api/endpoints";
+import { getHoverColor, getTransBackgroundColor } from "@/utils/colourUtils";
 
 export default function Add({
   shop,
@@ -150,7 +151,10 @@ export default function Add({
           <span>ffee culture</span>
         </div>
       </div>
-      <div className="px-7 py-8 flex justify-between items-center border-2 border-solid border-[var(--green)] bg-[var(--green20)] rounded-[10px] w-full">
+      <div className="px-7 py-8 flex justify-between items-center border-2 border-solid rounded-[10px] w-full" style={{
+        borderColor: `#${shop?.lightBrandColour}`,
+        backgroundColor: getTransBackgroundColor(`#${shop?.lightBrandColour}`, 0.2),
+      }}>
         <div className="flex flex-col justify-center items-center">
           <div className="text-2xl font-medium -mb-[3px]">
             £
@@ -344,9 +348,11 @@ export default function Add({
           fontSize: "12px",
           paddingX: "24px",
           height: "44px",
+          backgroundColor: `#${shop?.lightBrandColour}`,
+          typography: "shopButtons",
 
           "&:hover": {
-            backgroundColor: "#AFAF81",
+            backgroundColor: getHoverColor(`#${shop?.lightBrandColour}`),
           },
         }}
         disableElevation

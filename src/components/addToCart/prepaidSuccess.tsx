@@ -3,6 +3,7 @@ import { shopType } from "@/stores/for-customer-store";
 import React from "react";
 import { SmolLogo } from "../navigation/icons";
 import { GiftCard } from "@/app/card/[id]/page";
+import { getTransBackgroundColor } from "@/utils/colourUtils";
 
 export default function PrepaidSuccess({
   shop,
@@ -26,7 +27,13 @@ export default function PrepaidSuccess({
           <span>ffee culture</span>
         </div>
       </div>
-      <div className="px-6 py-6 flex flex-col justify-center items-center border-2 border-solid border-[var(--green)] bg-[var(--green20)] rounded-[10px] w-full text-center text-xs gap-y-5">
+      <div className="px-6 py-6 flex flex-col justify-center items-center border-2 border-solid rounded-[10px] w-full text-center text-xs gap-y-5" style={{
+          borderColor: `#${shop?.lightBrandColour}`,
+          backgroundColor: getTransBackgroundColor(
+            `#${shop?.lightBrandColour}`,
+            0.2
+          ),
+        }}>
         <div className="">
           <span className="text-base font-semibold pb-4">{isGift? `Congrats ${giftCard?.receiverDetails.name}!`: `Thank you!`} </span>
           <br />
