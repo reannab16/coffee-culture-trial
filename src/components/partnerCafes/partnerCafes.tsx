@@ -84,13 +84,7 @@ export default function PartnerCafes() {
                       />
                     </div>
                     <div className="flex items-center justify-end">
-                      {/* <div className="flex items-center justify-center p-1 bg-[var(--green)] bg-opacity-80 text-[var(--darkBrown)] text-[10px] rounded-sm px-2">
-                      {"£" +
-                        partnerCafe.packageDetails.price +
-                        " for " +
-                        partnerCafe.packageDetails.drinksAllowance +
-                        " drinks"}{" "}
-                    </div> */}
+                      
                       <Button
                         variant="contained"
                         // color="secondary"
@@ -144,52 +138,7 @@ export default function PartnerCafes() {
     );
 }
 
-// export const partnerCafes: shopType[] = [
-//   {
-//     shopName: "Culture Café",
-//     id: "66a6911a2eedb43421b2ff59",
-//     packageDetails: {
-//       drinksAllowance: 5,
-//       drinksIncluded: ["matcha, espresso, americano"],
-//       price: 15,
-//     },
-//     giftPackage: {
-//       drinksAllowance: 5,
-//       drinksIncluded: ["matcha, espresso, americano"],
-//       price: 20,
-//     },
-//     featureSRC:
-//       "https://raw.githubusercontent.com/Coffee-Culture-UK/coffee-culture-trial-frontend/main/public/cultureCaf%C3%A9Banner.png",
-//     logoSRC:
-//       "https://raw.githubusercontent.com/Coffee-Culture-UK/coffee-culture-trial-frontend/main/public/cultureCaf%C3%A9Logo.png",
-//     postcode: "NW87JD",
-//     address: "Beverly House, 133 Park Road",
-//     phone: "01234567890",
-//     about:
-//       "Family run business, located just off of Baker Street. We don’t really sell coffee though, very sorry!",
-//   },
-//   {
-//     shopName: "Culture Café 2",
-//     id: "66a6911a2eedb43421b2ff59",
-//     packageDetails: {
-//       drinksAllowance: 5,
-//       drinksIncluded: ["matcha, espresso, americano"],
-//       price: 15,
-//     },
-//     giftPackage: {
-//       drinksAllowance: 5,
-//       drinksIncluded: ["matcha, espresso, americano"],
-//       price: 20,
-//     },
-//     featureSRC:
-//       "https://raw.githubusercontent.com/Coffee-Culture-UK/coffee-culture-trial-frontend/main/public/cultureCaf%C3%A9Banner.png",
-//     logoSRC:
-//       "https://raw.githubusercontent.com/Coffee-Culture-UK/coffee-culture-trial-frontend/main/public/cultureCaf%C3%A9Logo.png",
-//     postcode: "NW87JD",
-//     address: "Beverly House, 133 Park Road",
-//     phone: "01234567890",
-//   },
-// ];
+
 
 export interface ShopResponse {
   statusCode: number;
