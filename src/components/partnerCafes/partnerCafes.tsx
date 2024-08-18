@@ -111,12 +111,12 @@ export default function PartnerCafes() {
                           );
                         }}
                       >
-                        {"£" +
+                        {partnerCafe.prepaidCardPackage && ("£" +
                           partnerCafe.prepaidCardPackage.price +
                           " for " +
                           partnerCafe.prepaidCardPackage.drinksAllowance +
-                          " drinks"}
-                        <Divider
+                          " drinks")}
+                        {partnerCafe.prepaidCardPackage && partnerCafe.giftCardPackage && <Divider
                           orientation="vertical"
                           flexItem
                           sx={{
@@ -124,8 +124,8 @@ export default function PartnerCafes() {
                             marginX: "4px",
                             opacity: 1,
                           }}
-                        />
-                        {"£" + partnerCafe.giftCardPackage.price + " gift card"}
+                        />}
+                        {partnerCafe.giftCardPackage && ("£" + partnerCafe.giftCardPackage.price + " gift card")}
                       </Button>
                     </div>
                   </div>
