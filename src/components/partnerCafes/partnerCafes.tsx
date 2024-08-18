@@ -56,89 +56,98 @@ export default function PartnerCafes() {
           </div>
           <div className="flex items-start justify-center gap-y-5 flex-wrap w-full gap-x-5">
             {partnerCafes.map((partnerCafe) => {
-              return (
-                <div
-                  className={`h-32 w-full min-w-60 rounded-xl max-w-80 relative`}
-                  key={partnerCafe._id}
-                  style={{
-                    backgroundImage: `url(${partnerCafe.featureImage})`,
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                  }}
-                >
-                  <div className="absolute top-0 bottom-0 text-[var(--backgroundColour)] left-0 right-0 bg-gradient-to-b from-[var(--darkBrown30)] to-[#2f211a] rounded-xl opacity-90 flex flex-col items-between justify-between p-3">
-                    <div className="flex items-start justify-between">
-                      <div className="flex flex-col pt-4 pl-4">
-                        <div className="font-medium text-base">
-                          {partnerCafe.shopName}
+              if (
+                partnerCafe.prepaidCardPackage ||
+                partnerCafe.giftCardPackage
+              ) {
+                return (
+                  <div
+                    className={`h-32 w-full min-w-60 rounded-xl max-w-80 relative`}
+                    key={partnerCafe._id}
+                    style={{
+                      backgroundImage: `url(${partnerCafe.featureImage})`,
+                      backgroundSize: "cover",
+                      backgroundPosition: "center",
+                    }}
+                  >
+                    <div className="absolute top-0 bottom-0 text-[var(--backgroundColour)] left-0 right-0 bg-gradient-to-b from-[var(--darkBrown30)] to-[#2f211a] rounded-xl opacity-90 flex flex-col items-between justify-between p-3">
+                      <div className="flex items-start justify-between">
+                        <div className="flex flex-col pt-4 pl-4">
+                          <div className="font-medium text-base">
+                            {partnerCafe.shopName}
+                          </div>
+                          <div className="text-[10px] font-light">
+                            {partnerCafe.postcode}
+                          </div>
                         </div>
-                        <div className="text-[10px] font-light">
-                          {partnerCafe.postcode}
-                        </div>
+
+                        <img
+                          src={partnerCafe.logo}
+                          alt={partnerCafe.shopName + " logo"}
+                          className="w-10 h-10"
+                        />
                       </div>
-
-                      <img
-                        src={partnerCafe.logo}
-                        alt={partnerCafe.shopName + " logo"}
-                        className="w-10 h-10"
-                      />
-                    </div>
-                    <div className="flex items-center justify-end">
-                      
-                      <Button
-                        variant="contained"
-                        // color="secondary"
-                        sx={{
-                          fontWeight: "400",
-                          fontSize: "10px",
-                          paddingX: "12px",
-                          opacity: 100,
-                          color: secondary.contrastText,
-                          backgroundColor: `#${partnerCafe.lightBrandColour}`,
-
-                          "&:hover": {
-                            backgroundColor: getHoverColor(
-                              `#${partnerCafe?.lightBrandColour}`
-                            ),
-                          },
-                        }}
-                        disableElevation
-                        onClick={() => {
-                          router.push(
-                            partnerCafe.shopName.replaceAll(" ", "-") +
-                              "-" +
-                              partnerCafe._id
-                          );
-                        }}
-                      >
-                        {partnerCafe.prepaidCardPackage && ("£" +
-                          partnerCafe.prepaidCardPackage.price +
-                          " for " +
-                          partnerCafe.prepaidCardPackage.drinksAllowance +
-                          " drinks")}
-                        {partnerCafe.prepaidCardPackage && partnerCafe.giftCardPackage && <Divider
-                          orientation="vertical"
-                          flexItem
+                      <div className="flex items-center justify-end">
+                        <Button
+                          variant="contained"
+                          // color="secondary"
                           sx={{
-                            color: primary.main,
-                            marginX: "4px",
-                            opacity: 1,
+                            fontWeight: "400",
+                            fontSize: "10px",
+                            paddingX: "12px",
+                            opacity: 100,
+                            color: secondary.contrastText,
+                            backgroundColor: `#${partnerCafe.lightBrandColour}`,
+
+                            "&:hover": {
+                              backgroundColor: getHoverColor(
+                                `#${partnerCafe?.lightBrandColour}`
+                              ),
+                            },
                           }}
-                        />}
-                        {partnerCafe.giftCardPackage && ("£" + partnerCafe.giftCardPackage.price + " gift card")}
-                      </Button>
+                          disableElevation
+                          onClick={() => {
+                            router.push(
+                              partnerCafe.shopName.replaceAll(" ", "-") +
+                                "-" +
+                                partnerCafe._id
+                            );
+                          }}
+                        >
+                          {partnerCafe.prepaidCardPackage &&
+                            "£" +
+                              partnerCafe.prepaidCardPackage.price +
+                              " for " +
+                              partnerCafe.prepaidCardPackage.drinksAllowance +
+                              " drinks"}
+                          {partnerCafe.prepaidCardPackage &&
+                            partnerCafe.giftCardPackage && (
+                              <Divider
+                                orientation="vertical"
+                                flexItem
+                                sx={{
+                                  color: primary.main,
+                                  marginX: "4px",
+                                  opacity: 1,
+                                }}
+                              />
+                            )}
+                          {partnerCafe.giftCardPackage &&
+                            "£" +
+                              partnerCafe.giftCardPackage.price +
+                              " gift card"}
+                        </Button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              );
+                );
+              } else return <></>;
             })}
           </div>
         </div>
       </Suspense>
     );
 }
-
-
 
 export interface ShopResponse {
   statusCode: number;
