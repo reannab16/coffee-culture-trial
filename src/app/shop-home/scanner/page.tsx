@@ -11,6 +11,11 @@ import QrScanner from "qr-scanner";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { divide } from "lodash";
 import RedeemDrink from "@/components/shopHome/redeemDrink";
+import { getHoverColor } from "../page";
+import { shopType } from "@/stores/for-customer-store";
+import { base } from "@/api/endpoints";
+import { useQuery } from "react-query";
+import { useAuthStore } from "@/stores/auth-store";
 
 export default function Scanner() {
   const scanner = useRef<QrScanner>();
@@ -29,6 +34,7 @@ export default function Scanner() {
   const searchParams = useSearchParams();
   const cardId = searchParams.get("cardId");
   const success = searchParams.get("success");
+  const {session} = useAuthStore();
 
   function Search() {
     const searchParams = useSearchParams();
@@ -101,6 +107,24 @@ export default function Scanner() {
         );
     }, [qrOn]);
 
+    const fetchShopDetails = async (shopId: string): Promise<shopType> => {
+      const response = await base.get(`/trial/shop/${shopId}`);
+      return response.data.data;
+    };
+  
+    const {
+      data: fetchedShop,
+      error: shopError,
+      isLoading: isShopLoading,
+    } = useQuery(
+      ["shopDetails", session?.shopId],
+      () =>
+        session ? fetchShopDetails(session?.shopId) : Promise.reject("No shopId"),
+      {
+        enabled: !!session?.shopId,
+      }
+    );
+
     return (
       <div className="flex items-start justify-center min-h-screen">
         <div className="container flex flex-col justify-start items-center mt-[72px] p-10 max-w-[500px] gap-y-5">
@@ -120,15 +144,19 @@ export default function Scanner() {
           )}
           <Button
             variant="contained"
-            color="secondary"
             sx={{
               fontWeight: "400",
               fontSize: "12px",
               paddingX: "24px",
               height: "44px",
+              color: `#${fetchedShop?.lightBrandColour}`,
+              backgroundColor: `#${fetchedShop?.lightBrandColour}`,
+              typography: "shopButtons",
 
               "&:hover": {
-                backgroundColor: "#AFAF81",
+                backgroundColor: getHoverColor(
+                  `#${fetchedShop?.lightBrandColour}`
+                ),
               },
             }}
             disableElevation

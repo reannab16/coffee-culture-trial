@@ -10,6 +10,7 @@ import { shopType } from "@/stores/for-customer-store";
 import { useQuery } from "react-query";
 import axios from "axios";
 import { base } from "@/api/endpoints";
+import { getHoverColor } from "@/app/shop-home/page";
 // import { useCartStore } from "@/stores/cart-store";
 // import {shopType, useForCustomersStore} from "@/stores/for-customer-store";
 
@@ -101,7 +102,9 @@ export default function PartnerCafes() {
                           backgroundColor: `#${partnerCafe.lightBrandColour}`,
 
                           "&:hover": {
-                            backgroundColor: "#AFAF81",
+                            backgroundColor: getHoverColor(
+                              `#${partnerCafe?.lightBrandColour}`
+                            ),
                           },
                         }}
                         disableElevation

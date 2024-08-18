@@ -81,20 +81,19 @@ export default function NavBar() {
     }
   };
 
-  // console.log(pathname);
 
   useEffect(() => {
     setPageType(isStorePage());
     // console.log(shop, "navbar");
   }, [pathname, shop, session]);
 
-  useEffect(() => {
-    console.log("PageType updated to:", pageType);
-  }, [pageType]);
+  // useEffect(() => {
+  //   console.log("PageType updated to:", pageType);
+  // }, [pageType]);
 
-  useEffect(() => {
-    console.log("Session updated:", session);
-  }, [session]);
+  // useEffect(() => {
+  //   console.log("Session updated:", session);
+  // }, [session]);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -119,7 +118,6 @@ export default function NavBar() {
     () => (session ? fetchShopDetails(session?.shopId) : Promise.reject("No shopId")),
     {
       enabled: pageType == PageType.ShopHome && !!session?.shopId,
-
     }
   );
 

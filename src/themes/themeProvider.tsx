@@ -27,8 +27,12 @@ export default function ThemeProvider({ children }: Props) {
                     fontFamily: 'Inter',
                     button: {
                         textTransform: 'none',
-                        
-                        
+                        fontSize: '14px',
+                    },
+                    shopButtons: {
+                        fontFamily: 'Inter',
+                        color: '#2f211a',
+                        fontSize: '12px'
                     }
                 },
                 // overrides: {
