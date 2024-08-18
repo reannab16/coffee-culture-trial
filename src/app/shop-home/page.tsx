@@ -4,6 +4,7 @@ import LoadingTopbar from "@/components/progressBar/loadingTopBar";
 import { useAuthStore } from "@/stores/auth-store";
 import { shopType, useForCustomersStore } from "@/stores/for-customer-store";
 import { secondary } from "@/themes/customs/palette";
+import { getHoverColor, getTransBackgroundColor } from "@/utils/colourUtils";
 import {
   AssessmentOutlined,
   ManageAccountsOutlined,
@@ -108,18 +109,7 @@ export default function ShopHome() {
   }
 }
 
-export const getHoverColor = (backgroundColor: string) => {
-  const shadowColor = "#2f211a";
-  // const color = tinycolor(backgroundColor);
-  // return color.clone().darken(15).toString();
-  const color = tinycolor.mix(backgroundColor, shadowColor, 10);
-  return color.clone().toString();
-};
 
-export const getTransBackgroundColor = (backgroundColor: string) => {
-  const color = tinycolor(backgroundColor);
-  return color.clone().setAlpha(0.2).toString();
-};
 
 const shopHomeLinks = [
   {

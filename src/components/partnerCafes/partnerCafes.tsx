@@ -10,7 +10,8 @@ import { shopType } from "@/stores/for-customer-store";
 import { useQuery } from "react-query";
 import axios from "axios";
 import { base } from "@/api/endpoints";
-import { getHoverColor } from "@/app/shop-home/page";
+import { getHoverColor } from "@/utils/colourUtils";
+
 // import { useCartStore } from "@/stores/cart-store";
 // import {shopType, useForCustomersStore} from "@/stores/for-customer-store";
 

@@ -11,11 +11,12 @@ import QrScanner from "qr-scanner";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { divide } from "lodash";
 import RedeemDrink from "@/components/shopHome/redeemDrink";
-import { getHoverColor } from "../page";
+
 import { shopType } from "@/stores/for-customer-store";
 import { base } from "@/api/endpoints";
 import { useQuery } from "react-query";
 import { useAuthStore } from "@/stores/auth-store";
+import { getHoverColor } from "@/utils/colourUtils";
 
 export default function Scanner() {
   const scanner = useRef<QrScanner>();
