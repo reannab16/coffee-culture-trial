@@ -38,7 +38,7 @@ export default function NavBar() {
   const { shop } = useForCustomersStore();
   const { session, updateSession } = useAuthStore();
   const [isShopHomePage, setIsShopHomePage] = useState(false);
-  const access = Cookies.get('accessToken');
+  const access = Cookies.get("accessToken");
 
   const isStorePage = (): PageType => {
     if (pathname == "/store-login") {
@@ -59,9 +59,9 @@ export default function NavBar() {
   };
 
   enum PageType {
-    Store = 'store',
-    ShopHome = 'shopHome',
-    Culture = 'culture'
+    Store = "store",
+    ShopHome = "shopHome",
+    Culture = "culture",
   }
 
   const [pageType, setPageType] = useState<PageType>(isStorePage());
@@ -80,10 +80,9 @@ export default function NavBar() {
     }
   };
 
-
   useEffect(() => {
     setPageType(isStorePage());
-    // console.log(shop, "navbar");
+    console.log(isStorePage(), pageType);
   }, [pathname, shop, session]);
 
   // useEffect(() => {
@@ -114,7 +113,8 @@ export default function NavBar() {
     isLoading: isShopLoading,
   } = useQuery(
     ["shopDetails", session?.shopId],
-    () => (session ? fetchShopDetails(session?.shopId) : Promise.reject("No shopId")),
+    () =>
+      session ? fetchShopDetails(session?.shopId) : Promise.reject("No shopId"),
     {
       enabled: pageType == PageType.ShopHome && !!session?.shopId,
     }
@@ -132,24 +132,36 @@ export default function NavBar() {
       onClick={toggleDrawer(false)}
     >
       <List>
-        {navLinks.map((navLink) => (
-          <ListItem key={navLink.title} disablePadding>
-            <ListItemButton
-              onClick={() => {
-                router.push(navLink.path);
-              }}
-            >
-              <ListItemText primary={navLink.title} />
-            </ListItemButton>
-          </ListItem>
-        ))}
+        {pageType !== PageType.ShopHome
+          ? navLinks.map((navLink) => (
+              <ListItem key={navLink.title} disablePadding>
+                <ListItemButton
+                  onClick={() => {
+                    router.push(navLink.path);
+                  }}
+                >
+                  <ListItemText primary={navLink.title} />
+                </ListItemButton>
+              </ListItem>
+            ))
+          : shopHomeLinks.map((navLink) => (
+              <ListItem key={navLink.title} disablePadding>
+                <ListItemButton
+                  onClick={() => {
+                    router.push(navLink.path);
+                  }}
+                >
+                  <ListItemText primary={navLink.title} />
+                </ListItemButton>
+              </ListItem>
+            ))}
         <ListItem disablePadding>
           <ListItemButton
             onClick={async () => {
-              if (Cookies.get('accessToken')) {
+              if (Cookies.get("accessToken")) {
                 router.push("/");
-                await Cookies.remove('accessToken');
-                await Cookies.remove('refreshToken');
+                await Cookies.remove("accessToken");
+                await Cookies.remove("refreshToken");
                 await updateSession(null);
               } else {
                 router.push("/store-login");
@@ -167,125 +179,126 @@ export default function NavBar() {
   );
 
   if (isShopLoading) {
-    return <LoadingTopbar/>
+    return <LoadingTopbar />;
   } else
-
-  return (
-    <div className={`${canSee ? "block" : "hidden"}`}>
-      <Slide appear={false} direction="down" in={!visible}>
-        <AppBar
-          sx={{
-            display: "flex",
-            backgroundColor: primary.background,
-            alignItems: "center",
-            justifyContent: "center",
-            padding: "16px",
-          }}
-          elevation={0}
-        >
-          <div className="container flex items-center justify-between relative">
-            {pageType == PageType.Store && (
-              <div className="flex items-center justify-start gap-x-2">
-                {shop && (
-                  <div className="flex items-center justify-start gap-x-2">
-                    <img src={shop.logo} alt="" className="w-7 h-7" />
-                    <div className="flex flex-col items-start justify-center text-[var(--darkBrown)]">
-                      <div className="text-lg -mb-[5px] font-medium">
-                        {shop.shopName}
-                      </div>
-                      <div className="text-[10px] flex items-end justify-center italic">
-                        <span className="pr-[1px]">x c</span>
-                        <SmolLogo className="mb-[3px]" />
-                        <span>ffee culture</span>
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-            )}
-            {pageType == PageType.ShopHome && (
-              <div className="flex items-center justify-start gap-x-2">
-                {fetchedShop && (
-                  <div className="flex items-center justify-start gap-x-2">
-                    <img src={fetchedShop?.logo} alt="" className="w-7 h-7" />
-                    <div className="flex flex-col items-start justify-center text-[var(--darkBrown)]">
-                      <div className="text-lg -mb-[5px] font-medium">
-                        {fetchedShop?.shopName}
-                      </div>
-                      <div className="text-[10px] flex items-end justify-center italic">
-                        <span className="pr-[1px]">x c</span>
-                        <SmolLogo className="mb-[3px]" />
-                        <span>ffee culture</span>
+    return (
+      <div className={`${canSee ? "block" : "hidden"}`}>
+        <Slide appear={false} direction="down" in={!visible}>
+          <AppBar
+            sx={{
+              display: "flex",
+              backgroundColor: primary.background,
+              alignItems: "center",
+              justifyContent: "center",
+              padding: "16px",
+            }}
+            elevation={0}
+          >
+            <div className="container flex items-center justify-between relative">
+              {pageType == PageType.Store && (
+                <div className="flex items-center justify-start gap-x-2">
+                  {shop && (
+                    <div className="flex items-center justify-start gap-x-2">
+                      <img src={shop.logo} alt="" className="w-7 h-7" />
+                      <div className="flex flex-col items-start justify-center text-[var(--darkBrown)]">
+                        <div className="text-lg -mb-[5px] font-medium">
+                          {shop.shopName}
+                        </div>
+                        <div className="text-[10px] flex items-end justify-center italic">
+                          <span className="pr-[1px]">x c</span>
+                          <SmolLogo className="mb-[3px]" />
+                          <span>ffee culture</span>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                )}
-              </div>
-            )}
-            {pageType == PageType.Culture && (
-              <LongLogo className="h-6 w-auto" />
-            )}
+                  )}
+                </div>
+              )}
+              {pageType == PageType.ShopHome && (
+                <div className="flex items-center justify-start gap-x-2">
+                  {fetchedShop && (
+                    <div className="flex items-center justify-start gap-x-2">
+                      <img src={fetchedShop?.logo} alt="" className="w-7 h-7" />
+                      <div className="flex flex-col items-start justify-center text-[var(--darkBrown)]">
+                        <div className="text-lg -mb-[5px] font-medium">
+                          {fetchedShop?.shopName}
+                        </div>
+                        <div className="text-[10px] flex items-end justify-center italic">
+                          <span className="pr-[1px]">x c</span>
+                          <SmolLogo className="mb-[3px]" />
+                          <span>ffee culture</span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+              {pageType == PageType.Culture && (
+                <LongLogo className="h-6 w-auto" />
+              )}
 
-            <div className="md:flex items-center justify-center gap-x-1  hidden">
-              {pageType !== PageType.ShopHome ? navLinks.map((link) => {
-                return (
-                  <Button
-                    key={link.title}
-                    // className={`${inter.className} `}
-                    color="primary"
-                    sx={{
-                      fontSize: "12px",
-                      fontWeight: "300",
-                      borderRadius: "9999px",
-                      paddingX: "16px",
-                      ":hover": {},
-                    }}
-                    onClick={() => {
-                      router.push(link.path);
-                    }}
-                  >
-                    {link.title}
-                  </Button>
-                );
-              }) : shopHomeLinks.map((link) => {
-                return (
-                  <Button
-                    key={link.title}
-                    // className={`${inter.className} `}
-                    color="primary"
-                    sx={{
-                      fontSize: "12px",
-                      fontWeight: "300",
-                      borderRadius: "9999px",
-                      paddingX: "16px",
-                      ":hover": {},
-                    }}
-                    onClick={() => {
-                      router.push(link.path);
-                    }}
-                  >
-                    {link.title}
-                  </Button>
-                );
-              })}
-              <Button
-                // className={`${inter.className} `}
-                color="primary"
-                sx={{
-                  fontSize: "12px",
-                  fontWeight: "300",
-                  borderRadius: "9999px",
-                  paddingX: "16px",
-                  ":hover": {},
-                }}
-                onClick={() => {
-                  router.push("/store-login");
-                }}
-              >
-                Store login
-              </Button>
-            </div>
-            {/* <Button
+              <div className="md:flex items-center justify-center gap-x-1  hidden">
+                {pageType !== PageType.ShopHome
+                  ? navLinks.map((link) => {
+                      return (
+                        <Button
+                          key={link.title}
+                          // className={`${inter.className} `}
+                          color="primary"
+                          sx={{
+                            fontSize: "12px",
+                            fontWeight: "300",
+                            borderRadius: "9999px",
+                            paddingX: "16px",
+                            ":hover": {},
+                          }}
+                          onClick={() => {
+                            router.push(link.path);
+                          }}
+                        >
+                          {link.title}
+                        </Button>
+                      );
+                    })
+                  : shopHomeLinks.map((link) => {
+                      return (
+                        <Button
+                          key={link.title}
+                          // className={`${inter.className} `}
+                          color="primary"
+                          sx={{
+                            fontSize: "12px",
+                            fontWeight: "300",
+                            borderRadius: "9999px",
+                            paddingX: "16px",
+                            ":hover": {},
+                          }}
+                          onClick={() => {
+                            router.push(link.path);
+                          }}
+                        >
+                          {link.title}
+                        </Button>
+                      );
+                    })}
+                <Button
+                  // className={`${inter.className} `}
+                  color="primary"
+                  sx={{
+                    fontSize: "12px",
+                    fontWeight: "300",
+                    borderRadius: "9999px",
+                    paddingX: "16px",
+                    ":hover": {},
+                  }}
+                  onClick={() => {
+                    router.push("/store-login");
+                  }}
+                >
+                  Store login
+                </Button>
+              </div>
+              {/* <Button
               variant="contained"
               // className={`${inter.className}`}
               color="secondary"
@@ -302,19 +315,23 @@ export default function NavBar() {
             >
               Sign Up
             </Button> */}
-            <div className="block md:hidden">
-              <IconButton onClick={toggleDrawer(true)}>
-                <MenuRoundedIcon sx={{ color: primary.main }} />
-              </IconButton>
-              <Drawer open={open} onClose={toggleDrawer(false)} anchor="right">
-                {DrawerList}
-              </Drawer>
+              <div className="block md:hidden">
+                <IconButton onClick={toggleDrawer(true)}>
+                  <MenuRoundedIcon sx={{ color: primary.main }} />
+                </IconButton>
+                <Drawer
+                  open={open}
+                  onClose={toggleDrawer(false)}
+                  anchor="right"
+                >
+                  {DrawerList}
+                </Drawer>
+              </div>
             </div>
-          </div>
-        </AppBar>
-      </Slide>
-    </div>
-  );
+          </AppBar>
+        </Slide>
+      </div>
+    );
 }
 
 const navLinks = [
