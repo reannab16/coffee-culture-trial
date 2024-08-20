@@ -49,6 +49,10 @@ export const secondary = {
     contrastText: "#2F211A",
 };
 
+export const info = {
+    main: "#2F211A"
+}
+
 const base = {
     primary,
     secondary,

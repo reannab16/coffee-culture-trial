@@ -137,7 +137,7 @@ export default function RedeemDrink({
           }}
           fullWidth
         >
-          redeem drink
+          Redeem drink
         </Button>
       </div>
     </div>

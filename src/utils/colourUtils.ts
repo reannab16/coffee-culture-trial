@@ -8,7 +8,14 @@ export const getHoverColor = (backgroundColor: string) => {
     return color.clone().toString();
   };
   
-  export const getTransBackgroundColor = (backgroundColor: string, alpha: number) => {
+export const getTransBackgroundColor = (backgroundColor: string, alpha: number) => {
     const color = tinycolor(backgroundColor);
     return color.clone().setAlpha(alpha).toString();
+  };
+
+export const getMixColor = (backgroundColor: string, mixColour: string) => {
+    // const color = tinycolor(backgroundColor);
+    // return color.clone().darken(15).toString();
+    const color = tinycolor.mix(backgroundColor, mixColour, 80);
+    return color.clone().toString();
   };

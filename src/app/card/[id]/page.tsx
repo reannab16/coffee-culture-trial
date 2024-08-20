@@ -168,8 +168,8 @@ export interface GiftCard {
     name: string;
     contactNumber: string;
   };
-  drinksIncluded: string;
-  drinksExcluded: string;
+  drinksIncluded: string[];
+  drinksExcluded: string[];
 }
 
 export interface GetPrepaid {

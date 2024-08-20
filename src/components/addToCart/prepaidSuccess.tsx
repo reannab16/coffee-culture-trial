@@ -102,13 +102,13 @@ export default function PrepaidSuccess({
             />
             {card && <div>
               {card?.drinksIncluded
-                ? `Valid drinks: ${card?.drinksIncluded}`
-                : `All drinks, excluding: ${card?.drinksExcluded}`}
+                ? `Valid drinks: ${card?.drinksIncluded.join(', ')}`
+                : `All drinks, excluding: ${card?.drinksExcluded.join(', ')}`}
             </div>}
             {giftCard && <div>
               {giftCard?.drinksIncluded
-                ? `Valid drinks: ${giftCard?.drinksIncluded}`
-                : `All drinks, excluding: ${giftCard?.drinksExcluded}`}
+                ? `Valid drinks: ${giftCard?.drinksIncluded.join(', ')}`
+                : `All drinks, excluding: ${giftCard?.drinksExcluded.join(', ')}`}
             </div>}
           </div>
           <div className="flex">

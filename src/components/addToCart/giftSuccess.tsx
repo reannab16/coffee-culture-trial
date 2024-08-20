@@ -3,6 +3,7 @@ import React from "react";
 import { SmolLogo } from "../navigation/icons";
 import { CardResponse, GiftCardResponse } from "@/app/success/page";
 import { getTransBackgroundColor } from "@/utils/colourUtils";
+import CopyButton from "../utils/copyToClipBoard";
 
 export default function GiftSuccess({
   shop,
@@ -70,6 +71,7 @@ export default function GiftSuccess({
                   <span className="text-wrap break-words underline">
                     {card.url}
                   </span>
+                  <CopyButton textToCopy={card.url}/>
                 </li>
                 <li>Send it to your lucky recipient when you&apos;re ready</li>
                 <li>

@@ -3,7 +3,7 @@ import { packageType } from "@/stores/for-customer-store";
 import React, { useCallback } from "react";
 import { Button } from "@mui/material";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { getHoverColor, getTransBackgroundColor } from "@/utils/colourUtils";
+import { getHoverColor, getTransBackgroundColor, getMixColor } from "@/utils/colourUtils";
 
 export default function PackageBlock({
   isGift,
@@ -30,16 +30,17 @@ export default function PackageBlock({
     [searchParams]
   );
 
+
   return (
     <div
       className="border-solid border-2 flex flex-col items-center justify-center rounded-xl max-w-96"
       style={{
         borderColor: `#${lightBrandColour}`,
-        backgroundColor: getTransBackgroundColor(`#${lightBrandColour}`, 0.2),
+        backgroundColor: getMixColor(`#${lightBrandColour}`, "#E1D6CC"),
       }}
     >
       <div
-        className=" flex items-stretch justify-center h-auto"
+        className=" flex items-stretch justify-center h-auto rounded-t-xl"
         style={{
           backgroundColor: getTransBackgroundColor(`#${lightBrandColour}`, 0.2),
         }}
@@ -69,7 +70,7 @@ export default function PackageBlock({
           <ul className="text-xs flex flex-col gap-y-2">
             <li>
               {packageDetails.drinksIncluded &&
-                `Valid drinks: ${packageDetails.drinksIncluded.join()}`}
+                `Valid drinks: ${packageDetails.drinksIncluded.join(', ')}`}
             </li>
             <li>
               {isGift
@@ -84,7 +85,7 @@ export default function PackageBlock({
           </ul>
         </div>
         <div
-          className="py-3 px-3 text-center z-10 text-xs font-light italic"
+          className="py-3 px-3 text-center z-10 text-xs font-light italic rounded-tr-lg"
           style={{ writingMode: "vertical-lr", backgroundColor: getTransBackgroundColor(`#${lightBrandColour}`, 0.5) }}
         >
           {isGift ? "gift card" : "save 20%"}

@@ -98,8 +98,8 @@ export interface PrepaidCardResponse {
   qrCodeUrl: string;
   drinksLeft: number;
   drinksAllowance: number;
-  drinksIncluded: string;
-  drinksExcluded: string;
+  drinksIncluded: string[];
+  drinksExcluded: string[];
   shopId: string;
 }
 
