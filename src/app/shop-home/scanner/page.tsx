@@ -58,7 +58,6 @@ export default function Scanner() {
         cardId: scannedResult.cardId,
         type: scannedResult.type,
       });
-      console.log(JSON.parse(result?.data));
       router.push(
         pathname +
           "?" +

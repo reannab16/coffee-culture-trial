@@ -52,7 +52,6 @@ export default function NavBar() {
     for (const link of shopHomeLinks) {
       if (link.path == pathname) {
         //here
-        console.log("passing through shop home links")
         return PageType.ShopHome;
       }
     }
@@ -147,7 +146,6 @@ export default function NavBar() {
         <ListItem disablePadding>
           <ListItemButton
             onClick={async () => {
-              console.log("going through here at least")
               if (Cookies.get('accessToken')) {
                 router.push("/");
                 await Cookies.remove('accessToken');

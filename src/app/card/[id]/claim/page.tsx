@@ -57,7 +57,6 @@ export default function Claim({ params }: { params: { id: string } }) {
   useEffect(() => {
     if (fetchedShop) {
       updateShopSelected(fetchedShop);
-      console.log(shop);
     }
   }, [fetchedShop]);
 
@@ -77,7 +76,6 @@ const claimGiftMutation = useMutation({
           `/trial/card/giftCard/claim`,
           values
         );
-        console.log(response?.status);
         if (response.status >= 200 && response.status < 300) {
           const session = await response.data;
           return session;
@@ -106,7 +104,6 @@ const claimGiftMutation = useMutation({
     },
     onError: (error: any) => {
       //   toast.error("Failed to register user");
-      console.log("going");
       console.log(error);
     },
   });

@@ -27,7 +27,6 @@ export default function PartnerCafes() {
     ["partnerCafes"],
     async (): Promise<shopType[]> => {
       const response = await base.get<ShopResponse>("/trial/shop");
-      console.log(response.data);
       return response.data.data;
     }
   );

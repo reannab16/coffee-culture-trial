@@ -57,7 +57,6 @@ function SuccessfulPurchaseComponent({ sessionId }: { sessionId: string | null }
   useEffect(() => {
     if (fetchedShop) {
       updateShopSelected(fetchedShop);
-      console.log(shop)
     }
   }, [fetchedShop]);
 

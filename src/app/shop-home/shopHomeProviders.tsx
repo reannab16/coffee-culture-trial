@@ -50,7 +50,6 @@ const ShopHomeProviders: React.FC<Props> = ({ children }) => {
       return response.data.data;
     },
     onSuccess: (response: any) => {
-      console.log("going through here again??")
       Cookies.set('accessToken', response.accessToken, {expires: oneHourFromNow}) 
       Cookies.set('refreshToken', response.refreshToken, {expires: 7});
       updateSession({accessToken:response.accessToken, signedIn: false, shopId: session?.shopId || '', email: session?.email || ''});

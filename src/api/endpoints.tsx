@@ -26,11 +26,9 @@ class Endpoints {
       email,
       password,
     };
-    console.log(payload);
     try {
       const response = await base.post(`/trial/shop/login`, payload);
       if (response.status >= 200 && response.status < 300) {
-        console.log(response.data);
         return response.data;
       } else {
         
@@ -58,11 +56,9 @@ class Endpoints {
       email,
       password,
     };
-    console.log(payload);
     try {
       const response = await base.post(`/trial/shop/login`, payload);
       if (response.status >= 200 && response.status < 300) {
-        console.log(response.data);
         return response.data;
       } else {
         

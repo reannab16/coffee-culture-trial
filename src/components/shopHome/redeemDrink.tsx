@@ -48,7 +48,6 @@ export default function RedeemDrink({
     }
   });
 
-  console.log(cardId, shopId, type)
 
   const {
     data: card,
@@ -70,21 +69,20 @@ export default function RedeemDrink({
   const redeemMutation = useMutation({
     mutationFn: async (values: { cardId: string, shopId: string, type: string,  }) => {
       //   return Endpoints.loginShopUser(values);
-      console.log("passing")
+
       const config = {
         headers: {
             'x-auth-token': token 
         }
     }
 
-    console.log(config.headers)
+
 
       const response = await base.patch(`/trial/card/decrement-drinks?cardId=${cardId}&shopId=${shopId}&type=${type}`,{}, config);
       return response.data.data;
     },
     onSuccess: (response: any) => {
       queryClient.invalidateQueries(["cardSuccess", cardId]);
-      console.log("invalidated", cardId)
       router.push("/shop-home/scanner/success" + "?cardId=" + cardId + "&type=" + type);
     },
     onError: (error: any) => {

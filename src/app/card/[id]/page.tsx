@@ -53,7 +53,6 @@ export default function GiftCardPage({ params }: { params: { id: string } }) {
   useEffect(() => {
     if (fetchedShop) {
       updateShopSelected(fetchedShop);
-      console.log(shop);
     }
   }, [fetchedShop]);
 

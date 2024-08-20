@@ -20,7 +20,6 @@ export default function AddToCart() {
   const { shop } = useForCustomersStore();
   const [loading, setLoading] = useState(true);
   const shopCookieString = Cookies.get('cc-v1-shop');
-  console.log(shop);
   let shopCookie: shopType | undefined = undefined;
 
   const [foundShop, setFoundShop] = useState<shopType | null>();
@@ -51,7 +50,6 @@ export default function AddToCart() {
         );
       })
       if (foundShop) {
-        console.log("passing heree")
         updateShopSelected(foundShop);
       }
     }

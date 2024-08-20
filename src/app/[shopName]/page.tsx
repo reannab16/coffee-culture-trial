@@ -38,7 +38,6 @@ export default function ShopPage({ params }: { params: { shopName: string } }) {
         );
       })
       if (foundShop) {
-        console.log("passing heree")
         updateShopSelected(foundShop);
       }
     }

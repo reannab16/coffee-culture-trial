@@ -37,19 +37,10 @@ export default function Add({
     type: "giftCard",
   });
   const isGift = selected == "gift";
-
-  console.log(shop);
-  console.log(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
   const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!);
 
   const handleSubmit = async () => {
-    // e.preventDefault();
-    // if (user.userType == UserType.SHOP) {
-    //   registerShopMutation.mutate({email: user.email, password: user.password, firstName: user.firstName})
-    // }
-    // isGift ? console.log(giftCardDetails) : console.log(packageDetails);
     if (isGift) {
-      console.log(giftCardDetails);
       registerBundleMutation.mutate({
         shopId: giftCardDetails.shopId!,
         type: giftCardDetails.type,
@@ -62,7 +53,6 @@ export default function Add({
         message: giftCardDetails.senderMessage,
       });
     } else {
-      console.log(packageDetails);
       registerBundleMutation.mutate({
         email: packageDetails.email,
         shopId: packageDetails.shopId!,
@@ -88,12 +78,10 @@ export default function Add({
     }) => {
       // return Endpoints.registerShopUser(values);
       try {
-        console.log(values.shopId);
         const response = await base.post(
           `/trial/payments/create-checkout-session`,
           values
         );
-        console.log(response?.status);
         if (response.status >= 200 && response.status < 300) {
           const session = await response.data;
           return session;
@@ -135,7 +123,6 @@ export default function Add({
     },
     onError: (error: any) => {
       //   toast.error("Failed to register user");
-      console.log("going");
       console.log(error);
     },
   });

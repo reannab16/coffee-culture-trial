@@ -27,25 +27,13 @@ export default function StoreLogin() {
       return Endpoints.loginShopUser(values);
     },
     onSuccess: (response: any) => {
-      console.log(response.data);
-      console.log("login", response);
       updateSession({accessToken: response.data.accessToken, email: response.data.email, shopId: response.data.shopId, signedIn: true });
       Cookies.set('accessToken', response.data.accessToken, { expires: oneHourFromNow });
       Cookies.set('refreshToken', response.data.refreshToken, { expires: 7 });
-
-      console.log(session);
       router.push("/shop-home");
     },
     onError: (error: any) => {
       toast.error(`Login failed, ${error.message}`);
-
-      // if (error.errors) {
-      //   setErrorState({email: undefined, password: undefined});
-      //   console.log(errorState);
-      //   error.errors.forEach((error: {field: string; message: string})=>{
-      //     setErrorState({...errorState, [error.field]: error.message})
-      //   })
-      // }
 
       if (error.errors) {
         const newErrorState = error.errors.reduce((acc: { [key: string]: string | undefined }, curr: { field: string; message: string }) => {

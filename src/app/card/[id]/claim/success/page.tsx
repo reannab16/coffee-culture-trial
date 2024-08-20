@@ -48,7 +48,6 @@ export default function Success({ params }: { params: { id: string } }) {
   useEffect(() => {
     if (fetchedShop) {
       updateShopSelected(fetchedShop);
-      console.log(shop);
     }
   }, [fetchedShop]);
 
