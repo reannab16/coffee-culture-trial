@@ -13,7 +13,7 @@ export default function GiftSuccess({
   card: GiftCardResponse;
 }) {
   return (
-    <div className="container flex flex-col justify-start items-center px-8 gap-y-5 ">
+    <div className="container flex flex-col justify-start items-center px-8 gap-y-5 max-w-[25rem]">
       <div className="flex flex-col items-center justify-start mt-5">
         <img src={shop?.logo} alt="" className="w-7 h-7" />
         <div className="-mb-[5px] text-lg font-medium">{shop?.shopName}</div>
@@ -39,9 +39,9 @@ export default function GiftSuccess({
         <div className="font-medium uppercase text-sm text-start w-full">
           What to do next?
         </div>
-        <div className="w-[calc(65vw+1.5rem)] relative h-full">
+        <div className="w-[calc(65vw+1.5rem)] relative h-full max-w-[25rem]">
           <div
-            className="absolute top-0 left-0 w-[65vw] h-[50vh] rounded-md -z-10 shadow"
+            className="absolute top-0 left-0 w-[65vw] h-[50vh] rounded-md -z-10 shadow max-w-[23.5rem]"
             style={{
               backgroundColor: getTransBackgroundColor(
                 `#${shop?.lightBrandColour}`,
@@ -49,7 +49,7 @@ export default function GiftSuccess({
               ),
             }}
           ></div>
-          <div className="absolute top-6 left-6 w-[65vw] min-h-[50vh] bg-[var(--backgroundColour)] rounded-md shadow flex flex-col items-center justify-start p-5 gap-y-5">
+          <div className="absolute max-w-[23.5rem] top-6 left-6 w-[65vw] min-h-[50vh] bg-[var(--backgroundColour)] rounded-md shadow flex flex-col items-center justify-start p-5 gap-y-5">
             <div className="text-start text-xs">
               Cheers, {card.senderName}! Your Coffee Gift is Ready to Brew!☕{" "}
               <br /> <br/>

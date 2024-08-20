@@ -128,7 +128,7 @@ export default function Add({
   });
 
   return (
-    <div className="container flex flex-col justify-start items-center px-8 gap-y-5 ">
+    <div className="container flex flex-col justify-start items-center px-8 gap-y-5 max-w-96">
       <div className="flex flex-col items-center justify-start mt-5">
         <img src={shop?.logo} alt="" className="w-7 h-7" />
         <div className="-mb-[5px] text-lg font-medium">{shop?.shopName}</div>

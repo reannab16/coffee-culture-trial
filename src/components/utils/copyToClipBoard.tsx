@@ -16,9 +16,9 @@ const CopyButton = ({ textToCopy }:{textToCopy: string}) => {
   return (
     <CopyToClipboard text={textToCopy} onCopy={handleCopy}>
       <Tooltip title={copied ? "Copied!" : "Copy"} arrow>
-        <IconButton color="inherit" sx={{height: "24px", width: "24px"}}
+        <IconButton sx={{height: "20px", width: "20px", marginX: "4px", color: "primary.contrastText"}}
         >
-            {copied ? <CheckIcon sx={{height: "16px", width: "16px"}} /> : <ContentCopyIcon sx={{height: "16px", width: "16px"}} />}
+            {copied ? <CheckIcon sx={{height: "16px", width: "16px"}} /> : <ContentCopyIcon sx={{height: "13px", width: "13px"}} />}
         </IconButton>
       </Tooltip>
     </CopyToClipboard>
