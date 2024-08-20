@@ -39,7 +39,7 @@ export default function Add({
   const isGift = selected == "gift";
 
   console.log(shop);
-
+  console.log(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
   const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!);
 
   const handleSubmit = async () => {
