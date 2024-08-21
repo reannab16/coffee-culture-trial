@@ -11,13 +11,13 @@
   --mainBrown: #9A5737; 
   --darkText: #4D2512;
   --green: #BCBF8C;
-  --green20: rgb(188, 191, 140, 0.2);
-  --green50: rgb(188, 191, 140, 0.5);
+  --green20: #bcbf8c33;
+  --green50: #bcbf8c80;
   --transChocBrown: rgba(77, 37, 18, 0.102);
   --darkBrown: #2f211a;
   --darkBrown10: rgba(47, 33, 26, 0.10);
   --darkBrown15: rgba(47, 33, 26, 0.15);
-  --darkBrown20: rgba(46, 32, 25, 0.2);
+  --darkBrown20: #2e201933;
   --darkBrown30: rgba(47, 33, 26, 0.302);
   --darkBrown50: rgba(47, 33, 26, 0.5);
   --darkBrown70: rgba(47, 33, 26, 0.7);
