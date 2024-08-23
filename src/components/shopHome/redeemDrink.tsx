@@ -139,6 +139,27 @@ export default function RedeemDrink({
         >
           Redeem drink
         </Button>
+        <Button
+          variant="outlined"
+          color="primary"
+          sx={{
+            fontWeight: "400",
+            fontSize: "12px",
+            paddingX: "24px",
+            height: "44px",
+
+            // "&:hover": {
+            //   backgroundColor: "#AFAF81",
+            // },
+          }}
+          disableElevation
+          onClick={() => {
+            router.push("/shop-home/scanner")
+          }}
+          fullWidth
+        >
+          Return to scanner
+        </Button>
       </div>
     </div>
   );

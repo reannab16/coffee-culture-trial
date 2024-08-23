@@ -72,7 +72,7 @@ export default function PrepaidSuccess({
             style={{ backgroundColor: `#${shop?.lightBrandColour}` }}
           >
             <div>{isGift? giftCard?.drinksAllowance : card?.drinksAllowance} drinks</div>
-            <div className="italic font-light">Enjoy your coffee!</div>
+            <div className="italic font-light">{isGift? `for ${giftCard?.receiverDetails.name} from ${giftCard?.senderDetails.name}`:`Enjoy your coffee!`}</div>
           </div>
         </div>
         <div
@@ -105,10 +105,10 @@ export default function PrepaidSuccess({
                 ? `Valid drinks: ${card?.drinksIncluded.join(', ')}`
                 : `All drinks, excluding: ${card?.drinksExcluded.join(', ')}`}
             </div>}
-            {giftCard && <div>
-              {giftCard?.drinksIncluded
-                ? `Valid drinks: ${giftCard?.drinksIncluded.join(', ')}`
-                : `All drinks, excluding: ${giftCard?.drinksExcluded.join(', ')}`}
+            {giftCard && shop && <div>
+              {shop?.giftCardPackage.drinksIncluded
+                ? `Valid drinks: ${shop?.giftCardPackage.drinksIncluded.join(', ')}`
+                : shop.giftCardPackage.drinksExcluded && `All drinks, excluding: ${shop?.giftCardPackage.drinksExcluded.join(', ')}`}
             </div>}
           </div>
           <div className="flex">

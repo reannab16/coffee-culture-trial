@@ -36,6 +36,16 @@ export default function Scanner() {
   const cardId = searchParams.get("cardId");
   const success = searchParams.get("success");
   const {session} = useAuthStore();
+  const [goneRedeem, setGoneRedeem] = useState(false);
+
+  function closeScanner() {
+    setStartScan(false);
+    window.location.reload();
+  }
+
+  // if (goneRedeem == true) {
+  //   closeScanner();
+  // }
 
   function Search() {
     const searchParams = useSearchParams();
@@ -58,6 +68,8 @@ export default function Scanner() {
         cardId: scannedResult.cardId,
         type: scannedResult.type,
       });
+      setStartScan(false);
+      setGoneRedeem(true);
       router.push(
         pathname +
           "?" +
@@ -161,7 +173,7 @@ export default function Scanner() {
             }}
             disableElevation
             onClick={() => {
-              setStartScan(!startScan);
+              startScan ? closeScanner() : setStartScan(true);
             }}
             fullWidth
           >

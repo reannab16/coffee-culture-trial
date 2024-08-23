@@ -51,7 +51,7 @@ export default function Add({
 
   const handleSubmit = async () => {
     if (isGift) {
-      console.log(giftCardDetails)
+      console.log(giftCardDetails);
       registerBundleMutation.mutate({
         shopId: giftCardDetails.shopId!,
         type: giftCardDetails.type,
@@ -368,13 +368,49 @@ export default function Add({
               fontFamily: "Inter",
             }}
             onChange={(e: SelectChangeEvent<string>) => {
-              setGiftCardDetails({
-                ...giftCardDetails,
-                message: {
-                  ...giftCardDetails.message,
-                  short: e.target.value,
-                },
-              });
+              const selectedShort = e.target.value;
+
+              if (giftMessages) {
+                const correspondingMessage = giftMessages.find(
+                  (message) => message.short === selectedShort
+                );
+
+                if (correspondingMessage) {
+                  setGiftCardDetails({
+                    ...giftCardDetails,
+                    message: {
+                      long: correspondingMessage.long,
+                      short: e.target.value,
+                    },
+                  });
+                } else {
+                  setGiftCardDetails({
+                    ...giftCardDetails,
+                    message: {
+                      ...giftCardDetails.message,
+                      short: e.target.value,
+                    },
+                  });
+                }
+              } else {
+                setGiftCardDetails({
+                  ...giftCardDetails,
+                  message: {
+                    ...giftCardDetails.message,
+                    short: e.target.value,
+                  },
+                });
+              }
+
+              // if (changed) {
+              //   setGiftCardDetails({
+              //     ...giftCardDetails,
+              //     message: {
+              //       ...giftCardDetails.message,
+              //       short: e.target.value,
+              //     },
+              //   });
+              // } else
             }}
           >
             {giftMessages?.map((giftMessage) => {

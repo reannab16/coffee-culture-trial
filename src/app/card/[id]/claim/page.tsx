@@ -108,13 +108,13 @@ const claimGiftMutation = useMutation({
     },
   });
 
+  console.log(shop, fetchedShop)
+
   
 
   if (isCardLoading || isShopLoading) {
     return <LoadingTopbar />;
-  }
-   
-
+  } else
   return (
     <div className="flex items-center justify-center pt-[72px]">
       <div className="container flex flex-col justify-start items-center px-8 gap-y-5 ">
@@ -174,9 +174,9 @@ const claimGiftMutation = useMutation({
               className="w-4 h-4 mr-1"
             />
             <div>
-              {card?.drinksIncluded
-                ? `Valid drinks: ${card?.drinksIncluded.join(', ')}`
-                : `All drinks, excluding: ${card?.drinksExcluded.join(', ')}`}
+              {fetchedShop?.giftCardPackage.drinksIncluded
+                ? `Valid drinks: ${fetchedShop?.giftCardPackage.drinksIncluded.join(', ')}`
+                : fetchedShop?.giftCardPackage.drinksExcluded && ` All drinks, excluding: ${fetchedShop?.giftCardPackage?.drinksExcluded.join(', ')}`}
             </div>
           </div>
           <div className="flex text-start">
