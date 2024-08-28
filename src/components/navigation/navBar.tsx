@@ -341,16 +341,16 @@ const navLinks = [
   },
   {
     title: "For Shops",
-    path: "/",
+    path: "https://www.coffee-culture.uk/coffeeshops",
   },
   {
     title: "Partner Cafés",
     path: "/partner-cafes",
   },
-  {
-    title: "Our Story",
-    path: "/",
-  },
+  // {
+  //   title: "Our Story",
+  //   path: "/",
+  // },
   {
     title: "Guide",
     path: "https://www.coffee-culture.uk/cafeguide",
