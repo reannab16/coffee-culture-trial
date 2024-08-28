@@ -154,6 +154,7 @@ export default function RedeemDrink({
           }}
           disableElevation
           onClick={() => {
+            Cookies.remove("reloaded");
             router.push("/shop-home/scanner")
           }}
           fullWidth

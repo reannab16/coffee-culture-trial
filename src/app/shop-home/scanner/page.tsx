@@ -11,12 +11,13 @@ import QrScanner from "qr-scanner";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { divide } from "lodash";
 import RedeemDrink from "@/components/shopHome/redeemDrink";
-
+import Cookies from "js-cookie";
 import { shopType } from "@/stores/for-customer-store";
 import { base } from "@/api/endpoints";
 import { useQuery } from "react-query";
 import { useAuthStore } from "@/stores/auth-store";
 import { getHoverColor } from "@/utils/colourUtils";
+import { useScannerContext } from "@/contexts/scanner";
 
 export default function Scanner() {
   const scanner = useRef<QrScanner>();
@@ -37,6 +38,15 @@ export default function Scanner() {
   const success = searchParams.get("success");
   const {session} = useAuthStore();
   const [goneRedeem, setGoneRedeem] = useState(false);
+  // const {reloaded, setReloaded} = useScannerContext();
+  const reloaded = Cookies.get("reloaded");
+
+  useEffect(()=>{
+    if (!reloaded) {
+      window.location.reload();
+      Cookies.set("reloaded", "true")
+    }
+  },[reloaded])
 
   function closeScanner() {
     setStartScan(false);
