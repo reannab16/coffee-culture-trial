@@ -17,7 +17,6 @@ import { base } from "@/api/endpoints";
 import { useQuery } from "react-query";
 import { useAuthStore } from "@/stores/auth-store";
 import { getHoverColor } from "@/utils/colourUtils";
-import { useScannerContext } from "@/contexts/scanner";
 
 export default function Scanner() {
   const scanner = useRef<QrScanner>();

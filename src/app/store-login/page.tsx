@@ -128,15 +128,15 @@ export default function StoreLogin() {
         <div className="text-xs text-center text-[var(--darkBrown50)]">
           By signing up you agree to our{" "}
           <Link
-            href="/terms-of-service"
+            href="/admin/terms-of-service"
             className="underline text-[var(--darkBrown)] duration-300 hover:text-[var(--mainBrown)] cursor-pointer"
           >
             terms of service
           </Link>{" "}
           and{" "}
-          <span className="underline text-[var(--darkBrown)] duration-300 hover:text-[var(--mainBrown)] cursor-pointer">
+          <Link href="/admin/privacy-policy" className="underline text-[var(--darkBrown)] duration-300 hover:text-[var(--mainBrown)] cursor-pointer">
             privacy policy
-          </span>
+          </Link>
         </div>
       </div>
     </div>
