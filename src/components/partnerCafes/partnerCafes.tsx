@@ -11,6 +11,7 @@ import { useQuery } from "react-query";
 import axios from "axios";
 import { base } from "@/api/endpoints";
 import { getHoverColor, getTransBackgroundColor } from "@/utils/colourUtils";
+import Link from "next/link";
 
 // import { useCartStore } from "@/stores/cart-store";
 // import {shopType, useForCustomersStore} from "@/stores/for-customer-store";
@@ -60,7 +61,7 @@ export default function PartnerCafes() {
                 partnerCafe.giftCardPackage
               ) {
                 return (
-                  <div
+                  <button
                     className={`h-32 w-full min-w-60 rounded-xl max-w-80 relative`}
                     key={partnerCafe._id}
                     style={{
@@ -68,11 +69,23 @@ export default function PartnerCafes() {
                       backgroundSize: "cover",
                       backgroundPosition: "center",
                     }}
+                    onClick={() => {
+                      router.push(
+                        partnerCafe.shopName.replaceAll(" ", "-") +
+                          "-" +
+                          partnerCafe._id
+                      );
+                    }}
                   >
-                    <div className="absolute top-0 bottom-0 text-[var(--backgroundColour)] left-0 right-0 bg-gradient-to-b from-[var(--darkBrown30)] to-[#2f211a] rounded-xl opacity-90 flex flex-col items-between justify-between p-3"
-                    style={{
-                      backgroundImage: `linear-gradient(${getTransBackgroundColor(`#${partnerCafe.darkBrandColour}`, 0.3)},#${partnerCafe.darkBrandColour})`,
-                    }}>
+                    <div
+                      className="absolute top-0 bottom-0 text-[var(--backgroundColour)] left-0 right-0 bg-gradient-to-b from-[var(--darkBrown30)] to-[#2f211a] rounded-xl opacity-90 flex flex-col items-between justify-between p-3"
+                      style={{
+                        backgroundImage: `linear-gradient(${getTransBackgroundColor(
+                          `#${partnerCafe.darkBrandColour}`,
+                          0.3
+                        )},#${partnerCafe.darkBrandColour})`,
+                      }}
+                    >
                       <div className="flex items-start justify-between">
                         <div className="flex flex-col pt-4 pl-4">
                           <div className="font-medium text-base">
@@ -141,7 +154,7 @@ export default function PartnerCafes() {
                         </Button>
                       </div>
                     </div>
-                  </div>
+                  </button>
                 );
               } else return <></>;
             })}

@@ -26,18 +26,17 @@ export default function Hero({}) {
       <div className="flex md:flex-row flex-col min-h-[calc(100vh-60px)] items-center md:justify-start justify-center container md:pt-0 pt-40">
         <div className="flex flex-col md:items-start justify-center md:gap-y-2 gap-y-3 lg:px-32 md:px-20 px-5 -mt-5 items-center md:text-start text-center ">
           <div className="uppercase md:text-md text-sm text-[var(--darkBrown)] opacity-50">
-            Digital subscription & loyalty
+            Digital Loyalty & Gift Cards
           </div>
           <div className="md:text-4xl text-3xl font-semibold text-[var(--darkBrown)] md:w-80 w-64 md:pb-0">
             Supporting your <span className="italic font-medium">local</span>{" "}
             coffee shop
           </div>
           <div className="md:text-base text-xs font-light xl:w-[496px] lg:w-96 md:w-80 w-72">
-            Our mission is to help coffee shop owners bring in loyal customers
-            and guarantee revenue.
+          Our digital prepaid loyalty and gift cards bring coffee lovers and local cafes together, creating a thriving coffee community.
           </div>
           <div className="md:text-base text-xs font-light xl:w-[496px] lg:w-96 md:w-80 w-72">
-            Find a cup of coffee with a story and a saving with our package deals and gift cards.
+          Our mission: Help coffee shops boost loyalty and revenue, while enabling you to enjoy great savings at your favourite local spots.
           </div>
           <div className="flex gap-x-2 pt-2">
             <Button
