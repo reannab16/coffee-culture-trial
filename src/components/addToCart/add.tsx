@@ -17,6 +17,32 @@ import { loadEnvConfig } from "@next/env";
 import { base } from "@/api/endpoints";
 import { getHoverColor, getTransBackgroundColor } from "@/utils/colourUtils";
 import LoadingTopbar from "../progressBar/loadingTopBar";
+import { z } from "zod";
+
+const prepaidSchema = z.object({
+  email: z.string().email(),
+  contactNumber: z.number(),
+  shopId: z.string(),
+  type: z.enum(["prepaidCard"]),
+})
+
+
+
+const giftSchema = z.object({
+  shopId: z.string(),
+    senderDetails: z.object({
+      email: z.string().email(),
+      contactNumber: z.number(),
+      name: z.string(),
+    }),
+    // receiverEmail: "",
+    receiverName: z.string(),
+    message: z.object({
+      short: z.string(),
+      long: z.string(),
+    }),
+    type: z.enum(["giftCard"]),
+})
 
 export default function Add({
   shop,
@@ -48,6 +74,13 @@ export default function Add({
   });
   const isGift = selected == "gift";
   const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!);
+
+  // const handleBlur = (event: React.FormEvent<HTMLFormElement>) => {
+  //   const result = prepaidSchema.pick({ [event.target.name]: true }).safeParse({ [event.target.name]: event.target.value });
+  //   if (!result.success) {
+  //     console.log("Validation error:", result.error.errors);
+  //   }
+  // };
 
   const handleSubmit = async () => {
     if (isGift) {
@@ -236,6 +269,8 @@ export default function Add({
           <TextField
             id="outlined-required"
             label="Your Name"
+            type="name"
+            autoComplete="name"
             variant="outlined"
             value={giftCardDetails.senderDetails.name}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -264,6 +299,8 @@ export default function Add({
         <TextField
           id="outlined-required"
           label={isGift ? "Your Email" : "Email Address"}
+          type="email"
+          autoComplete="email"
           variant="outlined"
           value={
             isGift ? giftCardDetails.senderDetails.email : packageDetails.email
@@ -296,6 +333,8 @@ export default function Add({
         <TextField
           id="outlined-required"
           label="Phone Number"
+          type="tel"
+          autoComplete="tel"
           variant="outlined"
           value={
             isGift

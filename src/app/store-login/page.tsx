@@ -61,6 +61,8 @@ export default function StoreLogin() {
           helperText={errorState.email}
           id="outlined-required"
           label="Email"
+          autoComplete="email"
+          type="email"
           variant="outlined"
           value={user.email}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -84,6 +86,8 @@ export default function StoreLogin() {
           helperText={errorState.password}
           id="outlined-required"
           label="Password"
+          autoComplete="password"
+          type="password"
           variant="outlined"
           sx={{ fontSize: "12px", fontFamily: "Inter" }}
           fullWidth

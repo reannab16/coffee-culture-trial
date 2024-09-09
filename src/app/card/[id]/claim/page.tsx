@@ -207,6 +207,8 @@ const claimGiftMutation = useMutation({
         <TextField
         id="outlined-required"
         label={"Email Address"}
+        type="email"
+        autoComplete="email"
         variant="outlined"
         value={
           receiver.email
@@ -231,6 +233,8 @@ const claimGiftMutation = useMutation({
       <TextField
         id="outlined-required"
         label="Phone Number"
+        type="tel"
+        autoComplete="tel"
         variant="outlined"
         value={
           receiver.contactNumber
