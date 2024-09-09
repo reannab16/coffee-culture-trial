@@ -47,7 +47,7 @@ export default function PartnerCafes() {
   } else
     return (
       <Suspense fallback={<LoadingTopbar />}>
-        <div className="flex flex-col min-h-[calc(100vh-60px)] items-center justify-start container pt-[72px] px-8">
+        <div className="flex flex-col min-h-[calc(100vh-60px)] items-center justify-start container py-[72px] px-8">
           <div className="text-center text-2xl py-8">
             <span className="italic">Partner</span>{" "}
             <span className="font-semibold">

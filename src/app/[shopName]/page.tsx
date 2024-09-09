@@ -55,7 +55,7 @@ export default function ShopPage({ params }: { params: { shopName: string } }) {
             className="w-full h-[133px] max-w-[600px]"
           />
           <div className="z-10 -mt-8 md:-mt-12 w-full px-8 flex flex-col items-center justify-start gap-y-8">
-            {shop && (
+            {shop && shop?.prepaidCardPackage && (
               <PackageBlock
                 isGift={false}
                 packageDetails={shop?.prepaidCardPackage}
@@ -63,7 +63,7 @@ export default function ShopPage({ params }: { params: { shopName: string } }) {
                 darkBrandColour={shop.darkBrandColour}
               />
             )}
-            {shop && (
+            {shop && shop?.giftCardPackage && (
               <PackageBlock
                 isGift={true}
                 packageDetails={shop?.giftCardPackage}
