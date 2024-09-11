@@ -3,7 +3,12 @@ import { packageType } from "@/stores/for-customer-store";
 import React, { useCallback } from "react";
 import { Button } from "@mui/material";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { getHoverColor, getTransBackgroundColor, getMixColor } from "@/utils/colourUtils";
+import {
+  getHoverColor,
+  getTransBackgroundColor,
+  getMixColor,
+} from "@/utils/colourUtils";
+import { TruncateText } from "../utils/truncateText";
 
 export default function PackageBlock({
   isGift,
@@ -30,6 +35,7 @@ export default function PackageBlock({
     [searchParams]
   );
 
+  // console.log(packageDetails.drinksIncluded?.join(', '))
 
   return (
     <div
@@ -70,7 +76,40 @@ export default function PackageBlock({
           <ul className="text-xs flex flex-col gap-y-2">
             <li>
               {packageDetails.drinksIncluded &&
-                `Valid drinks: ${packageDetails.drinksIncluded.join(', ')}`}
+                // `Valid drinks: ${packageDetails.drinksIncluded.join(', ').slice(0, 25)}...`}
+
+                (
+                  <span>
+                    Valid drinks:{" "}
+                    {
+                      packageDetails.drinksIncluded.join(", ").length >= 20 ? (
+                            <TruncateText
+                              text={packageDetails.drinksIncluded.join(", ")}
+                              limit={20}
+                            />
+                          ) : (
+                            packageDetails.drinksIncluded.join(", ")
+                          )
+                    }
+                  </span>
+                )
+                
+
+
+
+
+
+                // `Valid drinks: ${
+                //   packageDetails.drinksIncluded.join(", ").length >= 20 ? (
+                //     <TruncateText
+                //       text={packageDetails.drinksIncluded.join(", ")}
+                //       limit={20}
+                //     />
+                //   ) : (
+                //     packageDetails.drinksIncluded.join(", ")
+                //   )
+                // }`
+                }
             </li>
             <li>
               {isGift
@@ -86,7 +125,13 @@ export default function PackageBlock({
         </div>
         <div
           className="py-3 px-3 text-center z-10 text-xs font-light italic rounded-tr-lg"
-          style={{ writingMode: "vertical-lr", backgroundColor: getTransBackgroundColor(`#${lightBrandColour}`, 0.5) }}
+          style={{
+            writingMode: "vertical-lr",
+            backgroundColor: getTransBackgroundColor(
+              `#${lightBrandColour}`,
+              0.5
+            ),
+          }}
         >
           {isGift ? "gift card" : "save 20%"}
         </div>
@@ -118,7 +163,7 @@ export default function PackageBlock({
           );
         }}
       >
-        purchase
+        purchase {isGift ? "gift card": "prepaid card"}
       </Button>
     </div>
   );

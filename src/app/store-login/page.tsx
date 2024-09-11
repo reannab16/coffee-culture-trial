@@ -9,6 +9,7 @@ import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { useMutation } from "react-query";
 import Cookies from 'js-cookie';
+import { createErrorObject } from "@/utils/createErrorObject";
 
 export default function StoreLogin() {
   const router = useRouter();
@@ -36,11 +37,7 @@ export default function StoreLogin() {
       toast.error(`Login failed, ${error.message}`);
 
       if (error.errors) {
-        const newErrorState = error.errors.reduce((acc: { [key: string]: string | undefined }, curr: { field: string; message: string }) => {
-          acc[curr.field] = curr.message;
-          return acc;
-        }, { email: undefined, password: undefined });
-  
+        const newErrorState = createErrorObject(error.errors)
         setErrorState(newErrorState);
       }
     },

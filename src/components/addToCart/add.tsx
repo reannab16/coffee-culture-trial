@@ -72,15 +72,25 @@ export default function Add({
     },
     type: "giftCard",
   });
+  const [errorState, setErrorState] = useState<{ [key: string]: string | undefined }>({});
   const isGift = selected == "gift";
   const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!);
 
-  // const handleBlur = (event: React.FormEvent<HTMLFormElement>) => {
-  //   const result = prepaidSchema.pick({ [event.target.name]: true }).safeParse({ [event.target.name]: event.target.value });
-  //   if (!result.success) {
-  //     console.log("Validation error:", result.error.errors);
-  //   }
-  // };
+  const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+  
+    // Define a field-specific schema based on the field name
+    const fieldSchema = prepaidSchema.shape[name as keyof typeof prepaidSchema.shape];
+    
+    if (fieldSchema) {
+      const result = fieldSchema.safeParse(value);
+  
+      if (!result.success) {
+        // Handle validation errors for this specific field
+        console.log(`Validation error for ${name}:`, result.error.errors);
+      }
+    }
+  };
 
   const handleSubmit = async () => {
     if (isGift) {
@@ -282,6 +292,9 @@ export default function Add({
                 },
               });
             }}
+            onBlur={()=>{
+              handleBlur;
+            }}
             sx={{
               fontSize: "12px",
               fontFamily: "Inter",
@@ -317,6 +330,7 @@ export default function Add({
                 })
               : setPackageDetails({ ...packageDetails, email: e.target.value });
           }}
+          onBlur={handleBlur}
           sx={{
             fontSize: "12px",
             fontFamily: "Inter",
