@@ -13,9 +13,9 @@ export const getTransBackgroundColor = (backgroundColor: string, alpha: number) 
     return color.clone().setAlpha(alpha).toString();
   };
 
-export const getMixColor = (backgroundColor: string, mixColour: string) => {
+export const getMixColor = (backgroundColor: string, mixColour: string, alpha: number) => {
     // const color = tinycolor(backgroundColor);
     // return color.clone().darken(15).toString();
-    const color = tinycolor.mix(backgroundColor, mixColour, 80);
+    const color = tinycolor.mix(backgroundColor, mixColour, alpha);
     return color.clone().toString();
   };

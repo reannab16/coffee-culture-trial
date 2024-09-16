@@ -42,7 +42,7 @@ export default function PackageBlock({
       className="border-solid border-2 flex flex-col items-center justify-center rounded-xl max-w-96"
       style={{
         borderColor: `#${lightBrandColour}`,
-        backgroundColor: getMixColor(`#${lightBrandColour}`, "#E1D6CC"),
+        backgroundColor: getMixColor(`#${lightBrandColour}`, "#E1D6CC", 80),
       }}
     >
       <div
