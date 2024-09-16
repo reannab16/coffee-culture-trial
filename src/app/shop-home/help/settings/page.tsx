@@ -202,7 +202,7 @@ function ChangePasswordDialog({open, handleClose}: {open: boolean, handleClose: 
                 Reset <span className="font-normal italic">Password?</span>
               </div>
               <div className="text-xs font-normal">
-                No worries, we'll send you reset instructions.
+                No worries, we&apos;ll send you reset instructions.
               </div>
             </div>
           </DialogTitle>
