@@ -27,7 +27,7 @@ export default function ResetPassword({ params }: { params: { resetToken: string
 
   const resetPasswordMutation = useMutation({
     mutationFn: async (values: {password: string }) => {
-      const response = await base.post(`/trial/shop/reset-password/${params.resetToken}`, {password: values.password});
+      const response = await base.patch(`/trial/shop/password-reset/${params.resetToken}`, {password: values.password});
             return response;
     },
     onSuccess: (response: any) => {
