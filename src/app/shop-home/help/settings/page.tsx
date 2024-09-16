@@ -28,18 +28,19 @@ import CloseIcon from "@mui/icons-material/Close";
 import { z } from "zod";
 import toast from "react-hot-toast";
 import { createErrorObject } from "@/utils/createErrorObject";
+import AddUserDialog from "./components/addUser";
 
 export default function SettingsPage() {
   const { session } = useAuthStore();
   const router = useRouter();
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState("");
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+//   const handleClickOpen = () => {
+//     setOpen(true);
+//   };
 
   const handleClose = () => {
-    setOpen(false);
+    setOpen("");
   };
 
   const fetchShopDetails = async (shopId: string): Promise<shopType> => {
@@ -78,7 +79,10 @@ export default function SettingsPage() {
                   onClick={() => {
                     // router.push(setting.link)
                     if (setting.value == "password") {
-                      handleClickOpen();
+                      setOpen("password")
+                    }
+                    if (setting.value == "addUser") {
+                        setOpen("addUser")
                     }
                   }}
                   sx={{
@@ -124,7 +128,8 @@ export default function SettingsPage() {
             })}
           </div>
         </div>
-        <ChangePasswordDialog open={open} handleClose={handleClose}/>
+        <ChangePasswordDialog open={open == "password"} handleClose={handleClose}/>
+        <AddUserDialog open={open == "addUser"} handleClose={handleClose}/>
       </div>
     );
   }

@@ -6,6 +6,7 @@ export type sessionType = {
     signedIn: boolean;
     shopId: string;
     email?: string;
+    accessType: string;
 }
 
 interface authStoreState {

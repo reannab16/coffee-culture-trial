@@ -52,7 +52,7 @@ const ShopHomeProviders: React.FC<Props> = ({ children }) => {
     onSuccess: (response: any) => {
       Cookies.set('accessToken', response.accessToken, {expires: oneHourFromNow}) 
       Cookies.set('refreshToken', response.refreshToken, {expires: 7});
-      updateSession({accessToken:response.accessToken, signedIn: false, shopId: session?.shopId || '', email: session?.email || ''});
+      updateSession({accessToken:response.accessToken, signedIn: false, shopId: session?.shopId || '', email: session?.email || '', accessType: session?.accessType || ''});
     },
     onError: (error: any) => {
       toast.error(`Error, ${error.message}`);
@@ -70,7 +70,7 @@ const ShopHomeProviders: React.FC<Props> = ({ children }) => {
       return response.data.data;
     },
     onSuccess: (response: any) => {
-      updateSession({accessToken: session?.accessToken, signedIn: true, shopId: response.shopId, email: response.email});
+      updateSession({accessToken: session?.accessToken, signedIn: true, shopId: response.shopId, email: response.email, accessType: response.accessType});
     },
     onError: (error: any) => {
       toast.error(`Error, ${error.message}`);

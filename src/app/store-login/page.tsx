@@ -28,7 +28,8 @@ export default function StoreLogin() {
       return Endpoints.loginShopUser(values);
     },
     onSuccess: (response: any) => {
-      updateSession({accessToken: response.data.accessToken, email: response.data.email, shopId: response.data.shopId, signedIn: true });
+      console.log(response);
+      updateSession({accessToken: response.data.accessToken, email: response.data.email, shopId: response.data.shopId, signedIn: true, accessType: response.data.accessType });
       Cookies.set('accessToken', response.data.accessToken, { expires: oneHourFromNow });
       Cookies.set('refreshToken', response.data.refreshToken, { expires: 7 });
       router.push("/shop-home");
