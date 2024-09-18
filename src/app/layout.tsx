@@ -19,7 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} bg-[var(--backgroundColour)]`}>
+      <body className={`${inter.className} bg-[var(--backgroundColour)] scroll-smooth`}>
       <Toaster/>
         <Providers>
           <NavBar />
