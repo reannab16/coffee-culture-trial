@@ -27,8 +27,14 @@ import { base } from "@/api/endpoints";
 import LoadingTopbar from "../progressBar/loadingTopBar";
 import Cookies from "js-cookie";
 
+export enum PageType {
+  Store = "store",
+  ShopHome = "shopHome",
+  Culture = "culture",
+}
+
 export default function NavBar() {
-  const { canSee } = useNavContext();
+  const { canSee, isPartnerShopPage, whichPageType } = useNavContext();
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const { width } = useWindowDimensions() ?? { width: 0 };
   const [visible, setVisible] = useState(false);
@@ -37,12 +43,19 @@ export default function NavBar() {
   const pathname = usePathname();
   const { shop } = useForCustomersStore();
   const { session, updateSession } = useAuthStore();
-  const [isShopHomePage, setIsShopHomePage] = useState(false);
   const access = Cookies.get("accessToken");
+  
 
   const isStorePage = (): PageType => {
+    if (pathname.startsWith("shop-home")) {
+      console.log("passing")
+      return PageType.ShopHome;
+    }
     if (pathname == "/store-login") {
       return PageType.Culture;
+    }
+    if (isPartnerShopPage) {
+      return PageType.Store;
     }
     for (const link of navLinks) {
       if (link.path == pathname) {
@@ -55,14 +68,10 @@ export default function NavBar() {
         return PageType.ShopHome;
       }
     }
-    return PageType.Store;
+    return PageType.Culture;
   };
 
-  enum PageType {
-    Store = "store",
-    ShopHome = "shopHome",
-    Culture = "culture",
-  }
+  
 
   const [pageType, setPageType] = useState<PageType>(isStorePage());
 
@@ -83,7 +92,7 @@ export default function NavBar() {
   useEffect(() => {
     setPageType(isStorePage());
     console.log(isStorePage(), pageType);
-  }, [pathname, shop, session]);
+  }, [pathname, shop, session, isPartnerShopPage]);
 
   // useEffect(() => {
   //   console.log("PageType updated to:", pageType);
@@ -116,7 +125,7 @@ export default function NavBar() {
     () =>
       session ? fetchShopDetails(session?.shopId) : Promise.reject("No shopId"),
     {
-      enabled: pageType == PageType.ShopHome && !!session?.shopId,
+      enabled: whichPageType == PageType.ShopHome && !!session?.shopId,
     }
   );
 
@@ -132,7 +141,7 @@ export default function NavBar() {
       onClick={toggleDrawer(false)}
     >
       <List>
-        {pageType !== PageType.ShopHome
+        {whichPageType !== PageType.ShopHome
           ? navLinks.map((navLink) => (
               <ListItem key={navLink.title} disablePadding>
                 <ListItemButton
@@ -195,7 +204,7 @@ export default function NavBar() {
             elevation={0}
           >
             <div className="container flex items-center justify-between relative">
-              {pageType == PageType.Store && (
+              {whichPageType == PageType.Store && (
                 <div className="flex items-center justify-start gap-x-2">
                   {shop && (
                     <div className="flex items-center justify-start gap-x-2">
@@ -214,7 +223,7 @@ export default function NavBar() {
                   )}
                 </div>
               )}
-              {pageType == PageType.ShopHome && (
+              {whichPageType == PageType.ShopHome && (
                 <div className="flex items-center justify-start gap-x-2">
                   {fetchedShop && (
                     <div className="flex items-center justify-start gap-x-2">
@@ -233,12 +242,12 @@ export default function NavBar() {
                   )}
                 </div>
               )}
-              {pageType == PageType.Culture && (
+              {whichPageType == PageType.Culture && (
                 <LongLogo className="h-6 w-auto" />
               )}
 
               <div className="md:flex items-center justify-center gap-x-1  hidden">
-                {pageType !== PageType.ShopHome
+                {whichPageType !== PageType.ShopHome
                   ? navLinks.map((link) => {
                       return (
                         <Button

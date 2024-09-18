@@ -1,3 +1,4 @@
+import { PageType } from "@/components/navigation/navBar";
 import { usePathname } from "next/navigation";
 import React, { createContext, useContext, useEffect, useState } from "react";
 
@@ -6,6 +7,10 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 type NavContext = {
   canSee: boolean;
   setCanSee: React.Dispatch<React.SetStateAction<boolean>>;
+  isPartnerShopPage: boolean;
+  setPartnerShopPage: React.Dispatch<React.SetStateAction<boolean>>;
+  whichPageType: PageType;
+  setWhichPageType: React.Dispatch<React.SetStateAction<PageType>>
 };
 
 // -----------------------------------------------------------
@@ -13,6 +18,10 @@ type NavContext = {
 const NavContext = createContext<NavContext>({
   canSee: true,
   setCanSee: () => {},
+  isPartnerShopPage: false,
+  setPartnerShopPage: ()=>{},
+  whichPageType: PageType.Culture,
+  setWhichPageType: ()=>{},
 });
 
 export default function NavContextProvider({
@@ -22,11 +31,13 @@ export default function NavContextProvider({
 }) {
   const [canSee, setCanSee] = useState(true);
   const path = usePathname();
+  const [isPartnerShopPage, setPartnerShopPage] = useState(false);
+  const [whichPageType, setWhichPageType] = useState(PageType.Culture)
 
   
 
   return (
-    <NavContext.Provider value={{ canSee, setCanSee }}>
+    <NavContext.Provider value={{ canSee, setCanSee, isPartnerShopPage, setPartnerShopPage, whichPageType, setWhichPageType }}>
       {children}
     </NavContext.Provider>
   );

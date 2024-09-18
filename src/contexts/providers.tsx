@@ -3,6 +3,7 @@ import React from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import NavContextProvider from "./nav";
 import ThemeProvider from "@/themes/themeProvider";
+import NavMainProviders from "./navMainProvider";
 
 interface Props {
   children: React.ReactNode;
@@ -21,7 +22,7 @@ const Providers: React.FC<Props> = ({ children }) => {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
-        <NavContextProvider>{children}</NavContextProvider>
+        <NavContextProvider><NavMainProviders>{children}</NavMainProviders></NavContextProvider>
       </ThemeProvider>
     </QueryClientProvider>
   );

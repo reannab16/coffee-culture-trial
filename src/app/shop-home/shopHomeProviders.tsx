@@ -1,9 +1,11 @@
 "use client";
 import { base } from "@/api/endpoints";
+import { PageType } from "@/components/navigation/navBar";
 import LoadingTopbar from "@/components/progressBar/loadingTopBar";
+import { useNavContext } from "@/contexts/nav";
 import { useAuthStore } from "@/stores/auth-store";
 import Cookies from "js-cookie";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React, { Suspense, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useMutation } from "react-query";
@@ -16,8 +18,14 @@ const ShopHomeProviders: React.FC<Props> = ({ children }) => {
   const { session, updateSession } = useAuthStore();
   const router = useRouter();
   const [loading, setLoading] = useState(true);
-  const accessToken = Cookies.get('accessToken');
-  const refreshToken = Cookies.get('refreshToken');
+  const accessToken = Cookies.get("accessToken");
+  const refreshToken = Cookies.get("refreshToken");
+  const { setWhichPageType } = useNavContext();
+  const pathname = usePathname();
+
+  useEffect(() => {
+    setWhichPageType(PageType.ShopHome);
+  }, [[pathname]]);
 
   // useEffect(() => {
   //   if (!session && !refreshToken) {
@@ -29,48 +37,62 @@ const ShopHomeProviders: React.FC<Props> = ({ children }) => {
   // }, [session]);
 
   const oneHourFromNow = new Date();
- oneHourFromNow.setTime(oneHourFromNow.getTime() + 50 * 60 * 1000);
+  oneHourFromNow.setTime(oneHourFromNow.getTime() + 50 * 60 * 1000);
 
   useEffect(() => {
-    if (!session ) {
+    if (!session) {
       if (accessToken) {
-        accessMutation.mutate({accessToken})
+        accessMutation.mutate({ accessToken });
       } else if (!accessToken && refreshToken) {
-        refreshMutation.mutate({refreshToken})
+        refreshMutation.mutate({ refreshToken });
       } else if (!accessToken && !refreshToken) {
-        router.push("/store-login")
+        router.push("/store-login");
       }
     }
   }, [session, refreshToken, accessToken]);
 
   const refreshMutation = useMutation({
-    mutationFn: async (values: { refreshToken: string  }) => {
-
-      const response = await base.post(`/trial/shop/refresh-token`,values);
+    mutationFn: async (values: { refreshToken: string }) => {
+      const response = await base.post(`/trial/shop/refresh-token`, values);
       return response.data.data;
     },
     onSuccess: (response: any) => {
-      Cookies.set('accessToken', response.accessToken, {expires: oneHourFromNow}) 
-      Cookies.set('refreshToken', response.refreshToken, {expires: 7});
-      updateSession({accessToken:response.accessToken, signedIn: false, shopId: session?.shopId || '', email: session?.email || '', accessType: session?.accessType || ''});
+      Cookies.set("accessToken", response.accessToken, {
+        expires: oneHourFromNow,
+      });
+      Cookies.set("refreshToken", response.refreshToken, { expires: 7 });
+      updateSession({
+        accessToken: response.accessToken,
+        signedIn: false,
+        shopId: session?.shopId || "",
+        email: session?.email || "",
+        accessType: session?.accessType || "",
+      });
     },
     onError: (error: any) => {
       toast.error(`Error, ${error.message}`);
-      router.push("/store-login")
+      router.push("/store-login");
     },
   });
 
   const accessMutation = useMutation({
-    mutationFn: async (values: { accessToken: string  }) => {
+    mutationFn: async (values: { accessToken: string }) => {
       const config = {
         headers: {
-            'x-auth-token': accessToken 
-        }}
+          "x-auth-token": accessToken,
+        },
+      };
       const response = await base.get(`/trial/shop/auth/shop-details`, config);
       return response.data.data;
     },
     onSuccess: (response: any) => {
-      updateSession({accessToken: session?.accessToken, signedIn: true, shopId: response.shopId, email: response.email, accessType: response.accessType});
+      updateSession({
+        accessToken: session?.accessToken,
+        signedIn: true,
+        shopId: response.shopId,
+        email: response.email,
+        accessType: response.accessType,
+      });
     },
     onError: (error: any) => {
       toast.error(`Error, ${error.message}`);
