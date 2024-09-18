@@ -2,16 +2,13 @@
 import React, { Suspense, useCallback, useEffect } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import LoadingTopbar from "../progressBar/loadingTopBar";
-import Image from "next/image";
 import Button from "@mui/material/Button";
 import { primary, secondary } from "@/themes/customs/palette";
 import { Divider } from "@mui/material";
 import { shopType } from "@/stores/for-customer-store";
 import { useQuery } from "react-query";
-import axios from "axios";
 import { base } from "@/api/endpoints";
 import { getHoverColor, getTransBackgroundColor } from "@/utils/colourUtils";
-import Link from "next/link";
 
 // import { useCartStore } from "@/stores/cart-store";
 // import {shopType, useForCustomersStore} from "@/stores/for-customer-store";
@@ -55,11 +52,12 @@ export default function PartnerCafes() {
             </span>
           </div>
           <div className="flex items-start justify-center gap-y-5 flex-wrap w-full gap-x-5">
-            {partnerCafes.map((partnerCafe) => {
-              if (
-                partnerCafe.prepaidCardPackage ||
-                partnerCafe.giftCardPackage
-              ) {
+            {partnerCafes
+              .filter(
+                (partnerCafe) =>
+                  partnerCafe.prepaidCardPackage || partnerCafe.giftCardPackage
+              )
+              .map((partnerCafe) => {
                 return (
                   <button
                     className={`h-32 w-full min-w-60 rounded-xl max-w-80 relative`}
@@ -156,8 +154,7 @@ export default function PartnerCafes() {
                     </div>
                   </button>
                 );
-              } else return <></>;
-            })}
+              })}
           </div>
         </div>
       </Suspense>
