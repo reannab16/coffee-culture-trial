@@ -2,7 +2,6 @@ import React, { useState } from "react";
 
 const TruncateText = ({text, limit} : {text: string, limit: number}) => {
     const [isExpanded, setIsExpanded] = useState(false);
-    console.log(text, 'passing')
 
     const toggleText = () => {
         setIsExpanded(!isExpanded);

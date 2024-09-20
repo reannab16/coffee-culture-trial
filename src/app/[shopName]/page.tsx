@@ -28,20 +28,16 @@ export default function ShopPage({ params }: { params: { shopName: string } }) {
 
   useEffect(() => {
     if (partnerCafes) {
-
       const foundShop = partnerCafes.find((partnerCafe) => {
         return (
-          partnerCafe.shopName.replaceAll(" ", "-") +
-            "-" +
-            partnerCafe._id ==
+          partnerCafe.shopName.replaceAll(" ", "-") + "-" + partnerCafe._id ==
           decodedShopName
         );
-      })
+      });
       if (foundShop) {
         updateShopSelected(foundShop);
       }
     }
-    
   }, [partnerCafes]);
 
   return (
@@ -55,22 +51,32 @@ export default function ShopPage({ params }: { params: { shopName: string } }) {
             className="w-full h-[133px] max-w-[600px]"
           />
           <div className="z-10 -mt-8 md:-mt-12 w-full px-8 flex flex-col items-center justify-start gap-y-8">
-            {shop && shop?.prepaidCardPackage && (
-              <PackageBlock
-                isGift={false}
-                packageDetails={shop?.prepaidCardPackage}
-                lightBrandColour={shop.lightBrandColour}
-                darkBrandColour={shop.darkBrandColour}
-              />
-            )}
-            {shop && shop?.giftCardPackage && (
-              <PackageBlock
-                isGift={true}
-                packageDetails={shop?.giftCardPackage}
-                lightBrandColour={shop.lightBrandColour}
-                darkBrandColour={shop.darkBrandColour}
-              />
-            )}
+            {shop &&
+              shop?.prepaidCardPackages?.length > 0 &&
+              shop?.prepaidCardPackages?.map((prepaidCardPackage) => {
+                return (
+                  <PackageBlock
+                    key={prepaidCardPackage._id}
+                    isGift={false}
+                    packageDetails={prepaidCardPackage}
+                    lightBrandColour={shop.lightBrandColour}
+                    darkBrandColour={shop.darkBrandColour}
+                  />
+                );
+              })}
+            {shop &&
+              shop?.giftCardPackages?.length > 0 &&
+              shop?.giftCardPackages?.map((giftCardPackage) => {
+                return (
+                  <PackageBlock
+                    key={giftCardPackage._id}
+                    isGift={true}
+                    packageDetails={giftCardPackage}
+                    lightBrandColour={shop.lightBrandColour}
+                    darkBrandColour={shop.darkBrandColour}
+                  />
+                );
+              })}
           </div>
         </div>
         <div className="flex-col gap-y-5 flex justify-start items-start max-w-[500px] md:px-0 px-8">

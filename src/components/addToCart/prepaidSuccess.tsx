@@ -16,6 +16,7 @@ export default function PrepaidSuccess({
   giftCard?: GiftCard;
   isGift: boolean;
 }) {
+
   return (
     <div className="container flex flex-col justify-start items-center px-8 gap-y-5 max-w-[25rem]">
       <div className="flex flex-col items-center justify-start mt-5">
@@ -105,11 +106,11 @@ export default function PrepaidSuccess({
                 ? `Valid drinks: ${card?.drinksIncluded.join(', ')}`
                 : `All drinks, excluding: ${card?.drinksExcluded.join(', ')}`}
             </div>}
-            {giftCard && shop && <div>
+            {/* {giftCard && shop && <div>
               {shop?.giftCardPackage.drinksIncluded
                 ? `Valid drinks: ${shop?.giftCardPackage.drinksIncluded.join(', ')}`
                 : shop.giftCardPackage.drinksExcluded && `All drinks, excluding: ${shop?.giftCardPackage.drinksExcluded.join(', ')}`}
-            </div>}
+            </div>} */}
           </div>
           <div className="flex">
             {" "}

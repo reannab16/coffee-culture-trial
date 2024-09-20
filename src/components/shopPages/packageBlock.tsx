@@ -75,29 +75,22 @@ export default function PackageBlock({
         <div className="px-3 py-5 ">
           <ul className="text-xs flex flex-col gap-y-2">
             <li>
-              {packageDetails.drinksIncluded &&
-                // `Valid drinks: ${packageDetails.drinksIncluded.join(', ').slice(0, 25)}...`}
+              {
+                packageDetails.drinksIncluded && (
+                  // `Valid drinks: ${packageDetails.drinksIncluded.join(', ').slice(0, 25)}...`}
 
-                (
                   <span>
                     Valid drinks:{" "}
-                    {
-                      packageDetails.drinksIncluded.join(", ").length >= 20 ? (
-                            <TruncateText
-                              text={packageDetails.drinksIncluded.join(", ")}
-                              limit={20}
-                            />
-                          ) : (
-                            packageDetails.drinksIncluded.join(", ")
-                          )
-                    }
+                    {packageDetails.drinksIncluded.join(", ").length >= 20 ? (
+                      <TruncateText
+                        text={packageDetails.drinksIncluded.join(", ")}
+                        limit={20}
+                      />
+                    ) : (
+                      packageDetails.drinksIncluded.join(", ")
+                    )}
                   </span>
                 )
-                
-
-
-
-
 
                 // `Valid drinks: ${
                 //   packageDetails.drinksIncluded.join(", ").length >= 20 ? (
@@ -109,7 +102,7 @@ export default function PackageBlock({
                 //     packageDetails.drinksIncluded.join(", ")
                 //   )
                 // }`
-                }
+              }
             </li>
             <li>
               {isGift
@@ -159,11 +152,15 @@ export default function PackageBlock({
             pathname +
               "/add-to-cart" +
               "?" +
-              createQueryString("selected", `${isGift ? "gift" : "bundle"}`)
+              createQueryString("selected", `${isGift ? "gift" : "bundle"}`) +
+              "&" +
+              "packageId" +
+              "=" +
+              packageDetails._id
           );
         }}
       >
-        purchase {isGift ? "gift card": "prepaid card"}
+        purchase {isGift ? "gift card" : "prepaid card"}
       </Button>
     </div>
   );

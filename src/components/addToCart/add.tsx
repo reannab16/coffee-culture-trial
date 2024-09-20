@@ -24,6 +24,7 @@ const prepaidSchema = z.object({
   contactNumber: z.number(),
   shopId: z.string(),
   type: z.enum(["prepaidCard"]),
+  cardPackageId: z.string(),
 })
 
 
@@ -42,20 +43,24 @@ const giftSchema = z.object({
       long: z.string(),
     }),
     type: z.enum(["giftCard"]),
+    cardPackageId: z.string(),
 })
 
 export default function Add({
   shop,
   selected,
+  packageId,
 }: {
-  shop: shopType | null;
-  selected: string | null;
+  shop: shopType;
+  selected: string;
+  packageId: string;
 }) {
   const [packageDetails, setPackageDetails] = useState({
     email: "",
     contactNumber: "",
     shopId: shop?._id,
     type: "prepaidCard",
+    cardPackageId: packageId, 
   });
   const [giftCardDetails, setGiftCardDetails] = useState({
     shopId: shop?._id,
@@ -71,6 +76,7 @@ export default function Add({
       long: "",
     },
     type: "giftCard",
+    cardPackageId: packageId, 
   });
   const [errorState, setErrorState] = useState<{ [key: string]: string | undefined }>({});
   const isGift = selected == "gift";
@@ -98,6 +104,7 @@ export default function Add({
       registerBundleMutation.mutate({
         shopId: giftCardDetails.shopId!,
         type: giftCardDetails.type,
+        cardPackageId: giftCardDetails.cardPackageId,
         senderDetails: {
           email: giftCardDetails.senderDetails.email,
           name: giftCardDetails.senderDetails.name,
@@ -115,6 +122,7 @@ export default function Add({
         shopId: packageDetails.shopId!,
         contactNumber: packageDetails.contactNumber,
         type: packageDetails.type,
+        cardPackageId: packageDetails.cardPackageId,
       });
     }
   };
@@ -125,6 +133,7 @@ export default function Add({
       shopId: string;
       contactNumber?: string;
       type: string;
+      cardPackageId: string;
       senderDetails?: {
         email: string;
         name: string;
@@ -214,6 +223,8 @@ export default function Add({
     }
   );
 
+  console.log(shop.prepaidCardPackages, shop.prepaidCardPackages.find((e)=>{e._id == packageId})?._id)
+
   useEffect(() => {
     if (!isLoading && giftMessages) {
       setGiftCardDetails({
@@ -255,14 +266,14 @@ export default function Add({
             <div className="text-2xl font-medium -mb-[3px]">
               £
               {!isGift
-                ? shop?.prepaidCardPackage.price
-                : shop?.giftCardPackage.price}
+                ? shop?.prepaidCardPackages.find((e)=>e._id == packageId)?.price
+                : shop?.giftCardPackages.find((e)=>e._id == packageId)?.price} 
             </div>
             {isGift && <div className="text-xs font-medium">Gift a friend</div>}
             <div className="text-xs">
               {!isGift
-                ? `for ${shop?.prepaidCardPackage.drinksAllowance}`
-                : shop?.giftCardPackage.drinksAllowance}{" "}
+                ? `for ${shop?.prepaidCardPackages.find((e)=>e._id == packageId)?.drinksAllowance}`
+                : shop?.giftCardPackages.find((e)=>e._id == packageId)?.drinksAllowance}{" "} 
               drinks
             </div>
           </div>

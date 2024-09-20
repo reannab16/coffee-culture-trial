@@ -62,7 +62,6 @@ export default function GiftCardPage({ params }: { params: { id: string } }) {
     setIsOpen(!isOpen);
   };
 
-  console.log("hereeee", shop?.giftCardPackage.drinksExcluded, shop)
 
   if (isCardLoading || isShopLoading) {
     return <LoadingTopbar />;

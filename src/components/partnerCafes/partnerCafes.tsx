@@ -55,7 +55,7 @@ export default function PartnerCafes() {
             {partnerCafes
               .filter(
                 (partnerCafe) =>
-                  partnerCafe.prepaidCardPackage || partnerCafe.giftCardPackage
+                  partnerCafe.prepaidCardPackages?.length > 0 || partnerCafe.giftCardPackages?.length > 0
               )
               .map((partnerCafe) => {
                 return (
@@ -127,28 +127,7 @@ export default function PartnerCafes() {
                             );
                           }}
                         >
-                          {partnerCafe.prepaidCardPackage &&
-                            "£" +
-                              partnerCafe.prepaidCardPackage.price +
-                              " for " +
-                              partnerCafe.prepaidCardPackage.drinksAllowance +
-                              " drinks"}
-                          {partnerCafe.prepaidCardPackage &&
-                            partnerCafe.giftCardPackage && (
-                              <Divider
-                                orientation="vertical"
-                                flexItem
-                                sx={{
-                                  color: primary.main,
-                                  marginX: "4px",
-                                  opacity: 1,
-                                }}
-                              />
-                            )}
-                          {partnerCafe.giftCardPackage &&
-                            "£" +
-                              partnerCafe.giftCardPackage.price +
-                              " gift card"}
+                              View Offers
                         </Button>
                       </div>
                     </div>

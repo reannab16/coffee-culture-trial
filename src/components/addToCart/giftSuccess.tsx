@@ -96,8 +96,8 @@ export default function GiftSuccess({
 type shopType = {
   shopName: string;
   _id: string;
-  prepaidCardPackage: prepaidPackageType;
-  giftCardPackage: giftPackageType;
+  prepaidCardPackages: prepaidPackageType[];
+  giftCardPackages: giftPackageType[];
   featureImage: string;
   logo: string;
   lightBrandColour: string;
@@ -109,6 +109,7 @@ type shopType = {
 };
 
 export type prepaidPackageType = {
+  _id: string;
   drinksAllowance: number;
   drinksIncluded?: string[];
   drinksExcluded?: string[];
@@ -116,6 +117,7 @@ export type prepaidPackageType = {
 };
 
 export type giftPackageType = {
+  _id: string;
   drinksAllowance: number;
   drinksIncluded?: string[];
   drinksExcluded?: string[];

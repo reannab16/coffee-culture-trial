@@ -70,7 +70,7 @@ const ShopHomeProviders: React.FC<Props> = ({ children }) => {
       });
     },
     onError: (error: any) => {
-      toast.error(`Error, ${error.message}`);
+      toast.error(`Error- session expired, ${error.message}`);
       router.push("/store-login");
     },
   });
@@ -95,7 +95,7 @@ const ShopHomeProviders: React.FC<Props> = ({ children }) => {
       });
     },
     onError: (error: any) => {
-      toast.error(`Error, ${error.message}`);
+      toast.error(`Error- session expired, ${error.message}`);
       router.push("/store-login");
     },
   });

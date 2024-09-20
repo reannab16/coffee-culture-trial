@@ -174,9 +174,9 @@ const claimGiftMutation = useMutation({
               className="w-4 h-4 mr-1"
             />
             <div>
-              {fetchedShop?.giftCardPackage.drinksIncluded
+              {/* {fetchedShop?.giftCardPackage.drinksIncluded
                 ? `Valid drinks: ${fetchedShop?.giftCardPackage.drinksIncluded.join(', ')}`
-                : fetchedShop?.giftCardPackage.drinksExcluded && ` All drinks, excluding: ${fetchedShop?.giftCardPackage?.drinksExcluded.join(', ')}`}
+                : fetchedShop?.giftCardPackage.drinksExcluded && ` All drinks, excluding: ${fetchedShop?.giftCardPackage?.drinksExcluded.join(', ')}`} */}
             </div>
           </div>
           <div className="flex text-start">

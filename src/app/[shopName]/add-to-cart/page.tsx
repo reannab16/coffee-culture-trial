@@ -16,6 +16,7 @@ export default function AddToCart() {
   const params = useParams();
   const decodedShopName = params.shopName;
   const selected = searchParams.get("selected");
+  const packageId = searchParams.get("packageId")
   const router = useRouter();
   const { shop } = useForCustomersStore();
   const [loading, setLoading] = useState(true);
@@ -62,7 +63,7 @@ export default function AddToCart() {
     return (
       <Suspense fallback={<LoadingTopbar />}>
         <div className="flex items-center justify-center pt-[72px]">
-          <Add shop={shop} selected={selected} />
+          {shop && selected && packageId && <Add shop={shop} selected={selected} packageId={packageId}/>}
         </div>
       </Suspense>
     );
