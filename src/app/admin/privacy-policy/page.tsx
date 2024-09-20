@@ -12,7 +12,7 @@ export default function PrivacyPolicy() {
         </div>
         <div className="flex flex-col justify-start items-start gap-y-5 w-full">
           <div className="text-xs">
-            This privacy notice for Coffee Culture London LTD (doing business as Coffee Culture UK) ('we', 'us', or 'our'), describes how and why we might collect, store, use, and/or share ('process') your information when you use our services ('Services'), such as when you:
+            This privacy notice for Coffee Culture London LTD (doing business as Coffee Culture UK) (&apos;we&apos;, &apos;us&apos;, or &apos;our&apos;), describes how and why we might collect, store, use, and/or share (&apos;process&apos;) your information when you use our services (&apos;Services&apos;), such as when you:
           </div>
           <ul className="list-disc pl-6 text-xs">
             <li>
@@ -166,7 +166,7 @@ export default function PrivacyPolicy() {
             your Facebook, X, or other social media account. If you choose to register in this
             way, we will collect certain profile information about you from the social media
             provider, as described in the section called 
-            <a href="#sociallogins">'HOW DO WE HANDLE YOUR SOCIAL LOGINS?'</a> below.
+            <a href="#sociallogins">&apos;HOW DO WE HANDLE YOUR SOCIAL LOGINS?&apos;</a> below.
             <br />
             <br />
             <span className="font-medium">Application Data.</span> If you use our application(s), we
@@ -179,19 +179,19 @@ export default function PrivacyPolicy() {
               permission to track location-based information from your mobile device, either
               continuously or while you are using our mobile application(s), to provide certain
               location-based services. If you wish to change our access or permissions, you may do
-              so in your device's settings.
+              so in your device&apos;s settings.
             </li>
             <li>
               <span className="font-medium">Mobile Device Access.</span> We may request access or
               permission to certain features from your mobile device, including your mobile
-              device's calendar, and other features. If you wish to change our access or
-              permissions, you may do so in your device's settings.
+              device&apos;s calendar, and other features. If you wish to change our access or
+              permissions, you may do so in your device&apos;s settings.
             </li>
             <li>
               <span className="font-medium">Push Notifications.</span> We may request to send you
               push notifications regarding your account or certain features of the application(s).
               If you wish to opt out from receiving these types of communications, you may turn
-              them off in your device's settings.
+              them off in your device&apos;s settings.
             </li>
           </ul>
           <div className="text-xs">
@@ -247,7 +247,7 @@ export default function PrivacyPolicy() {
               We may process the personal information you send to us for our marketing purposes, if
               this is in accordance with your marketing preferences. You can opt out of our
               marketing emails at any time. For more information, see{' '}
-              <a href="#privacyrights">'WHAT ARE YOUR PRIVACY RIGHTS?'</a> below.
+              <a href="#privacyrights">&apos;WHAT ARE YOUR PRIVACY RIGHTS?&apos;</a> below.
             </li>
             <li>
               <span className="font-medium">To deliver targeted advertising to you.</span>
@@ -266,9 +266,9 @@ export default function PrivacyPolicy() {
             </li>
             <li>
               <span className="font-medium">
-                To save or protect an individual's vital interest.
+                To save or protect an individual&apos;s vital interest.
               </span>
-              We may process your information when necessary to save or protect an individual’s
+              We may process your information when necessary to save or protect an individual&apos;s
               vital interest, such as to prevent harm.
             </li>
           </ul>
@@ -346,7 +346,7 @@ export default function PrivacyPolicy() {
               Vendors, Consultants, and Other Third-Party Service Providers:
             </span>{' '}
             We may share your data with third-party vendors, service providers, contractors, or agents
-            ("third parties") who perform services for us or on our behalf and require access to such
+            (&quot;third parties&quot;) who perform services for us or on our behalf and require access to such
             information to do that work. We have contracts in place with our third parties, which are
             designed to help safeguard your personal information. This means that they cannot do
             anything with your personal information unless we have instructed them to do it. They will
@@ -384,7 +384,7 @@ export default function PrivacyPolicy() {
             </li>
             <li>
               <span className="font-medium">Offer Wall:</span> Our application(s) may display a
-              third-party hosted "offer wall." Such an offer wall allows third-party advertisers to
+              third-party hosted &quot;offer wall.&quot; Such an offer wall allows third-party advertisers to
               offer virtual currency, gifts, or other items to users in return for the acceptance and
               completion of an advertisement offer. Such an offer wall may appear in our application(s)
               and be displayed to you based on certain data, such as your geographic area or
@@ -462,7 +462,7 @@ export default function PrivacyPolicy() {
             set out in this privacy notice, unless a longer retention period is required or permitted
             by law (such as tax, accounting, or other legal requirements). No purpose in this notice
             will require us keeping your personal information for longer than six (6) months past the
-            termination of the user's account.
+            termination of the user&apos;s account.
             <br />
             <br />
             When we have no ongoing legitimate business need to process your personal information, we
@@ -511,7 +511,7 @@ export default function PrivacyPolicy() {
             circumstances, you may also have the right to object to the processing of your personal
             information. You can make such a request by contacting us by using the contact details
             provided in the section 
-            <a href="#contact">'HOW CAN YOU CONTACT US ABOUT THIS NOTICE?'</a> below.
+            <a href="#contact">&apos;HOW CAN YOU CONTACT US ABOUT THIS NOTICE?&apos;</a> below.
             <br />
             <br />
             We will consider and act upon any request in accordance with applicable data protection
@@ -531,7 +531,7 @@ export default function PrivacyPolicy() {
             consent to process your personal information, you have the right to withdraw your consent
             at any time. You can withdraw your consent at any time by contacting us by using the
             contact details provided in the section 
-            <a href="#contact">'HOW CAN YOU CONTACT US ABOUT THIS NOTICE?'</a> below or updating your
+            <a href="#contact">&apos;HOW CAN YOU CONTACT US ABOUT THIS NOTICE?&apos;</a> below or updating your
             preferences.
             <br />
             <br />
@@ -544,10 +544,10 @@ export default function PrivacyPolicy() {
               Opting out of marketing and promotional communications:
             </span>{' '}
             You can unsubscribe from our marketing and promotional communications at any time by
-            clicking on the unsubscribe link in the emails that we send, replying "STOP" or
-            "UNSUBSCRIBE" to the SMS messages that we send, or by contacting us using the details
+            clicking on the unsubscribe link in the emails that we send, replying &quot;STOP&quot; or
+            &quot;UNSUBSCRIBE&quot; to the SMS messages that we send, or by contacting us using the details
             provided in the section 
-            <a href="#contact">'HOW CAN YOU CONTACT US ABOUT THIS NOTICE?'</a> below. You will then be
+            <a href="#contact">&apos;HOW CAN YOU CONTACT US ABOUT THIS NOTICE?&apos;</a> below. You will then be
             removed from the marketing lists. However, we may still communicate with you—for example,
             to send you service-related messages that are necessary for the administration and use of
             your account, to respond to service requests, or for other non-marketing purposes.
@@ -580,7 +580,7 @@ export default function PrivacyPolicy() {
           <div className="text-xl font-medium">10. Controls For Do-Not-Track Features</div>
           <div className="text-xs">
             Most web browsers and some mobile operating systems and mobile applications include a
-            Do-Not-Track ("DNT") feature or setting you can activate to signal your privacy preference
+            Do-Not-Track (&quot;DNT&quot;) feature or setting you can activate to signal your privacy preference
             not to have data about your online browsing activities monitored and collected. At this
             stage, no uniform technology standard for recognising and implementing DNT signals has been
             finalised. As such, we do not currently respond to DNT browser signals or any other
@@ -599,7 +599,7 @@ export default function PrivacyPolicy() {
             <br />
             <br />
             We may update this privacy notice from time to time. The updated version will be indicated
-            by an updated "Revised" date at the top of this privacy notice. If we make material changes
+            by an updated &quot;Revised&quot; date at the top of this privacy notice. If we make material changes
             to this privacy notice, we may notify you either by prominently posting a notice of such
             changes or by directly sending you a notification. We encourage you to review this privacy
             notice frequently to be informed of how we are protecting your information.
