@@ -25,26 +25,24 @@ const prepaidSchema = z.object({
   shopId: z.string(),
   type: z.enum(["prepaidCard"]),
   cardPackageId: z.string(),
-})
-
-
+});
 
 const giftSchema = z.object({
   shopId: z.string(),
-    senderDetails: z.object({
-      email: z.string().email(),
-      contactNumber: z.number(),
-      name: z.string(),
-    }),
-    // receiverEmail: "",
-    receiverName: z.string(),
-    message: z.object({
-      short: z.string(),
-      long: z.string(),
-    }),
-    type: z.enum(["giftCard"]),
-    cardPackageId: z.string(),
-})
+  senderDetails: z.object({
+    email: z.string().email(),
+    contactNumber: z.number(),
+    name: z.string(),
+  }),
+  // receiverEmail: "",
+  receiverName: z.string(),
+  message: z.object({
+    short: z.string(),
+    long: z.string(),
+  }),
+  type: z.enum(["giftCard"]),
+  cardPackageId: z.string(),
+});
 
 export default function Add({
   shop,
@@ -60,7 +58,7 @@ export default function Add({
     contactNumber: "",
     shopId: shop?._id,
     type: "prepaidCard",
-    cardPackageId: packageId, 
+    cardPackageId: packageId,
   });
   const [giftCardDetails, setGiftCardDetails] = useState({
     shopId: shop?._id,
@@ -76,21 +74,24 @@ export default function Add({
       long: "",
     },
     type: "giftCard",
-    cardPackageId: packageId, 
+    cardPackageId: packageId,
   });
-  const [errorState, setErrorState] = useState<{ [key: string]: string | undefined }>({});
+  const [errorState, setErrorState] = useState<{
+    [key: string]: string | undefined;
+  }>({});
   const isGift = selected == "gift";
   const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!);
 
   const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-  
+
     // Define a field-specific schema based on the field name
-    const fieldSchema = prepaidSchema.shape[name as keyof typeof prepaidSchema.shape];
-    
+    const fieldSchema =
+      prepaidSchema.shape[name as keyof typeof prepaidSchema.shape];
+
     if (fieldSchema) {
       const result = fieldSchema.safeParse(value);
-  
+
       if (!result.success) {
         // Handle validation errors for this specific field
         console.log(`Validation error for ${name}:`, result.error.errors);
@@ -223,7 +224,12 @@ export default function Add({
     }
   );
 
-  console.log(shop.prepaidCardPackages, shop.prepaidCardPackages.find((e)=>{e._id == packageId})?._id)
+  console.log(
+    shop.prepaidCardPackages,
+    shop.prepaidCardPackages.find((e) => {
+      e._id == packageId;
+    })?._id
+  );
 
   useEffect(() => {
     if (!isLoading && giftMessages) {
@@ -266,14 +272,19 @@ export default function Add({
             <div className="text-2xl font-medium -mb-[3px]">
               £
               {!isGift
-                ? shop?.prepaidCardPackages.find((e)=>e._id == packageId)?.price
-                : shop?.giftCardPackages.find((e)=>e._id == packageId)?.price} 
+                ? shop?.prepaidCardPackages.find((e) => e._id == packageId)
+                    ?.price
+                : shop?.giftCardPackages.find((e) => e._id == packageId)?.price}
             </div>
             {isGift && <div className="text-xs font-medium">Gift a friend</div>}
             <div className="text-xs">
               {!isGift
-                ? `for ${shop?.prepaidCardPackages.find((e)=>e._id == packageId)?.drinksAllowance}`
-                : shop?.giftCardPackages.find((e)=>e._id == packageId)?.drinksAllowance}{" "} 
+                ? `for ${
+                    shop?.prepaidCardPackages.find((e) => e._id == packageId)
+                      ?.drinksAllowance
+                  }`
+                : shop?.giftCardPackages.find((e) => e._id == packageId)
+                    ?.drinksAllowance}{" "}
               drinks
             </div>
           </div>
@@ -303,7 +314,7 @@ export default function Add({
                 },
               });
             }}
-            onBlur={()=>{
+            onBlur={() => {
               handleBlur;
             }}
             sx={{
@@ -401,10 +412,18 @@ export default function Add({
             variant="outlined"
             value={giftCardDetails.receiverName}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              setGiftCardDetails({
-                ...giftCardDetails,
-                receiverName: e.target.value,
-              });
+              const newReceiverName = e.target.value;
+              setGiftCardDetails((prevDetails) => ({
+                ...prevDetails,
+                receiverName: newReceiverName,
+                message: {
+                  ...prevDetails.message,
+                  long: prevDetails.message.long.replaceAll(
+                    prevDetails.receiverName || "[recipient]",
+                    newReceiverName
+                  ),
+                },
+              }));
             }}
             sx={{
               fontSize: "12px",
@@ -440,13 +459,26 @@ export default function Add({
                 );
 
                 if (correspondingMessage) {
-                  setGiftCardDetails({
-                    ...giftCardDetails,
-                    message: {
-                      long: correspondingMessage.long,
-                      short: e.target.value,
-                    },
-                  });
+                  if (giftCardDetails.receiverName.length > 0) {
+                    setGiftCardDetails({
+                      ...giftCardDetails,
+                      message: {
+                        long: correspondingMessage.long.replaceAll(
+                          "[recipient]",
+                          giftCardDetails.receiverName
+                        ),
+                        short: e.target.value,
+                      },
+                    });
+                  } else {
+                    setGiftCardDetails({
+                      ...giftCardDetails,
+                      message: {
+                        long: correspondingMessage.long,
+                        short: e.target.value,
+                      },
+                    });
+                  }
                 } else {
                   setGiftCardDetails({
                     ...giftCardDetails,
