@@ -72,8 +72,8 @@ export default function AddToWalletButton({
         }
       }
     },
-    onSuccess: async (data) => {
-      if (platform == Platform.Google) {
+    onSuccess: async (data, variables) => {
+      if (variables.platform == Platform.Google) {
         const htmlSnippet = data;
         // Parse the HTML snippet to extract the saveUrl
         const tempDiv = document.createElement("div");
@@ -91,8 +91,27 @@ export default function AddToWalletButton({
           alert("Failed to retrieve the Google Wallet pass URL.");
         }
       }
-      if (platform == Platform.Apple) {
-        
+      if (variables.platform == Platform.Apple) {
+        if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
+             // Handle Apple Wallet pass
+        const blob = new Blob([data], { type: "application/vnd.apple.pkpass" });
+        const url = window.URL.createObjectURL(blob);
+
+        // Create a temporary anchor element to trigger the download
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "cafepass.pkpass"; // The file name for the Apple Wallet pass
+        document.body.appendChild(a);
+        a.click(); // Trigger the download
+
+        // Clean up the URL and the element
+        window.URL.revokeObjectURL(url);
+        a.remove();
+
+        } else {
+            alert("Open this url on an Apple handheld device to save to Apple Wallet")
+        }
+       
       }
     },
     onError: (error: any) => {
@@ -110,7 +129,10 @@ export default function AddToWalletButton({
       )}
       {platform == Platform.Apple && (
         <button className="max-w-[45%]" onClick={handleAddAppleWallet}>
-          <img src="/add-apple-wallet" className="w-full" />
+          <img
+            src="https://raw.githubusercontent.com/reannab16/coffee-culture-trial/cb0475a6563dd5e59dc95405f4cce6dfdc25f758/public/add-apple-wallet.svg"
+            className="w-full"
+          />
         </button>
       )}
     </>
