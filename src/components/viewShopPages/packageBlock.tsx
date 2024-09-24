@@ -9,6 +9,7 @@ import {
   getMixColor,
 } from "@/utils/colourUtils";
 import { TruncateText } from "../utils/truncateText";
+import Link from "next/link";
 
 export default function PackageBlock({
   isGift,
@@ -38,6 +39,7 @@ export default function PackageBlock({
   // console.log(packageDetails.drinksIncluded?.join(', '))
 
   return (
+    <div className="flex flex-col gap-y-2">
     <div
       className="border-solid border-2 flex flex-col items-center justify-center rounded-xl max-w-96"
       style={{
@@ -162,6 +164,8 @@ export default function PackageBlock({
       >
         purchase {isGift ? "gift card" : "prepaid card"}
       </Button>
+    </div>
+    <div className="text-end"><Link href={`#${isGift ? "giftCardFAQ" : "prepaidCardFAQ"}`} className="text-xs underline opacity-60 hover:opacity-100 duration-300">see FAQ</Link></div>
     </div>
   );
 }

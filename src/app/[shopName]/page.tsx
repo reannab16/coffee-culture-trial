@@ -4,9 +4,10 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { ShopResponse } from "@/components/partnerCafes/partnerCafes";
 import { shopType, useForCustomersStore } from "@/stores/for-customer-store";
-import PackageBlock from "@/components/shopPages/packageBlock";
+import PackageBlock from "@/components/viewShopPages/packageBlock";
 import { useQuery } from "react-query";
 import { base } from "@/api/endpoints";
+import CheckoutFAQ from "@/components/FAQ/customerFAQ/checkoutPageFAQ/checkoutFAQ";
 
 export default function ShopPage({ params }: { params: { shopName: string } }) {
   const decodedShopName = decodeURIComponent(params.shopName);
@@ -41,8 +42,8 @@ export default function ShopPage({ params }: { params: { shopName: string } }) {
   }, [partnerCafes]);
 
   return (
-    <div className="flex items-start justify-center mb-10">
-      <div className="flex flex-col md:flex-row min-h-[calc(100vh-60px)] items-center justify-start md:justify-center md:items-start pt-[72px]  container gap-x-10 gap-y-8">
+    <div className="flex items-start justify-center mb-10 w-full">
+      <div className="flex flex-col md:flex-row min-h-[calc(100vh-60px)] w-full items-center justify-start md:justify-center md:items-start pt-[72px]  container gap-x-10 gap-y-8">
         {/* {foundShop.id} */}
         <div className="flex flex-col items-center justify-start">
           <img
@@ -79,8 +80,8 @@ export default function ShopPage({ params }: { params: { shopName: string } }) {
               })}
           </div>
         </div>
-        <div className="flex-col gap-y-5 flex justify-start items-start max-w-[500px] md:px-0 px-8">
-          <div className="text-lg">Gift Card FAQs</div>
+        <div className="flex-col gap-y-5 flex justify-start items-start max-w-[500px] w-full md:px-0 px-8 text-start">
+          {/* <div className="text-lg">Gift Card FAQs</div>
           <div className="text-xs">
             <span className="font-semibold">
               When will my recipient get it?{" "}
@@ -99,9 +100,9 @@ export default function ShopPage({ params }: { params: { shopName: string } }) {
           <div className="text-xs">
             <span className="font-semibold">Further info? </span>
             Please contact info@coffee-culture.uk
-          </div>
+          </div> */}
           {shop && (
-            <div className="flex flex-col gap-y-5 mt-4">
+            <div className="flex flex-col gap-y-5 mt-4 justify-start items-start">
               <div className="text-lg">About {shop.shopName}</div>
               {shop.address && (
                 <div className="text-xs">
@@ -123,6 +124,11 @@ export default function ShopPage({ params }: { params: { shopName: string } }) {
               )}
             </div>
           )}
+          {shop &&
+              shop?.prepaidCardPackages?.length > 0 && <CheckoutFAQ type="prepaidCard" colour={shop.lightBrandColour}/>}
+              {shop &&
+              shop?.giftCardPackages?.length > 0 && <CheckoutFAQ type="giftCard" colour={shop.lightBrandColour}/>}
+
         </div>
       </div>
     </div>
