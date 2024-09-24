@@ -101,6 +101,7 @@ export interface PrepaidCardResponse {
   drinksIncluded: string[];
   drinksExcluded: string[];
   shopId: string;
+  cardId: string;
 }
 
 export type CardResponse = GiftCardResponse | PrepaidCardResponse;

@@ -4,6 +4,11 @@ import React from "react";
 import { SmolLogo } from "../navigation/icons";
 import { GiftCard } from "@/app/card/[id]/page";
 import { getTransBackgroundColor } from "@/utils/colourUtils";
+import { AddToGoogleWallet } from "../icons/icons";
+import { Button } from "@mui/material";
+import { useMutation } from "react-query";
+import { base } from "@/api/endpoints";
+import AddToWalletButton, { Platform } from "../addToWallet/addToGoogleWalletButton";
 
 export default function PrepaidSuccess({
   shop,
@@ -16,6 +21,70 @@ export default function PrepaidSuccess({
   giftCard?: GiftCard;
   isGift: boolean;
 }) {
+  const handleAddGoogleWallet = () => {
+    handleAddWalletMutation.mutate({
+      type: isGift ? "giftCard" : "prepaidCard",
+      cardId: card?.cardId,
+      platform: "google",
+      shopId: shop._id,
+    });
+  };
+
+  const handleAddWalletMutation = useMutation({
+    mutationFn: async (values: {
+      type?: string;
+      cardId?: string;
+      shopId?: string;
+      platform: string;
+    }) => {
+      // return Endpoints.registerShopUser(values);
+      try {
+        const response = await base.post(`/trial/card/generate-pass`, values);
+        if (response.status >= 200 && response.status < 300) {
+          const session = await response.data;
+          return session;
+        } else {
+          throw new Error(
+            response.data.message || "add to google wallet failed"
+          );
+        }
+      } catch (error: any) {
+        if (error.response) {
+          console.error("Add to google wallet failed:", error);
+          // return error.response.data;
+          throw new Error(
+            error.response.data.message || "Add to google wallet failed"
+          );
+        } else {
+          // return error;
+          console.error("add to google wallet failed:", error);
+          throw new Error(error);
+        }
+      }
+    },
+    onSuccess: async (data) => {
+      const  htmlSnippet  = data;
+      // Parse the HTML snippet to extract the saveUrl
+      const tempDiv = document.createElement("div");
+      tempDiv.innerHTML = htmlSnippet;
+
+      // Extract the href from the <a> tag
+      const anchorTag = tempDiv.querySelector("a");
+      const saveUrl = anchorTag?.getAttribute("href");
+      console.log(saveUrl);
+
+      // If the URL is found, redirect the user to Google Wallet
+      if (saveUrl) {
+        window.location.href = saveUrl;
+      } else {
+        alert("Failed to retrieve the Google Wallet pass URL.");
+      }
+    },
+    onError: (error: any) => {
+      //   toast.error("Failed to register user");
+      console.log(error);
+    },
+  });
 
   return (
     <div className="container flex flex-col justify-start items-center px-8 gap-y-5 max-w-[25rem]">
@@ -28,15 +97,22 @@ export default function PrepaidSuccess({
           <span>ffee culture</span>
         </div>
       </div>
-      <div className="px-6 py-6 flex flex-col justify-center items-center border-2 border-solid rounded-[10px] w-full text-center text-xs gap-y-5" style={{
+      <div
+        className="px-6 py-6 flex flex-col justify-center items-center border-2 border-solid rounded-[10px] w-full text-center text-xs gap-y-5 mb-20"
+        style={{
           borderColor: `#${shop?.lightBrandColour}`,
           backgroundColor: getTransBackgroundColor(
             `#${shop?.lightBrandColour}`,
             0.2
           ),
-        }}>
+        }}
+      >
         <div className="">
-          <span className="text-base font-semibold pb-4">{isGift? `Congrats ${giftCard?.receiverDetails.name}!`: `Thank you!`} </span>
+          <span className="text-base font-semibold pb-4">
+            {isGift
+              ? `Congrats ${giftCard?.receiverDetails.name}!`
+              : `Thank you!`}{" "}
+          </span>
           <br />
           <span className="light italic test-sm">here is your QR code:</span>
         </div>
@@ -65,17 +141,38 @@ export default function PrepaidSuccess({
                   <span>ffee culture</span>
                 </div>
               </div>
-              <img src={giftCard ? giftCard.qrCodeUrl : card?.qrCodeUrl} alt="" className="h-14 w-14" />
+              <img
+                src={giftCard ? giftCard.qrCodeUrl : card?.qrCodeUrl}
+                alt=""
+                className="h-14 w-14"
+              />
             </div>
           </div>
           <div
             className={`w-full h-7 rounded-b-lg flex items-center justify-between px-4 text-[10px]`}
             style={{ backgroundColor: `#${shop?.lightBrandColour}` }}
           >
-            <div>{isGift? giftCard?.drinksAllowance : card?.drinksAllowance} drinks</div>
-            <div className="italic font-light">{isGift? `for ${giftCard?.receiverDetails.name} from ${giftCard?.senderDetails.name}`:`Enjoy your coffee!`}</div>
+            <div>
+              {isGift ? giftCard?.drinksAllowance : card?.drinksAllowance}{" "}
+              drinks
+            </div>
+            <div className="italic font-light">
+              {isGift
+                ? `for ${giftCard?.receiverDetails.name} from ${giftCard?.senderDetails.name}`
+                : `Enjoy your coffee!`}
+            </div>
           </div>
         </div>
+
+        <div className="flex gap-x-2 w-full justify-center items-center -mt-5">
+          {/* <div className="max-w-[45%] h-8 bg-black w-full rounded-full"></div> */}
+          <AddToWalletButton isGift={isGift} shop={shop} card={card} platform={Platform.Apple}/>
+          {/* <button className="max-w-[45%]" onClick={handleAddGoogleWallet}>
+            <AddToGoogleWallet className="w-full" />
+          </button> */}
+          <AddToWalletButton isGift={isGift} shop={shop} card={card} platform={Platform.Google}/>
+        </div>
+
         <div
           className="w-full flex gap-y-5 p-5 text-xs flex-col border-2 border-solid rounded-lg items-start justify-center text-start"
           style={{ borderColor: `#${shop.lightBrandColour}` }}
@@ -84,7 +181,8 @@ export default function PrepaidSuccess({
           <ol className="list-decimal ml-5 text-start">
             <li>
               You can use your card at {shop.shopName} for{" "}
-              {isGift ? giftCard?.drinksAllowance : card?.drinksAllowance} delicious drinks.{" "}
+              {isGift ? giftCard?.drinksAllowance : card?.drinksAllowance}{" "}
+              delicious drinks.{" "}
             </li>
             <li>Simply show the QR code to redeem your coffees.</li>
           </ol>
@@ -101,11 +199,14 @@ export default function PrepaidSuccess({
               alt=""
               className="w-4 h-4 mr-1"
             />
-            {card && <div>
-              {card?.drinksIncluded
-                ? `Valid drinks: ${card?.drinksIncluded.join(', ')}`
-                : `All drinks, excluding: ${card?.drinksExcluded.join(', ')}`}
-            </div>}
+            Valid drinks:
+            {/* {card && (
+              <div>
+                {card?.drinksIncluded
+                  ? `Valid drinks: ${card?.drinksIncluded.join(", ")}`
+                  : `All drinks, excluding: ${card?.drinksExcluded.join(", ")}`}
+              </div>
+            )} */}
             {/* {giftCard && shop && <div>
               {shop?.giftCardPackage.drinksIncluded
                 ? `Valid drinks: ${shop?.giftCardPackage.drinksIncluded.join(', ')}`
@@ -119,11 +220,8 @@ export default function PrepaidSuccess({
               alt=""
               className="w-4 h-4 mr-1"
             />
-            <div>
-              Valid for one year
-            </div>
+            <div>Valid until all drinks claimed</div>
           </div>
-          
         </div>
       </div>
     </div>
