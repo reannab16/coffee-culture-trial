@@ -48,7 +48,7 @@ export default function PackageBlock({
         backgroundColor: getMixColor(`#${lightBrandColour}`, "#E1D6CC", 80),
       }}
     >
-      <img src="" alt="" className="absolute top-0 left-0" />
+      {isGift && <img src="https://raw.githubusercontent.com/reannab16/coffee-culture-trial/refs/heads/main/public/giftBow.png" alt="" className="absolute -top-[2px] -left-[3px] w-20" />}
       <div
         className=" flex items-stretch justify-center h-auto rounded-t-xl"
         style={{
