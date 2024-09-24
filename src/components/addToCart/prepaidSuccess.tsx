@@ -8,7 +8,7 @@ import { AddToGoogleWallet } from "../icons/icons";
 import { Button } from "@mui/material";
 import { useMutation } from "react-query";
 import { base } from "@/api/endpoints";
-import AddToWalletButton, { Platform } from "../addToWallet/addToGoogleWalletButton";
+import AddToWalletButton, { Platform } from "../addToWallet/addToWalletButton";
 
 export default function PrepaidSuccess({
   shop,
