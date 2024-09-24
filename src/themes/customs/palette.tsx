@@ -34,6 +34,7 @@ export const primary = {
     contrastText: '#9A5737',
     dark: '#2F211A',
     green: '#BCBF8C',
+    giftYellow: '#D7BB77',
 
     
     // highlight: '#e1d6cc2e',

@@ -10,6 +10,7 @@ import {
 } from "@/utils/colourUtils";
 import { TruncateText } from "../utils/truncateText";
 import Link from "next/link";
+import { primary } from "@/themes/customs/palette";
 
 export default function PackageBlock({
   isGift,
@@ -41,12 +42,13 @@ export default function PackageBlock({
   return (
     <div className="flex flex-col gap-y-2">
     <div
-      className="border-solid border-2 flex flex-col items-center justify-center rounded-xl max-w-96"
+      className="border-solid border-2 flex flex-col items-center justify-center rounded-xl max-w-96 relative"
       style={{
-        borderColor: `#${lightBrandColour}`,
+        borderColor: isGift ? primary.giftYellow: `#${lightBrandColour}`,
         backgroundColor: getMixColor(`#${lightBrandColour}`, "#E1D6CC", 80),
       }}
     >
+      <img src="" alt="" className="absolute top-0 left-0" />
       <div
         className=" flex items-stretch justify-center h-auto rounded-t-xl"
         style={{
@@ -56,7 +58,7 @@ export default function PackageBlock({
         <div
           className="flex flex-col items-center justify-center text-center border-r-2 border-r-solid p-5"
           style={{
-            borderColor: `#${lightBrandColour}`,
+            borderColor: isGift ? primary.giftYellow: `#${lightBrandColour}`,
           }}
         >
           <div className="text-3xl font-medium -mb-[3px] ">
