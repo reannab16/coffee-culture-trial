@@ -16,12 +16,12 @@ export default function CheckoutFAQ({
       </div>
 
       {type == "prepaidCard" &&
-        prepaidFAQ.map((item) => (
-          <FAQDropdown question={item.question} answer={item.answer} colour={colour}/>
+        prepaidFAQ.map((item, ref) => (
+          <FAQDropdown question={item.question} answer={item.answer} colour={colour} key={ref}/>
         ))}
         {type == "giftCard" &&
-        giftCardFAQ.map((item) => (
-          <FAQDropdown question={item.question} answer={item.answer} colour={colour}/>
+        giftCardFAQ.map((item, ref) => (
+          <FAQDropdown question={item.question} answer={item.answer} colour={colour} key={ref}/>
         ))}
     </div>
   );
