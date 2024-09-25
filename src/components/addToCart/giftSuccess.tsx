@@ -109,6 +109,7 @@ type shopType = {
     city: string;
     state?: string;
     postCode: string;
+    embedURL?: string;
   };
   phone?: string;
   about?: string;
