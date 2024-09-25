@@ -103,7 +103,13 @@ type shopType = {
   lightBrandColour: string;
   darkBrandColour: string;
   postcode?: string;
-  address?: string;
+  address?: {
+    addressLine1: string;
+    addressLine2?: string;
+    city: string;
+    state?: string;
+    postcode: string;
+  };
   phone?: string;
   about?: string;
 };
