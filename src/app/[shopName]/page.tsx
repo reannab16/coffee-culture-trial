@@ -8,6 +8,7 @@ import PackageBlock from "@/components/viewShopPages/packageBlock";
 import { useQuery } from "react-query";
 import { base } from "@/api/endpoints";
 import CheckoutFAQ from "@/components/FAQ/customerFAQ/checkoutPageFAQ/checkoutFAQ";
+import AboutShop from "@/components/viewShopPages/aboutShop";
 
 export default function ShopPage({ params }: { params: { shopName: string } }) {
   const decodedShopName = decodeURIComponent(params.shopName);
@@ -101,29 +102,7 @@ export default function ShopPage({ params }: { params: { shopName: string } }) {
             <span className="font-semibold">Further info? </span>
             Please contact info@coffee-culture.uk
           </div> */}
-          {shop && (
-            <div className="flex flex-col gap-y-5 mt-4 justify-start items-start">
-              <div className="text-lg">About {shop.shopName}</div>
-              {shop.address && (
-                <div className="text-xs">
-                  <span className="font-semibold">Address: </span>
-                  {shop.address + ", " + shop.postcode}
-                </div>
-              )}
-              {shop.phone && (
-                <div className="text-xs">
-                  <span className="font-semibold">Phone: </span>
-                  {shop.phone}
-                </div>
-              )}
-              {shop.about && (
-                <div className="text-xs">
-                  <span className="font-semibold">About our café: </span>
-                  {shop.about}
-                </div>
-              )}
-            </div>
-          )}
+          {shop && <AboutShop shop={shop}/>}
           {shop &&
               shop?.prepaidCardPackages?.length > 0 && <CheckoutFAQ type="prepaidCard" colour={shop.lightBrandColour}/>}
               {shop &&

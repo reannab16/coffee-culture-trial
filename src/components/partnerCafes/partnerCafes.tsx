@@ -9,6 +9,8 @@ import { shopType } from "@/stores/for-customer-store";
 import { useQuery } from "react-query";
 import { base } from "@/api/endpoints";
 import { getHoverColor, getTransBackgroundColor } from "@/utils/colourUtils";
+import { Icon } from '@iconify/react';
+import locationIcon from '@iconify/icons-hugeicons/location-01';
 
 // import { useCartStore } from "@/stores/cart-store";
 // import {shopType, useForCustomersStore} from "@/stores/for-customer-store";
@@ -89,8 +91,8 @@ export default function PartnerCafes() {
                           <div className="font-medium text-base">
                             {partnerCafe.shopName}
                           </div>
-                          <div className="text-[10px] font-light">
-                            {partnerCafe.postcode}
+                          <div className="text-[10px] font-light text-start flex items-center justify-start gap-x-1">
+                          <Icon icon="hugeicons:location-01" height={"10px"} width="10px"/>{partnerCafe.address?.postcode}
                           </div>
                         </div>
 
