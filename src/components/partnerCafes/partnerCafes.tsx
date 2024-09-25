@@ -10,7 +10,6 @@ import { useQuery } from "react-query";
 import { base } from "@/api/endpoints";
 import { getHoverColor, getTransBackgroundColor } from "@/utils/colourUtils";
 import { Icon } from '@iconify/react';
-import locationIcon from '@iconify/icons-hugeicons/location-01';
 
 // import { useCartStore } from "@/stores/cart-store";
 // import {shopType, useForCustomersStore} from "@/stores/for-customer-store";
