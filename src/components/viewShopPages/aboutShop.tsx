@@ -36,7 +36,7 @@ export default function AboutShop({ shop }: { shop: shopType }) {
             </div>
           )}
         </div>
-        {/* <iframe className="w-1/2 rounded-lg" src="https://www.google.com/maps/embed/v1/place?q=Park%20Rd,%20London%20NW8%207JD" style={{border:0}}  loading="lazy"></iframe> */}
+        {/*  */}
       </div>
       
     </div>
