@@ -1,15 +1,16 @@
 "use client";
-import React, { Suspense, useCallback, useEffect } from "react";
+import React, { Suspense, useCallback } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import LoadingTopbar from "../progressBar/loadingTopBar";
 import Button from "@mui/material/Button";
-import { primary, secondary } from "@/themes/customs/palette";
-import { Divider } from "@mui/material";
+import { secondary } from "@/themes/customs/palette";
 import { shopType } from "@/stores/for-customer-store";
 import { useQuery } from "react-query";
 import { base } from "@/api/endpoints";
 import { getHoverColor, getTransBackgroundColor } from "@/utils/colourUtils";
-import { Icon } from '@iconify/react';
+import { Icon } from "@iconify/react";
+import PartnerCafePageSkeleton from "./pageSkeleton";
+import CafeButton from "./cafeButton";
 
 // import { useCartStore } from "@/stores/cart-store";
 // import {shopType, useForCustomersStore} from "@/stores/for-customer-store";
@@ -40,8 +41,12 @@ export default function PartnerCafes() {
     [searchParams]
   );
 
+  // const [imagesLoading, setImagesLoading] = useState({
+
+  // })
+
   if (isLoading || !partnerCafes) {
-    return <LoadingTopbar />;
+    return <PartnerCafePageSkeleton />;
   } else
     return (
       <Suspense fallback={<LoadingTopbar />}>
@@ -52,87 +57,16 @@ export default function PartnerCafes() {
               Cafés <br /> and offers
             </span>
           </div>
-          <div className="flex items-start justify-center gap-y-5 flex-wrap w-full gap-x-5">
+          <div className="flex flex-col items-start justify-start gap-y-5 flex-wrap w-full gap-x-5">
             {partnerCafes
               .filter(
                 (partnerCafe) =>
-                  partnerCafe.prepaidCardPackages?.length > 0 || partnerCafe.giftCardPackages?.length > 0
+                  partnerCafe.prepaidCardPackages?.length > 0 ||
+                  partnerCafe.giftCardPackages?.length > 0
               )
               .map((partnerCafe) => {
                 return (
-                  <button
-                    className={`h-32 w-full min-w-60 rounded-xl max-w-80 relative`}
-                    key={partnerCafe._id}
-                    style={{
-                      backgroundImage: `url(${partnerCafe.featureImage})`,
-                      backgroundSize: "cover",
-                      backgroundPosition: "center",
-                    }}
-                    onClick={() => {
-                      router.push(
-                        partnerCafe.shopName.replaceAll(" ", "-") +
-                          "-" +
-                          partnerCafe._id
-                      );
-                    }}
-                  >
-                    <div
-                      className="absolute top-0 bottom-0 text-[var(--backgroundColour)] left-0 right-0 bg-gradient-to-b from-[var(--darkBrown30)] to-[#2f211a] rounded-xl opacity-90 flex flex-col items-between justify-between p-3"
-                      style={{
-                        backgroundImage: `linear-gradient(${getTransBackgroundColor(
-                          `#${partnerCafe.darkBrandColour}`,
-                          0.3
-                        )},#${partnerCafe.darkBrandColour})`,
-                      }}
-                    >
-                      <div className="flex items-start justify-between">
-                        <div className="flex flex-col pt-4 pl-4">
-                          <div className="font-medium text-base">
-                            {partnerCafe.shopName}
-                          </div>
-                          <div className="text-[10px] font-light text-start flex items-center justify-start gap-x-1">
-                          <Icon icon="hugeicons:location-01" height={"10px"} width="10px"/>{partnerCafe.address?.postcode}
-                          </div>
-                        </div>
-
-                        <img
-                          src={partnerCafe.logo}
-                          alt={partnerCafe.shopName + " logo"}
-                          className="w-10 h-10"
-                        />
-                      </div>
-                      <div className="flex items-center justify-end">
-                        <Button
-                          variant="contained"
-                          // color="secondary"
-                          sx={{
-                            fontWeight: "400",
-                            fontSize: "10px",
-                            paddingX: "12px",
-                            opacity: 100,
-                            color: secondary.contrastText,
-                            backgroundColor: `#${partnerCafe.lightBrandColour}`,
-
-                            "&:hover": {
-                              backgroundColor: getHoverColor(
-                                `#${partnerCafe?.lightBrandColour}`
-                              ),
-                            },
-                          }}
-                          disableElevation
-                          onClick={() => {
-                            router.push(
-                              partnerCafe.shopName.replaceAll(" ", "-") +
-                                "-" +
-                                partnerCafe._id
-                            );
-                          }}
-                        >
-                              View Offers
-                        </Button>
-                      </div>
-                    </div>
-                  </button>
+                  <CafeButton partnerCafe={partnerCafe} key={partnerCafe._id}/>
                 );
               })}
           </div>

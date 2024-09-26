@@ -11,13 +11,13 @@ export type shopType = {
     logo: string;
     lightBrandColour: string;
     darkBrandColour: string;
-    postcode?: string;
+    postCode?: string;
     address?: {
       addressLine1: string;
       addressLine2?: string;
       city: string;
       state?: string;
-      postcode: string;
+      postCode: string;
     };
     phone?: string;
     about?:string;

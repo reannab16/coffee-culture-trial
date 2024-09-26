@@ -20,7 +20,7 @@ export default function AboutShop({ shop }: { shop: shopType }) {
               )}
               {shop.address.state && <span>{shop.address.state}, </span>}
               {shop.address.city && <span>{shop.address.city}, </span>}
-              {shop.address.postcode && <span>{shop.address.postcode} </span>}
+              {shop.address.postCode && <span>{shop.address.postCode} </span>}
             </div>
           )}
           {shop.phone && (
