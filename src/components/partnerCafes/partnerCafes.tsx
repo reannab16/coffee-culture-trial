@@ -57,7 +57,7 @@ export default function PartnerCafes() {
               Cafés <br /> and offers
             </span>
           </div>
-          <div className="flex flex-col items-start justify-start gap-y-5 flex-wrap w-full gap-x-5">
+          <div className="flex items-start justify-center gap-y-5 flex-wrap w-full gap-x-5">
             {partnerCafes
               .filter(
                 (partnerCafe) =>
