@@ -11,7 +11,7 @@ export default function PartnerCafePageSkeleton() {
           <Skeleton variant="text" width={180} height={32} />
         </div>
         <div className="flex items-start justify-center gap-y-5 flex-wrap w-full gap-x-5">
-          {[...Array(4)].map((_, index) => (
+          {[...Array(6)].map((_, index) => (
             <div
               key={index}
               className="h-32 w-full min-w-60 rounded-xl max-w-80 relative"

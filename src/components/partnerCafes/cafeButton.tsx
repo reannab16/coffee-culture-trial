@@ -25,7 +25,7 @@ export default function CafeButton({ partnerCafe }: { partnerCafe: shopType }) {
 
   return (
     <div className={`h-32 w-full max-w-80 min-w-60 `} key={partnerCafe._id}>
-        {!imagesLoaded && <Skeleton
+        {(!imagesLoaded.background && !imagesLoaded.logo) && <Skeleton
                 variant="rectangular"
                 width="100%"
                 height={128}
@@ -35,7 +35,7 @@ export default function CafeButton({ partnerCafe }: { partnerCafe: shopType }) {
                 }}
               />}
       <button
-        className={`h-32 w-full min-w-60 rounded-xl max-w-80 relative ${imagesLoaded? "visible": "invisible"}`}
+        className={`h-32 w-full min-w-60 rounded-xl max-w-80 relative ${(imagesLoaded.background && imagesLoaded.logo) ? "visible": "invisible"}`}
         style={{
           backgroundImage: `url(${partnerCafe.featureImage})`,
           backgroundSize: "cover",
