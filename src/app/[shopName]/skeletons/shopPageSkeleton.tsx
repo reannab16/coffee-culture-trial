@@ -14,7 +14,7 @@ export default function ShopPageSkeleton() {
         <div className="z-10 -mt-8 md:-mt-12 w-full px-8 flex flex-col items-center justify-start gap-y-8 pt-[133px]">
           {[...Array(2)].map((_, index) => {
             return (
-              <div className="w-full flex flex-col gap-y-2 text-end max-w-96 items-center">
+              <div className="w-full flex flex-col gap-y-2 text-end max-w-96 items-center" key={index}>
                 <Skeleton
                   variant="rounded"
                   width="100%"
