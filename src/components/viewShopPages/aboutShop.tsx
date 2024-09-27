@@ -36,7 +36,7 @@ export default function AboutShop({ shop }: { shop: shopType }) {
             </div>
           )}
         </div>
-        {/*  */}
+        {shop?.address?.embedURL && <iframe className="w-1/2 rounded-lg" src={shop.address.embedURL} style={{border:0}}  loading="lazy"></iframe>}
       </div>
       
     </div>
