@@ -9,10 +9,16 @@ import { useQuery } from "react-query";
 import { base } from "@/api/endpoints";
 import CheckoutFAQ from "@/components/FAQ/customerFAQ/checkoutPageFAQ/checkoutFAQ";
 import AboutShop from "@/components/viewShopPages/aboutShop";
+import LoadingTopbar from "@/components/progressBar/loadingTopBar";
+import ShopPageSkeleton from "./skeletons/shopPageSkeleton";
 
 export default function ShopPage({ params }: { params: { shopName: string } }) {
   const decodedShopName = decodeURIComponent(params.shopName);
   // const [foundShop, setFoundShop] = useState<shopType | null>();
+  const [imagesLoaded, setImagesLoaded] = useState({
+    feature: false,
+    bow: false,
+  });
 
   const {
     data: partnerCafes,
@@ -42,74 +48,66 @@ export default function ShopPage({ params }: { params: { shopName: string } }) {
     }
   }, [partnerCafes]);
 
-  return (
-    <div className="flex items-start justify-center mb-10 w-full">
-      <div className="flex flex-col md:flex-row min-h-[calc(100vh-60px)] w-full items-center justify-start md:justify-center md:items-start pt-[72px]  container gap-x-10 gap-y-8">
-        {/* {foundShop.id} */}
-        <div className="flex flex-col items-center justify-start">
-          <img
-            src={shop?.featureImage}
-            alt=""
-            className="w-full h-[133px] max-w-[600px]"
-          />
-          <div className="z-10 -mt-8 md:-mt-12 w-full px-8 flex flex-col items-center justify-start gap-y-8">
-            {shop &&
-              shop?.prepaidCardPackages?.length > 0 &&
-              shop?.prepaidCardPackages?.map((prepaidCardPackage) => {
-                return (
-                  <PackageBlock
-                    key={prepaidCardPackage._id}
-                    isGift={false}
-                    packageDetails={prepaidCardPackage}
-                    lightBrandColour={shop.lightBrandColour}
-                    darkBrandColour={shop.darkBrandColour}
-                  />
-                );
-              })}
-            {shop &&
-              shop?.giftCardPackages?.length > 0 &&
-              shop?.giftCardPackages?.map((giftCardPackage) => {
-                return (
-                  <PackageBlock
-                    key={giftCardPackage._id}
-                    isGift={true}
-                    packageDetails={giftCardPackage}
-                    lightBrandColour={shop.lightBrandColour}
-                    darkBrandColour={shop.darkBrandColour}
-                  />
-                );
-              })}
-          </div>
-        </div>
-        <div className="flex-col gap-y-5 flex justify-start items-start max-w-[500px] w-full md:px-0 px-8 text-start">
-          {/* <div className="text-lg">Gift Card FAQs</div>
-          <div className="text-xs">
-            <span className="font-semibold">
-              When will my recipient get it?{" "}
-            </span>
-            We will provide a link for you to send to the recipient, containing
-            a digital card with your special message!
-          </div>
-          <div className="text-xs">
-            <span className="font-semibold">
-              How does my recipient redeem it?{" "}
-            </span>
-            Upon following the link, they will be prompted to enter their email
-            and will receive a qr code to scan in store to claim free drinks.{" "}
-            <br /> The qr is valid until all drinks have been redeemed.
-          </div>
-          <div className="text-xs">
-            <span className="font-semibold">Further info? </span>
-            Please contact info@coffee-culture.uk
-          </div> */}
-          {shop && <AboutShop shop={shop}/>}
-          {shop &&
-              shop?.prepaidCardPackages?.length > 0 && <CheckoutFAQ type="prepaidCard" colour={shop.lightBrandColour}/>}
+  if (isLoading) {
+    return (<div className="w-full flex items-start justify-center mb-10"><LoadingTopbar /><ShopPageSkeleton /></div>);
+  } else
+    return (
+      <div className="flex items-start justify-center mb-10 w-full">
+        <div className="flex flex-col md:flex-row min-h-[calc(100vh-60px)] w-full items-center justify-start md:justify-center md:items-start pt-[72px]  container gap-x-10 gap-y-8">
+          <div className="flex flex-col items-center justify-start">
+            <img
+              src={shop?.featureImage}
+              alt=""
+              className="w-full h-[133px] max-w-[600px]"
+              onLoad={() => {
+                setImagesLoaded({ ...imagesLoaded, feature: true });
+              }}
+            />
+            <div className="z-10 -mt-8 md:-mt-12 w-full px-8 flex flex-col items-center justify-start gap-y-8">
               {shop &&
-              shop?.giftCardPackages?.length > 0 && <CheckoutFAQ type="giftCard" colour={shop.lightBrandColour}/>}
-
+                shop?.prepaidCardPackages?.length > 0 &&
+                shop?.prepaidCardPackages?.map((prepaidCardPackage) => {
+                  return (
+                    <PackageBlock
+                      key={prepaidCardPackage._id}
+                      isGift={false}
+                      packageDetails={prepaidCardPackage}
+                      lightBrandColour={shop.lightBrandColour}
+                      darkBrandColour={shop.darkBrandColour}
+                      setLoaded={() => {
+                        setImagesLoaded({ ...imagesLoaded, bow: true });
+                      }}
+                    />
+                  );
+                })}
+              {shop &&
+                shop?.giftCardPackages?.length > 0 &&
+                shop?.giftCardPackages?.map((giftCardPackage) => {
+                  return (
+                    <PackageBlock
+                      key={giftCardPackage._id}
+                      isGift={true}
+                      packageDetails={giftCardPackage}
+                      lightBrandColour={shop.lightBrandColour}
+                      darkBrandColour={shop.darkBrandColour}
+                      setLoaded={() => {
+                        setImagesLoaded({ ...imagesLoaded, bow: true });
+                      }}
+                    />
+                  );
+                })}
+            </div>
+          </div>
+          <div className="flex-col gap-y-5 flex justify-start items-start max-w-[500px] w-full md:px-0 px-8 text-start">
+            {shop && <AboutShop shop={shop} />}
+            {shop && shop?.prepaidCardPackages?.length > 0 && (
+              <CheckoutFAQ type="prepaidCard" colour={shop.lightBrandColour} />
+            )}
+            {shop && shop?.giftCardPackages?.length > 0 && (
+              <CheckoutFAQ type="giftCard" colour={shop.lightBrandColour} />
+            )}
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
 }
