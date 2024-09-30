@@ -45,7 +45,7 @@ export default function AddToCart() {
 
       const foundShop = partnerCafes.find((partnerCafe) => {
         return (
-          partnerCafe.shopName.replaceAll(" ", "-") +
+          partnerCafe?.shopName?.replaceAll(" ", "-") +
             "-" +
             partnerCafe._id ==
           decodedShopName
