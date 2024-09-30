@@ -14,7 +14,10 @@ export default function ShopPageSkeleton() {
         <div className="z-10 -mt-8 md:-mt-12 w-full px-8 flex flex-col items-center justify-start gap-y-8 pt-[133px]">
           {[...Array(2)].map((_, index) => {
             return (
-              <div className="w-full flex flex-col gap-y-2 text-end max-w-96 items-center" key={index}>
+              <div
+                className="w-full flex flex-col gap-y-2 text-end max-w-96 items-center"
+                key={index}
+              >
                 <Skeleton
                   variant="rounded"
                   width="100%"
@@ -42,6 +45,52 @@ export default function ShopPageSkeleton() {
             height={28}
             sx={{ textAlign: "end", marginBottom: "20px" }}
           />
+          <div className="flex items-start justify-between gap-x-5">
+            <div className="flex flex-col gap-y-5 justify-start items-start max-w-1/2 ">
+              <div className="">
+                <Skeleton
+                  variant="text"
+                  width={80}
+                  height={18}
+                  sx={{ textAlign: "end" }}
+                />
+                <Skeleton
+                  variant="text"
+                  width={160}
+                  height={16}
+                  sx={{ textAlign: "end", width: "100%" }}
+                />
+                <Skeleton
+                  variant="text"
+                  width={160}
+                  height={16}
+                  sx={{ textAlign: "end", width: "100%" }}
+                />
+              </div>
+              <div>
+                <Skeleton
+                  variant="text"
+                  width={160}
+                  height={16}
+                  sx={{ textAlign: "end", width: "100%" }}
+                />
+              </div>
+              <div>
+                <Skeleton
+                  variant="text"
+                  width={160}
+                  height={16}
+                  sx={{ textAlign: "end", width: "100%" }}
+                />
+              </div>
+            </div>
+            <Skeleton
+                  variant="rounded"
+                  width={300}
+                  height={130}
+                  sx={{ maxWidth: "50%" }}
+                />
+          </div>
         </div>
       </div>
     </div>

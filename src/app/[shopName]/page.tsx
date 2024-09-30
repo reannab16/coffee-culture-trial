@@ -36,9 +36,10 @@ export default function ShopPage({ params }: { params: { shopName: string } }) {
 
   useEffect(() => {
     if (partnerCafes) {
+      console.log(partnerCafes)
       const foundShop = partnerCafes.find((partnerCafe) => {
         return (
-          partnerCafe.shopName.replaceAll(" ", "-") + "-" + partnerCafe._id ==
+          partnerCafe?.shopName?.replaceAll(" ", "-") + "-" + partnerCafe._id ==
           decodedShopName
         );
       });
