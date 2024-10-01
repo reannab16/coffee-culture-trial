@@ -48,9 +48,9 @@ export default function CafeButton({ partnerCafe }: { partnerCafe: shopType }) {
         }}
       >
         <div
-          className="absolute top-0 bottom-0 text-[var(--backgroundColour)] left-0 right-0 bg-gradient-to-b from-[var(--darkBrown30)] to-[#2f211a] rounded-xl opacity-90 flex flex-col items-between justify-between p-3"
+          className="absolute top-0 bottom-0 text-[var(--backgroundColour)] left-0 right-0 bg-gradient-to-r from-[var(--darkBrown30)] to-[#2f211a] rounded-xl opacity-90 flex flex-col items-between justify-between p-3"
           style={{
-            backgroundImage: `linear-gradient(${getTransBackgroundColor(
+            backgroundImage: `linear-gradient(270deg, ${getTransBackgroundColor(
               `#${partnerCafe.darkBrandColour}`,
               0.3
             )},#${partnerCafe.darkBrandColour})`,
