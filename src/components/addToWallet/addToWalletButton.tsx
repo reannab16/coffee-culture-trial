@@ -5,6 +5,7 @@ import { shopType } from "@/stores/for-customer-store";
 import React from "react";
 import { useMutation } from "react-query";
 import { AddToGoogleWallet } from "../icons/icons";
+import axios from "axios";
 
 export enum Platform {
   Apple = "apple",
@@ -49,14 +50,28 @@ export default function AddToWalletButton({
     }) => {
       // return Endpoints.registerShopUser(values);
       try {
-        const response = await base.post(`/trial/card/generate-pass`, values);
-        if (response.status >= 200 && response.status < 300) {
-          const session = await response.data;
-          return session;
-        } else {
-          throw new Error(
-            response.data.message || "add to google wallet failed"
-          );
+        if (platform == Platform.Apple) {
+          const response = await axios.get(`https://api-dev.coffee-culture.uk/apple/generate-pass`, {
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/vnd.apple.pkpass",
+            },
+            params: {
+              cardId: values.cardId,
+              shopId: values.shopId,
+              type: values.type 
+            },
+          });
+        } else if (platform == Platform.Google) {
+          const response = await base.post(`/trial/card/generate-pass`, values);
+          if (response.status >= 200 && response.status < 300) {
+            const session = await response.data;
+            return session;
+          } else {
+            throw new Error(
+              response.data.message || "add to google wallet failed"
+            );
+          }
         }
       } catch (error: any) {
         if (error.response) {
@@ -93,25 +108,27 @@ export default function AddToWalletButton({
       }
       if (variables.platform == Platform.Apple) {
         if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
-             // Handle Apple Wallet pass
-        const blob = new Blob([data], { type: "application/vnd.apple.pkpass" });
-        const url = window.URL.createObjectURL(blob);
+          // Handle Apple Wallet pass
+          const blob = new Blob([data], {
+            type: "application/vnd.apple.pkpass",
+          });
+          const url = window.URL.createObjectURL(blob);
 
-        // Create a temporary anchor element to trigger the download
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = "cafepass.pkpass"; // The file name for the Apple Wallet pass
-        document.body.appendChild(a);
-        a.click(); // Trigger the download
+          // Create a temporary anchor element to trigger the download
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = "cafepass.pkpass"; // The file name for the Apple Wallet pass
+          document.body.appendChild(a);
+          a.click(); // Trigger the download
 
-        // Clean up the URL and the element
-        window.URL.revokeObjectURL(url);
-        a.remove();
-
+          // Clean up the URL and the element
+          window.URL.revokeObjectURL(url);
+          a.remove();
         } else {
-            alert("Open this url on an Apple handheld device to save to Apple Wallet")
+          alert(
+            "Open this url on an Apple handheld device to save to Apple Wallet"
+          );
         }
-       
       }
     },
     onError: (error: any) => {
