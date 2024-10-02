@@ -62,10 +62,13 @@ export default function AddToWalletButton({
               headers: {
                 "Content-Type": "application/json",
                 Accept: "application/vnd.apple.pkpass",
-              }, responseType: 'blob',
+              },
+              responseType: "blob",
             }
-            
           );
+          console.log("Response data size:", response.data.size);
+          console.log("Response data type:", response.data.type);
+          return response.data;
         } else if (platform == Platform.Google) {
           const response = await base.post(`/trial/card/generate-pass`, values);
           if (response.status >= 200 && response.status < 300) {
