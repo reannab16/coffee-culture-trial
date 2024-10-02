@@ -6,6 +6,7 @@ import React from "react";
 import { useMutation } from "react-query";
 import { AddToGoogleWallet } from "../icons/icons";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 export enum Platform {
   Apple = "apple",
@@ -66,7 +67,14 @@ export default function AddToWalletButton({
               responseType: "blob",
             }
           );
-          return response.data;
+          if (response.status >= 200 && response.status < 300) {
+            return response.data;
+          } else {
+            toast.error('add to apple wallet failed')
+            throw new Error(
+              response.data.message || "add to apple wallet failed"
+            );
+          }
         } else if (platform == Platform.Google) {
           const response = await base.post(`/trial/card/generate-pass`, values);
           if (response.status >= 200 && response.status < 300) {
