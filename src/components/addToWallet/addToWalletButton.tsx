@@ -66,8 +66,6 @@ export default function AddToWalletButton({
               responseType: "blob",
             }
           );
-          console.log("Response data size:", response.data.size);
-          console.log("Response data type:", response.data.type);
           return response.data;
         } else if (platform == Platform.Google) {
           const response = await base.post(`/trial/card/generate-pass`, values);
