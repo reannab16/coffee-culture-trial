@@ -81,6 +81,8 @@ export default function Add({
   }>({});
   const isGift = selected == "gift";
   const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!);
+  console.log(stripePromise)
+  console.log(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY)
 
   const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -180,6 +182,7 @@ export default function Add({
       // removeQueryParam('register');
       // router.push('/register/step-2')
       const stripe = await stripePromise;
+      console.log(stripe)
       if (stripe) {
         const { error } = await stripe.redirectToCheckout({
           sessionId: session.id,
