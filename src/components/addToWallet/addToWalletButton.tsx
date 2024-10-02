@@ -112,7 +112,7 @@ export default function AddToWalletButton({
         }
       }
       if (variables.platform == Platform.Apple) {
-        if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
+        if (/iPhone|iPad|iPod|Macintosh/.test(navigator.userAgent)) {
           // Handle Apple Wallet pass
           const blob = new Blob([data], {
             type: "application/vnd.apple.pkpass",
