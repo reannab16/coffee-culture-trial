@@ -51,17 +51,20 @@ export default function AddToWalletButton({
       // return Endpoints.registerShopUser(values);
       try {
         if (platform == Platform.Apple) {
-          const response = await axios.get(`https://api-dev.coffee-culture.uk/apple/generate-pass`, {
-            headers: {
-              "Content-Type": "application/json",
-              Accept: "application/vnd.apple.pkpass",
-            },
-            params: {
+          const response = await axios.post(
+            `https://api-dev.coffee-culture.uk/apple/generate-pass`,
+            {
               cardId: values.cardId,
               shopId: values.shopId,
-              type: values.type 
+              type: values.type,
             },
-          });
+            {
+              headers: {
+                "Content-Type": "application/json",
+                Accept: "application/vnd.apple.pkpass",
+              },
+            }
+          );
         } else if (platform == Platform.Google) {
           const response = await base.post(`/trial/card/generate-pass`, values);
           if (response.status >= 200 && response.status < 300) {
