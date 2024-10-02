@@ -10,6 +10,7 @@ import { useMutation } from "react-query";
 import { base } from "@/api/endpoints";
 import AddToWalletButton, { Platform } from "../addToWallet/addToWalletButton";
 
+
 export default function PrepaidSuccess({
   shop,
   card,
@@ -63,7 +64,7 @@ export default function PrepaidSuccess({
       }
     },
     onSuccess: async (data) => {
-      const  htmlSnippet  = data;
+      const htmlSnippet = data;
       // Parse the HTML snippet to extract the saveUrl
       const tempDiv = document.createElement("div");
       tempDiv.innerHTML = htmlSnippet;
@@ -166,11 +167,21 @@ export default function PrepaidSuccess({
 
         <div className="flex gap-x-2 w-full justify-center items-center -mt-5">
           {/* <div className="max-w-[45%] h-8 bg-black w-full rounded-full"></div> */}
-          <AddToWalletButton isGift={isGift} shop={shop} card={card} platform={Platform.Apple}/>
+          <AddToWalletButton
+            isGift={isGift}
+            shop={shop}
+            card={card}
+            platform={Platform.Apple}
+          />
           {/* <button className="max-w-[45%]" onClick={handleAddGoogleWallet}>
             <AddToGoogleWallet className="w-full" />
           </button> */}
-          <AddToWalletButton isGift={isGift} shop={shop} card={card} platform={Platform.Google}/>
+          <AddToWalletButton
+            isGift={isGift}
+            shop={shop}
+            card={card}
+            platform={Platform.Google}
+          />
         </div>
 
         <div
@@ -199,14 +210,19 @@ export default function PrepaidSuccess({
               alt=""
               className="w-4 h-4 mr-1"
             />
-            Valid drinks:
-            {/* {card && (
-              <div>
-                {card?.drinksIncluded
-                  ? `Valid drinks: ${card?.drinksIncluded.join(", ")}`
-                  : `All drinks, excluding: ${card?.drinksExcluded.join(", ")}`}
-              </div>
-            )} */}
+            <div className="flex flex-col items-start justify-start text-start">
+              <div>Valid drinks:</div>
+              {card && (
+                <div className="flex flex-col">
+                  {card?.drinksIncluded && (
+                    <span>Included: {card?.drinksIncluded.join(", ")}</span>
+                  )}
+                  {card?.drinksExcluded && (
+                    <span>Excluded: {card?.drinksExcluded.join(", ")}</span>
+                  )}
+                </div>
+              )}
+            </div>
             {/* {giftCard && shop && <div>
               {shop?.giftCardPackage.drinksIncluded
                 ? `Valid drinks: ${shop?.giftCardPackage.drinksIncluded.join(', ')}`
