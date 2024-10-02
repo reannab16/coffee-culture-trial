@@ -128,9 +128,25 @@ export default function AddToWalletButton({
           window.URL.revokeObjectURL(url);
           a.remove();
         } else {
-          alert(
-            "Open this url on an Apple handheld device to save to Apple Wallet"
-          );
+          // alert(
+          //   "Open this url on an Apple handheld device to save to Apple Wallet"
+          // );
+          // Handle Apple Wallet pass
+          const blob = new Blob([data], {
+            type: "application/vnd.apple.pkpass",
+          });
+          const url = window.URL.createObjectURL(blob);
+
+          // Create a temporary anchor element to trigger the download
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = "cafepass.pkpass"; // The file name for the Apple Wallet pass
+          document.body.appendChild(a);
+          a.click(); // Trigger the download
+
+          // Clean up the URL and the element
+          window.URL.revokeObjectURL(url);
+          a.remove();
         }
       }
     },
