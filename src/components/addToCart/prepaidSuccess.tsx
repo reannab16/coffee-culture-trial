@@ -167,12 +167,12 @@ export default function PrepaidSuccess({
 
         <div className="flex gap-x-2 w-full justify-center items-center -mt-5">
           {/* <div className="max-w-[45%] h-8 bg-black w-full rounded-full"></div> */}
-          <AddToWalletButton
+          {/* <AddToWalletButton
             isGift={isGift}
             shop={shop}
             card={card}
             platform={Platform.Apple}
-          />
+          /> */}
           {/* <button className="max-w-[45%]" onClick={handleAddGoogleWallet}>
             <AddToGoogleWallet className="w-full" />
           </button> */}
