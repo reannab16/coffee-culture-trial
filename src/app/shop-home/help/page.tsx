@@ -14,16 +14,22 @@ import { shopType } from "@/stores/for-customer-store";
 import { getHoverColor, getMixColor, getTransBackgroundColor } from "@/utils/colourUtils";
 import { Button } from "@mui/material";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 import { useQuery } from "react-query";
+import AddUserDialog from "./settings/components/addUser";
 
 export default function Help() {
   const { session } = useAuthStore();
   const router = useRouter();
+  const [open, setOpen] = useState<string>("");
 
   const fetchShopDetails = async (shopId: string): Promise<shopType> => {
     const response = await base.get(`/trial/shop/${shopId}`);
     return response.data.data;
+  };
+
+  const handleClose = () => {
+    setOpen("");
   };
 
   const {
@@ -55,7 +61,8 @@ export default function Help() {
                   className="w-full flex gap-x-2 justify-start"
                   key={index}
                   onClick={()=>{
-                    router.push(helper.link)
+                    if(helper.value === 'addUser') setOpen("addUser")
+                    else router.push(helper.link)
                   }}
                   
                   sx={{
@@ -143,6 +150,7 @@ export default function Help() {
             })}
           </div>
         </div>
+        <AddUserDialog open={open == "addUser"} handleClose={handleClose}/>
       </div>
     );
   }
@@ -173,6 +181,7 @@ const helpList = [
   {
     name: "Add User",
     link: "/shop-home/help/add-user",
+    value: 'addUser',
     icon: ({ className }: { className: string }) => {
       return <EditUser className={className} />;
     },
