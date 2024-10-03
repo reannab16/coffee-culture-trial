@@ -292,21 +292,6 @@ const settingsList = [
     icon: ({ className }: { className: string }) => {
       return <SquareUnlock className={className} />;
     },
-  },
-  {
-    name: "Customise Cards",
-    value: "customiseCards",
-
-    icon: ({ className }: { className: string }) => {
-      return <PayByCheck className={className} />;
-    },
-  },
-  {
-    name: "Add User",
-    value: "addUser",
-
-    icon: ({ className }: { className: string }) => {
-      return <HelpCircle className={className} />;
-    },
-  },
+  }
+  // TODO - move add user functionality to help page
 ];
