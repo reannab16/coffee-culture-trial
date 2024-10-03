@@ -53,7 +53,7 @@ export default function AddToWalletButton({
       try {
         if (platform == Platform.Apple) {
           const response = await axios.post(
-            `https://api-dev.coffee-culture.uk/apple/generate-pass`,
+            `https://api.coffee-culture.uk/apple/generate-pass`,
             {
               cardId: values.cardId,
               shopId: values.shopId,

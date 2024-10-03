@@ -141,7 +141,7 @@ export default function NavBar() {
       onClick={toggleDrawer(false)}
     >
       <List>
-        {pageType !== PageType.ShopHome
+        {whichPageType !== PageType.ShopHome
           ? navLinks.map((navLink) => (
               <ListItem key={navLink.title} disablePadding>
                 <ListItemButton
