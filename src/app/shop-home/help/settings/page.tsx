@@ -2,9 +2,7 @@
 import { base } from "@/api/endpoints";
 import {
   ArrowRight,
-  HelpCircle,
   Mail,
-  PayByCheck,
   SquareUnlock,
 } from "@/components/icons/icons";
 import LoadingTopbar from "@/components/progressBar/loadingTopBar";
@@ -28,7 +26,6 @@ import CloseIcon from "@mui/icons-material/Close";
 import { z } from "zod";
 import toast from "react-hot-toast";
 import { createErrorObject } from "@/utils/createErrorObject";
-import AddUserDialog from "./components/addUser";
 
 export default function SettingsPage() {
   const { session } = useAuthStore();
@@ -81,9 +78,6 @@ export default function SettingsPage() {
                     if (setting.value == "password") {
                       setOpen("password")
                     }
-                    if (setting.value == "addUser") {
-                        setOpen("addUser")
-                    }
                   }}
                   sx={{
                     fontWeight: "400",
@@ -129,7 +123,6 @@ export default function SettingsPage() {
           </div>
         </div>
         <ChangePasswordDialog open={open == "password"} handleClose={handleClose}/>
-        <AddUserDialog open={open == "addUser"} handleClose={handleClose}/>
       </div>
     );
   }
@@ -292,21 +285,5 @@ const settingsList = [
     icon: ({ className }: { className: string }) => {
       return <SquareUnlock className={className} />;
     },
-  },
-  {
-    name: "Customise Cards",
-    value: "customiseCards",
-
-    icon: ({ className }: { className: string }) => {
-      return <PayByCheck className={className} />;
-    },
-  },
-  {
-    name: "Add User",
-    value: "addUser",
-
-    icon: ({ className }: { className: string }) => {
-      return <HelpCircle className={className} />;
-    },
-  },
+  }
 ];
