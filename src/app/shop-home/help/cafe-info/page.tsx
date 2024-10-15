@@ -9,9 +9,7 @@ import {
 import LoadingTopbar from "@/components/progressBar/loadingTopBar";
 import { useAuthStore } from "@/stores/auth-store";
 import { getHoverColor, getMixColor } from "@/utils/colourUtils";
-import {
-  Button,
-} from "@mui/material";
+import { Button } from "@mui/material";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import UpdateShopNameDialog from "./components/updateShopName";
@@ -31,8 +29,6 @@ export default function CaféInfoPage() {
   const handleClose = () => {
     setOpen("");
   };
-
-  console.log({ fetchedShop });
 
   if (isShopLoading) {
     return <LoadingTopbar />;
