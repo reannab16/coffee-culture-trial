@@ -158,7 +158,7 @@ const helpList = [
   },
   {
     name: "Update Café Information",
-    link: "/shop-home/help/café-info",
+    link: "/shop-home/help/cafe-info",
     icon: ({ className }: { className: string }) => {
       return <CoffeeCup className={className} />;
     },
