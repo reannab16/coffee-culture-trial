@@ -131,7 +131,7 @@ export default function PrepaidSuccess({
             >
               <div className="flex flex-col text-[var(--backgroundColour)] text-start max-w-20">
                 <div className="text-sm font-bold uppercase">
-                  {shop.shopName}
+                  {shop?.shopName}
                 </div>
                 <div className="text-[10px] flex items-end justify-start italic -mt-[2px]">
                   <span className="pr-[1px]">x c</span>
@@ -186,12 +186,12 @@ export default function PrepaidSuccess({
 
         <div
           className="w-full flex gap-y-5 p-5 text-xs flex-col border-2 border-solid rounded-lg items-start justify-center text-start"
-          style={{ borderColor: `#${shop.lightBrandColour}` }}
+          style={{ borderColor: `#${shop?.lightBrandColour}` }}
         >
           <div className="font-semibold">How to redeem?</div>
           <ol className="list-decimal ml-5 text-start">
             <li>
-              You can use your card at {shop.shopName} for{" "}
+              You can use your card at {shop?.shopName} for{" "}
               {isGift ? giftCard?.drinksAllowance : card?.drinksAllowance}{" "}
               delicious drinks.{" "}
             </li>
