@@ -14,6 +14,10 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import UpdateShopNameDialog from "./components/updateShopName";
 import { useShopDetailsQuery } from "./hooks/useShopDetailsQuery";
+import UpdateShopAddressDialog from "./components/updateShopAddress";
+import UpdateShopPhoneDialog from "./components/updateShopPhone";
+import UpdateShopAboutDialog from "./components/updateShopAbout";
+import UpdateShopBrandColorsDialog from "./components/updateShopBrandColor";
 
 export default function CaféInfoPage() {
   const { session } = useAuthStore();
@@ -96,6 +100,27 @@ export default function CaféInfoPage() {
           open={open === "name"}
           handleClose={handleClose}
         />
+        <UpdateShopAddressDialog
+          address={fetchedShop?.address}
+          open={open === "address"}
+          handleClose={handleClose}
+        />
+        <UpdateShopPhoneDialog
+          phone={fetchedShop?.phone}
+          open={open === "phoneNumber"}
+          handleClose={handleClose}
+        />
+        <UpdateShopAboutDialog
+          about={fetchedShop?.about}
+          open={open === "about"}
+          handleClose={handleClose}
+        />
+        <UpdateShopBrandColorsDialog
+          darkBrandColour={fetchedShop?.darkBrandColour}
+          lightBrandColour={fetchedShop?.lightBrandColour}
+          open={open === "brandColor"}
+          handleClose={handleClose}
+        />
       </div>
     );
   }
@@ -130,6 +155,13 @@ const settingsList = [
     name: "Update about",
     value: "about",
 
+    icon: ({ className }: { className: string }) => {
+      return <SquareUnlock className={className} />;
+    },
+  },
+  {
+    name: "Update brand color",
+    value: "brandColor",
     icon: ({ className }: { className: string }) => {
       return <SquareUnlock className={className} />;
     },
