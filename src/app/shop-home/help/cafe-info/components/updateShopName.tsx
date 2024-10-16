@@ -1,7 +1,5 @@
-import { base } from "@/api/endpoints";
 import LoadingTopbar from "@/components/progressBar/loadingTopBar";
 import { primary } from "@/themes/customs/palette";
-import { createErrorObject } from "@/utils/createErrorObject";
 import CloseIcon from "@mui/icons-material/Close";
 import {
   Button,
@@ -12,9 +10,8 @@ import {
   TextField,
 } from "@mui/material";
 import { useState } from "react";
-import toast from "react-hot-toast";
-import { useMutation } from "react-query";
 import { z } from "zod";
+import { useUpdateShopInfoMutation } from "../hooks/useUpdateShopInfoMutation";
 
 type Props = { open: boolean; handleClose: () => void; shopName?: string };
 
@@ -28,27 +25,12 @@ export default function UpdateShopNameDialog({
   }>({});
   const [shopName, setShopName] = useState(name ?? "");
 
-  const resetMutation = useMutation({
-    mutationFn: async (values: { shopName: string }) => {
-      const response = await base.patch(`/trial/shop/`, { shopName: shopName });
-      return response;
-    },
-    onSuccess: (response: any) => {
-      toast.success("sent!");
-      handleClose();
-    },
-    onError: (error: any) => {
-      toast.error(`Reset failed, ${error.response.data.message}`);
-
-      if (error.errors) {
-        const newErrorState = createErrorObject(error.errors);
-        setErrorState(newErrorState);
-      }
-    },
+  const resetMutation = useUpdateShopInfoMutation({
+    setErrorState,
+    handleClose,
   });
 
   const handleSubmit = async () => {
-    // e.preventDefault();
     resetMutation.mutate({ shopName: shopName });
   };
 
@@ -62,7 +44,6 @@ export default function UpdateShopNameDialog({
       const result = fieldSchema.safeParse(value);
 
       if (!result.success) {
-        // setErrorState({...errorState, email: result.error.errors.toString()})
         console.log(result.error.errors);
       }
     }
