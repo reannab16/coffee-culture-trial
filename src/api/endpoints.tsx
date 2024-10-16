@@ -1,4 +1,5 @@
-import axios from "axios";
+import { useAuthStore } from "@/stores/auth-store";
+import axios, { InternalAxiosRequestConfig } from "axios";
 
 // export const base = axios.create({
 //   // baseURL: "http://127.0.0.1:5000/api/v1",
@@ -10,6 +11,13 @@ const baseURL = process.env.NEXT_PUBLIC_BASE_URL || 'https://api.coffee-culture.
 export const base = axios.create({
   baseURL: baseURL,
 });
+
+base.interceptors.request.use((config) => {
+  const token = useAuthStore.getState().session?.accessToken;
+  config.headers['X-AUTH-TOKEN'] = token
+
+  return config
+})
 
 
 class Endpoints {
